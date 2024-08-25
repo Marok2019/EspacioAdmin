@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.cdnfonts.com/css/share-techmono-2" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EspacioAdmin</title>
+    <style>
+        body {
+            background-color: #243330; /* Set the background color */
+            font-family: 'Share-TechMono', sans-serif;
+                                                
+        }
+        .header {
+            background-color: #0C2D27;
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            margin-right: 20px; /* Add margin for the right */
+        }
+        
+        .header img {
+            width: 50px;
+            margin-right: 10px;
+        }
+        
+        .superAdminLogin {
+        display: flex;
+        flex-direction: column;
+        width: 300px; /* Adjust width as needed */
+        margin: auto; /* Center the form */
+    }
+    .superAdminLogin label {
+        margin-bottom: 5px;
+    }
+    .superAdminLogin input {
+        margin-bottom: 10px; /* Space between inputs */
+        padding: 8px; /* Padding for better appearance */
+        border: none; /* Remove the border */
+        background-color: #154C41; /* Set the background color */
+        color: white; /* Set the text color */
+        border-radius: 5px; /* Add border radius */
+    }
+    .superAdminLogin button {
+        margin-top: 10px; /* Space above the buttons */
+        padding: 10px;
+    }
+
+        .formTitle {
+            text-align: center;
+            color:#FFFFFF
+        }
+
+        .header img {
+        width: 75px; /* Set the desired width */
+        height: auto; /* Maintain aspect ratio */
+    }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo">
+    </div>
+    
+    <!-- Your content goes here -->
+    
+    <script src="script.js"></script>
+</body>
+</html>
+<h1 class="formTitle">EspacioAdmin</h1>
+<form class="superAdminLogin" action="/login" method="POST">
+    <label for="username" style="color: white;">Usuario:</label>
+    <input type="text" id="username" name="username" required style="border-radius: 5px; border: none; background-color: #154C41; color: white;">
+
+    <div style="margin: 10px 0;"></div> <!-- Space between fields -->
+
+    <label for="password" style="color: white;">Contraseña:</label>
+    <input type="password" id="password" name="password" required style="border-radius: 5px; border: none; background-color: #154C41; color: white;">
+
+    <div style="margin: 10px 0;"></div> <!-- Space between fields -->
+
+    <label style="color: white;">
+        <input type="checkbox" name="remember"> Recuérdame
+    </label>
+    
+    <div style="margin: 10px 0;"></div> <!-- Space between fields -->
+    
+    <button type="submit" style="font-family: 'Share-TechMono', sans-serif; background-color: #154C41; color: white; border-radius: 5px; padding: 10px 20px; border: none;">Iniciar sesión</button>
+    <button type="button" onclick="window.location.href='/reset-password'" style="font-family: 'Share-TechMono', sans-serif; background-color: #154C41; color: white; border-radius: 5px; padding: 10px 20px; border: none;">Reiniciar contraseña</button>
+</form>
