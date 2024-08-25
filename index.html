@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.cdnfonts.com/css/thegoodmonolith" rel="stylesheet">
+    <title>Marok's Webpage</title>
+    <style>
+        body {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            margin-top: 50px;
+        }
+        h1, h2 {
+            color: rgba(95, 255, 234, 0.75);
+            text-shadow: 2px 2px 4px rgba(255, 0, 255, 0.7);
+            font-family: 'TheGoodMonolith', sans-serif;  
+            animation: fade-in 2s ease-in;                                      
+        }
+        p {
+            color:rgba(95, 255, 234,.75);
+            text-shadow: 2px 2px 4px rgba(255, 0, 255, 0.7);
+            font-family: 'TheGoodMonolith', sans-serif;
+            animation: fade-in 2s ease-in;
+            font-weight: bold;   
+        }
+        .intro {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+
+        .hidden {
+            display: none; /* Oculta el elemento completamente */
+        }
+
+        .slide {
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Transiciones suaves */
+            overflow: hidden; /* Oculta el contenido que excede el tamaño */
+            max-height: 0; /* Altura inicial */
+            padding: 0; /* Sin relleno al inicio */
+        }
+
+        .slide.show {
+            max-height: 200px; /* Altura máxima cuando se muestra */
+            padding: 10px; /* Añade relleno al mostrar */
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px; /* Espacio adicional arriba del menú */
+        }
+
+        .menu > li {
+            margin: 15px 0; /* Espacio entre los elementos del menú */
+        }
+
+        .menu > li > a {
+            text-decoration: none;
+            padding: 5px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <ul class="menu">
+        <li>
+            <a href="#">Categoría 1</a>
+        </li>
+        <li>
+            <a href="#">Categoría 2</a>
+
+        </li>
+    </ul>
+    <header>
+        <h1>
+            <p>Howdy, stranger</p>
+        </h1>
+    </header>
+    
+    <p class="intro">
+        Hola! Has llegado a mi página web. Te doy la bienvenida.
+        <br>Siéntete libre de navegar por aquí y conocerme un poco más.
+        <br>¡Espero que te guste!
+    </p>
+
+    <h2>
+        <a href="#who-am-i" id="who-am-i-header" style="color: rgba(95, 255, 234, 0.75);">¿Quién soy?</a>
+    </h2>
+
+    <p id="who-am-i" class="slide hidden">
+        Soy Mauricio Kenny, estudiante de tercer año de Ingeniería en Computación e Informática.
+        <br>Llevo casi seis años en Chile.
+        <br>Me apasiona la ciberseguridad, la música, los autos... ¿qué puedo decir?
+    </p>
+
+    <h2>
+        <a href="#what-is-this" id="what-is-this-header"style="color: rgba(95, 255, 234, 0.75);">¿Y esto qué es?</a>
+    </h2>
+    <p id="what-is-this" class="slide hidden">
+        Esta es mi primera página web en GitHub. 
+        <br>Es sencilla y mi objetivo es hacer un breve resumen de quién soy.
+    </p>
+
+    <script>
+        document.getElementById("who-am-i-header").onclick = function() {
+            var parrafo = document.getElementById("who-am-i");
+            
+            // Alterna la clase 'hidden' para ocultar/mostrar
+            if (parrafo.classList.contains("hidden")) {
+                parrafo.classList.remove("hidden");
+                // Forzar el reflow para aplicar la animación
+                void parrafo.offsetWidth; // Acceder a la propiedad para el reflow
+                parrafo.classList.add("show");
+            } else {
+                parrafo.classList.remove("show");
+                parrafo.addEventListener("transitionend", function() {
+                    parrafo.classList.add("hidden");
+                }, { once: true }); // Añade 'hidden' después de que la transición termine
+            }
+        };
+    </script>
+
+<script>
+    document.getElementById("what-is-this-header").onclick = function() {
+        var parrafo = document.getElementById("what-is-this");
+        
+        // Alterna la clase 'hidden' para ocultar/mostrar
+        if (parrafo.classList.contains("hidden")) {
+            parrafo.classList.remove("hidden");
+            // Forzar el reflow para aplicar la animación
+            void parrafo.offsetWidth; // Acceder a la propiedad para el reflow
+            parrafo.classList.add("show");
+        } else {
+            parrafo.classList.remove("show");
+            parrafo.addEventListener("transitionend", function() {
+                parrafo.classList.add("hidden");
+            }, { once: true }); // Añade 'hidden' después de que la transición termine
+        }
+    };
+</script>
+</body>
+</html>
