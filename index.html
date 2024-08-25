@@ -7,17 +7,17 @@
     <title>EspacioAdmin</title>
     <style>
         body {
-            background-color: #243330; /* Set the background color */
             font-family: 'Share-TechMono', sans-serif;
-                                                
+            background-repeat: no-repeat; /* Prevent the image from repeating */  
+            background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
         }
         .header {
-            background-color: #0C2D27;
+        background-color: #352D29;
             padding: 20px;
             color: white;
-            display: flex;
+            display: absolute;
             align-items: center;
-            margin-right: 20px; /* Add margin for the right */
+
         }
         
         .header img {
@@ -38,13 +38,17 @@
         margin-bottom: 10px; /* Space between inputs */
         padding: 8px; /* Padding for better appearance */
         border: none; /* Remove the border */
-        background-color: #154C41; /* Set the background color */
+        background-color: #FF6400; /* Set the background color */
         color: white; /* Set the text color */
         border-radius: 5px; /* Add border radius */
     }
     .superAdminLogin button {
         margin-top: 10px; /* Space above the buttons */
         padding: 10px;
+        background-color: #FF6400; /* Set the background color */
+        color: white; /* Set the text color */
+        border-radius: 5px; /* Add border radius */
+        border: none; /* Remove the border */
     }
 
         .formTitle {
@@ -56,27 +60,41 @@
         width: 75px; /* Set the desired width */
         height: auto; /* Maintain aspect ratio */
     }
+    .overlay {
+        position: absolute; /* Position overlay absolutely */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Dark overlay with 50% opacity */
+        z-index: 1; /* Ensure overlay is on top */
+    }
+    
+    .footer {
+        text-align: center; /* Center the text */
+        padding: 20px; /* Add some padding */
+        background-color: #352D29; /* Light background color */
+        position: fixed; /* Fixed positioning */
+        bottom: 0; /* Stick to bottom */
+        width: 100%; /* Full width */
+        color:#FFFFFF;
+    }
     </style>
 </head>
 <body>
     <div class="header">
         <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo">
     </div>
-    
-    <!-- Your content goes here -->
-    
-    <script src="script.js"></script>
-</body>
-</html>
-<h1 class="formTitle">EspacioAdmin</h1>
+
+    <h1 class="formTitle">EspacioAdmin</h1>
 <form class="superAdminLogin" action="/login" method="POST">
     <label for="username" style="color: white;">Usuario:</label>
-    <input type="text" id="username" name="username" required style="border-radius: 5px; border: none; background-color: #154C41; color: white;">
+    <input type="text" id="username" name="username" required style="border-radius: 5px; border: none; background-color: #FF6400; color: white;">
 
     <div style="margin: 10px 0;"></div> <!-- Space between fields -->
 
     <label for="password" style="color: white;">Contraseña:</label>
-    <input type="password" id="password" name="password" required style="border-radius: 5px; border: none; background-color: #154C41; color: white;">
+    <input type="password" id="password" name="password" required style="border-radius: 5px; border: none; background-color: #FF6400; color: white;">
 
     <div style="margin: 10px 0;"></div> <!-- Space between fields -->
 
@@ -86,6 +104,12 @@
     
     <div style="margin: 10px 0;"></div> <!-- Space between fields -->
     
-    <button type="submit" style="font-family: 'Share-TechMono', sans-serif; background-color: #154C41; color: white; border-radius: 5px; padding: 10px 20px; border: none;">Iniciar sesión</button>
-    <button type="button" onclick="window.location.href='/reset-password'" style="font-family: 'Share-TechMono', sans-serif; background-color: #154C41; color: white; border-radius: 5px; padding: 10px 20px; border: none;">Reiniciar contraseña</button>
+    <button type="submit" style="font-family: 'Share-TechMono', sans-serif; background-color: #FF6400; color: white; border-radius: 5px; padding: 10px 20px; border: none;">Iniciar sesión</button>
+    <button type="button" onclick="window.location.href='/reset-password'" style="font-family: 'Share-TechMono', sans-serif; background-color: #FF6400; color: white; border-radius: 5px; padding: 10px 20px; border: none;">Reiniciar contraseña</button>
 </form>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
