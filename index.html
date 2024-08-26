@@ -6,42 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EspacioAdmin</title>
     <style>
-        body {
-            font-family: 'Share-TechMono', sans-serif;
-            background-repeat: no-repeat; /* Prevent the image from repeating */  
-            background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
-            margin: 0; /* Elimina márgenes del body */
-            padding: 0; /* Elimina padding del body */
-        }
-        
-        .header {
-            width: 100%;
-            margin: 0; /* Elimina márgenes */
-            padding: 20px;
-            background-color: #352D29;
-            color: white;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .footer {
+        html, body {
+            height: 100%;
+            font-family: 'Share-TechMono', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow-x: hidden; /* Evita el desbordamiento horizontal */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
             width: 100%;
-            margin: 0; /* Elimina márgenes */
             padding: 20px;
+            padding-top: 25px; /* Ajusta el espacio superior del header */
             background-color: #352D29;
             color: white;
-            position: fixed;
-            bottom: 0;
+            display: flex;
+            align-items: center;
         }
 
         .header img {
-            width: 75px; /* Set the desired width */
-            height: auto; /* Maintain aspect ratio */
+            width: 75px;
+            height: auto;
+        }
+
+        .content {
+            flex: 1;
+            padding-top: 50px; /* Ajusta el espacio arriba del contenido */
+            display: flex;
+            justify-content: center;
         }
 
         .superAdminLogin {
             display: flex;
             flex-direction: column;
-            width: 300px; /* Adjust width as needed */
-            margin: auto; /* Center the form */
+            width: 300px;
         }
 
         .superAdminLogin label {
@@ -49,56 +56,69 @@
         }
 
         .superAdminLogin input {
-            margin-bottom: 10px; /* Space between inputs */
-            padding: 8px; /* Padding for better appearance */
-            border: none; /* Remove the border */
-            background-color: #FF6400; /* Set the background color */
-            color: white; /* Set the text color */
-            border-radius: 5px; /* Add border radius */
+            margin-bottom: 10px;
+            padding: 8px;
+            border: none;
+            background-color: #FF6400;
+            color: white;
+            border-radius: 5px;
         }
 
         .superAdminLogin button {
-            margin-top: 10px; /* Space above the buttons */
+            margin-top: 10px;
             padding: 10px;
-            background-color: #FF6400; /* Set the background color */
-            color: white; /* Set the text color */
-            border-radius: 5px; /* Add border radius */
-            border: none; /* Remove the border */
+            background-color: #FF6400;
+            color: white;
+            border-radius: 5px;
+            border: none;
         }
 
         .formTitle {
             text-align: center;
-            color:#FFFFFF;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            width: 100%;
+            padding: 20px;
+            background-color: #352D29;
+            color: white;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo">
+        <!-- Si deseas agregar más contenido al header, puedes hacerlo aquí -->
     </div>
 
-    <h1 class="formTitle">EspacioAdmin</h1>
-    
-    <form class="superAdminLogin" action="/login" method="POST">
-        <label for="username" style="color: white;">Usuario:</label>
-        <input type="text" id="username" name="username" required>
+    <div class="content">
+        <div>
+            <h1 class="formTitle">EspacioAdmin</h1>
+            <form class="superAdminLogin" action="/login" method="POST">
+                <label for="username" style="color: white;">Usuario:</label>
+                <input type="text" id="username" name="username" required>
 
-        <div style="margin: 10px 0;"></div> <!-- Space between fields -->
+                <div style="margin: 10px 0;"></div> <!-- Space between fields -->
 
-        <label for="password" style="color: white;">Contraseña:</label>
-        <input type="password" id="password" name="password" required>
+                <label for="password" style="color: white;">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
 
-        <div style="margin: 10px 0;"></div> <!-- Space between fields -->
+                <div style="margin: 10px 0;"></div> <!-- Space between fields -->
 
-        <label style="color: white;">
-            <input type="checkbox" name="remember"> Recuérdame
-        </label>
-        
-        <div style="margin: 10px 0;"></div> <!-- Space between fields -->
-        
-        <button type="submit" style="font-family: 'Share-TechMono', sans-serif;">Iniciar sesión</button>
-        <button type="button" onclick="window.location.href='/reset-password'" style="font-family: 'Share-TechMono', sans-serif;">Reiniciar contraseña</button>
-    </form>
+                <label style="color: white;">
+                    <input type="checkbox" name="remember"> Recuérdame
+                </label>
+
+                <div style="margin: 10px 0;"></div> <!-- Space between fields -->
+
+                <button type="submit" style="font-family: Share-TechMono;">Iniciar sesión</button>
+                <button type="button" onclick="window.location.href='/reset-password'" style="font-family: Share-TechMono;">Reiniciar contraseña</button>
+            </form>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>&copy; <span id="current-year"></span> Todos los derechos reservados</p>
