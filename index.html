@@ -38,7 +38,7 @@
                 <div class="card bg-warning text-white">
                     <div class="card-header">EspacioAdmin</div>
                     <div class="card-body">
-                        <form action="/login" method="POST">
+                        <form id="loginForm">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Usuario:</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
@@ -67,6 +67,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Add event listener to the form
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            window.location.href = 'conserjeMain.html'; // Redirect to conserjeMain.html
+        });
     </script>
 </body>
 </html>
