@@ -1,127 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.cdnfonts.com/css/share-techmono-2" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EspacioAdmin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            font-family: 'Share-TechMono', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
+        body {
+            background-image: url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
             background-repeat: no-repeat;
             background-size: cover;
-            overflow-x: hidden; /* Evita el desbordamiento horizontal */
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            width: 100%;
-            padding: 20px;
-            padding-top: 25px; /* Ajusta el espacio superior del header */
-            background-color: #352D29;
-            color: white;
-            display: flex;
-            align-items: center;
-        }
-
-        .header img {
-            width: 75px;
-            height: auto;
-        }
-
-        .content {
-            flex: 1;
-            padding-top: 50px; /* Ajusta el espacio arriba del contenido */
-            display: flex;
-            justify-content: center;
-        }
-
-        .superAdminLogin {
-            display: flex;
-            flex-direction: column;
-            width: 300px;
-        }
-
-        .superAdminLogin label {
-            margin-bottom: 5px;
-        }
-
-        .superAdminLogin input {
-            margin-bottom: 10px;
-            padding: 8px;
-            border: none;
-            background-color: #FF6400;
-            color: white;
-            border-radius: 5px;
-        }
-
-        .superAdminLogin button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #FF6400;
-            color: white;
-            border-radius: 5px;
-            border: none;
-        }
-
-        .formTitle {
-            text-align: center;
-            color: #FFFFFF;
-            margin-bottom: 20px;
-        }
-
-        .footer {
-            width: 100%;
-            padding: 20px;
-            background-color: #352D29;
-            color: white;
-            text-align: center;
+            overflow-x: hidden;
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo">
-        <!-- Si deseas agregar más contenido al header, puedes hacerlo aquí -->
-    </div>
+<body class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" width="75" height="auto">
+            </a>
+        </div>
+    </nav>
 
-    <div class="content">
-        <div>
-            <h1 class="formTitle">EspacioAdmin</h1>
-            <form class="superAdminLogin" action="/login" method="POST">
-                <label for="username" style="color: white;">Usuario:</label>
-                <input type="text" id="username" name="username" required>
-
-                <div style="margin: 10px 0;"></div> <!-- Space between fields -->
-
-                <label for="password" style="color: white;">Contraseña:</label>
-                <input type="password" id="password" name="password" required>
-
-                <div style="margin: 10px 0;"></div> <!-- Space between fields -->
-
-                <label style="color: white;">
-                    <input type="checkbox" name="remember"> Recuérdame
-                </label>
-
-                <div style="margin: 10px 0;"></div> <!-- Space between fields -->
-
-                <button type="submit" style="font-family: Share-TechMono;">Iniciar sesión</button>
-                <button type="button" onclick="window.location.href='/reset-password'" style="font-family: Share-TechMono;">Reiniciar contraseña</button>
-            </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-header">EspacioAdmin</div>
+                    <div class="card-body">
+                        <form action="/login" method="POST">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Usuario:</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña:</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">Recuérdame</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                            <button type="button" class="btn btn-warning" onclick="window.location.href='/reset-password'">Reiniciar contraseña</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="bg-dark text-white text-center py-3 mt-5">
         <p>&copy; <span id="current-year"></span> Todos los derechos reservados</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
