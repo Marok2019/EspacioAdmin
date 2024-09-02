@@ -12,10 +12,39 @@
             background-size: cover;
             overflow-x: hidden;
         }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            color: #F5F5DC !important;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+
+        .form-select {
+            color: #F5F5DC;
+        }
     </style>
 </head>
 <body class="bg-dark">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" width="75" height="auto">
@@ -28,7 +57,7 @@
         <form id="bookingForm">
             <div class="row justify-content-between">
                 <div class="col-md-4">
-                    <div class="card bg-warning text-white mb-3">
+                    <div class="card p-3">
                         <div class="card-header">Seleccione el espacio común</div>
                         <div class="card-body">
                             <select class="form-select" id="commonSpaceDropdown" aria-label="Common Space Selection" required>
@@ -41,7 +70,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-warning text-white mb-3">
+                    <div class="card p-3">
                         <div class="card-header">Fecha y hora de inicio</div>
                         <div class="card-body">
                             <input type="datetime-local" id="startDateInput" required>
@@ -49,7 +78,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-warning text-white mb-3">
+                    <div class="card p-3">
                         <div class="card-header">Fecha y hora de término</div>
                         <div class="card-body">
                             <input type="datetime-local" id="endDateInput" required>

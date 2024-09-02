@@ -3,48 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión Estacionamiento Visitas</title>
+    <title>EspacioAdmin - Conserje</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f0a9e4d2be6a7787f5071c69d.jpg');
+            font-family: 'Share-TechMono', sans-serif;
+            background-image: url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f8dc18a4d2be6a7787f5071c69d.jpg');
             background-repeat: no-repeat;
             background-size: cover;
             overflow-x: hidden;
         }
+
+        .card img {
+            width: 100px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+        
+        .btn-primary {
+            width: 100%;
+        }
+
+        /* Added styles for the header */
+        .header-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-logo {
+            width: 75px;
+            height: auto;
+        }
+
+        .logout-button {
+            margin-left: auto;
+        }
+
+        /* Added transparency effect for cards */
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Changed card text color to bone white */
+        .card-body {
+            color: #F5F5DC;
+        }
     </style>
 </head>
 <body class="bg-dark">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" width="75" height="auto">
-            </a>
-        </div>
-    </nav>
+    <!-- New header section -->
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+    </div>
 
     <div class="container mt-5">
-        <h1 class="text-center text-white mb-4">Gestión Estacionamiento Visitas</h1>
-        <div class="row justify-content-between">
-            <div class="col-md-4">
-                <div class="card bg-warning text-white mb-3">
-                    <div class="card-header">Seleccionar Área de Estacionamiento</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <select class="form-select" id="parkingAreaDropdown" aria-label="Parking Area Selection">
-                                <option selected>Seleccione un área de estacionamiento...</option>
-                                <option value="parkingLot1">Estacionamiento Principal</option>
-                                <option value="parkingLot2">Estacionamiento Secundario</option>
-                                <option value="parkingLot3">Estacionamiento para Discapacitados</option>
-                            </select>
-                            <button class="btn btn-outline-secondary" type="button" id="cancelBookingBtn" disabled>
-                                <img src="cancelar-reserva.png" alt="Cancel Button Image" width="24" height="24">
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Bienvenido/a, Conserje</h1>
             </div>
+        </div>
+
+        <!-- Parking Spot Selection -->
+        <div class="row justify-content-center mt-4">
             <div class="col-md-8">
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected>Parking Spot</option>
+                    <option value="spot1">Spot 1</option>
+                    <option value="spot2">Spot 2</option>
+                    <option value="spot3">Spot 3</option>
+                    <option value="spot4">Spot 4</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Booking Table -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-12">
                 <table class="table table-dark table-striped">
                     <thead>
                         <tr>
@@ -52,77 +100,97 @@
                             <th>Titular</th>
                             <th>Fecha y Hora Inicio</th>
                             <th>Fecha y Hora Término</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Table rows will be dynamically populated here -->
+                    <tbody id="bookingTableBody">
+                        <!-- Placeholder rows will be added dynamically -->
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- Return to conserjeMain.html button -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-4">
+                <a href="conserjeMain.html" class="btn btn-primary btn-lg w-100">Regresar al Menú Principal</a>
+            </div>
+        </div>
     </div>
 
-    <footer class="bg-dark text-white text-center py-3 mt-5">
-        <p>&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+    <footer class="bg-dark py-3 mt-5">
+        <div class="container">
+            <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
-        
-        const parkingAreaDropdown = document.getElementById('parkingAreaDropdown');
-        const cancelBookingBtn = document.getElementById('cancelBookingBtn');
-        const tbody = document.querySelector('tbody');
 
-        parkingAreaDropdown.addEventListener('change', async () => {
-            const selectedParkingArea = parkingAreaDropdown.value;
-            
-            // Fetch data for the selected parking area (replace this with your API call)
-            const response = await fetch(`/api/bookings/${selectedParkingArea}`);
-            const bookings = await response.json();
+        // Function to cancel booking
+        function cancelBooking(bookingId) {
+            if (confirm(`¿Estás seguro de que quieres cancelar esta reserva? ID: ${bookingId}`)) {
+                // Send AJAX request to cancel the booking
+                fetch('/cancel-booking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: bookingId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Reserva cancelada exitosamente.');
+                        // Remove the row from the table
+                        document.querySelector(`tr[data-id="${bookingId}"]`).remove();
+                    } else {
+                        alert('Error al cancelar la reserva.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
 
+        // Add event listeners to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                const link = card.getAttribute('data-link');
+                if (link) {
+                    window.location.href = link;
+                }
+            });
+        });
+
+        // Function to populate the booking table
+        function populateBookingTable(bookings) {
+            const tbody = document.getElementById('bookingTableBody');
             tbody.innerHTML = ''; // Clear existing rows
-            
             bookings.forEach(booking => {
                 const row = document.createElement('tr');
+                row.setAttribute('data-id', booking.id);
+                
                 row.innerHTML = `
-                    <td>${booking.id_reserva}</td>
+                    <td>${booking.id}</td>
                     <td>${booking.titular}</td>
-                    <td>${new Date(booking.fecha_inicio).toLocaleString()}</td>
-                    <td>${new Date(booking.fecha_fin).toLocaleString()}</td>
+                    <td>${booking.fecha_inicio} ${booking.hora_inicio}</td>
+                    <td>${booking.fecha_termino} ${booking.hora_termino}</td>
+                    <td><button class="btn btn-warning btn-sm" onclick="cancelBooking(${booking.id})">Cancelar Reserva</button></td>
                 `;
                 tbody.appendChild(row);
             });
+        }
 
-            // Enable Cancel Booking button if there are bookings
-            if (bookings.length > 0) {
-                cancelBookingBtn.disabled = false;
-            } else {
-                cancelBookingBtn.disabled = true;
-            }
-        });
-
-        cancelBookingBtn.addEventListener('click', () => {
-            alert('Cancel booking feature not implemented yet.');
-        });
-
-        // Initial load (you would replace this with fetching initial data)
-        const exampleBookings = [
-            { id_reserva: 'R001', titular: 'John Doe', fecha_inicio: '2023-05-01T10:00:00', fecha_fin: '2023-05-01T11:30:00' },
-            { id_reserva: 'R002', titular: 'Jane Smith', fecha_inicio: '2023-05-02T14:00:00', fecha_fin: '2023-05-02T16:00:00' },
-            // Add more example bookings here
+        // Example mock data
+        const mockBookings = [
+            { id: 1, titular: 'Juan Pérez', fecha_inicio: '2023-05-15', hora_inicio: '08:00', fecha_termino: '2023-05-16', hora_termino: '18:00' },
+            { id: 2, titular: 'María García', fecha_inicio: '2023-05-16', hora_inicio: '09:30', fecha_termino: '2023-05-17', hora_termino: '19:30' },
+            { id: 3, titular: 'Carlos López', fecha_inicio: '2023-05-17', hora_inicio: '11:00', fecha_termino: '2023-05-18', hora_termino: '21:00' }
         ];
 
-        exampleBookings.forEach(booking => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${booking.id_reserva}</td>
-                <td>${booking.titular}</td>
-                <td>${new Date(booking.fecha_inicio).toLocaleString()}</td>
-                <td>${new Date(booking.fecha_fin).toLocaleString()}</td>
-            `;
-            tbody.appendChild(row);
-        });
+        // Populate the table with mock data
+        populateBookingTable(mockBookings);
     </script>
 </body>
 </html>
