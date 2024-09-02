@@ -15,14 +15,55 @@
 
         /* Added styles for the transparent header */
         .header-container {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(128, 128, 128, 0.1); /* Light grey background */
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(200, 200, 200, 0.1); /* Light grey border */
         }
 
         .header-logo {
             width: 75px;
             height: auto;
+        }
+
+        /* New styles for grey card */
+        .card {
+            background-color: rgba(220, 220, 220, 0.9); /* Grey background */
+            border: none; /* Remove default card border */
+        }
+
+        .card-body {
+            color: #000; /* Black text color */
+            padding: 20px; /* Increase padding for better readability */
+        }
+
+        /* Override Bootstrap styles for card header */
+        .card-header {
+            background-color: transparent !important;
+            border-bottom: none !important;
+        }
+
+        /* Make form controls more readable */
+        .form-control {
+            background-color: rgba(240, 240, 240, 0.9); /* Very light grey background */
+            color: #000; /* Black text color */
+        }
+
+        /* Style buttons */
+        button {
+            background-color: rgba(0, 123, 255, 0.1); /* Semi-transparent blue background */
+            color: #fff; /* White text color */
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(0, 123, 255, 0.2); /* Slightly darker on hover */
+        }
+
+        /* Adjust header text contrast */
+        .form-label {
+            color: #333; /* Dark grey text color */
         }
     </style>
 </head>
@@ -35,7 +76,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <div class="card bg-warning text-white">
+                <div class="card">
                     <div class="card-header">EspacioAdmin</div>
                     <div class="card-body">
                         <form id="loginForm">
