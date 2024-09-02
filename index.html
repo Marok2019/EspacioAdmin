@@ -12,16 +12,25 @@
             background-size: cover;
             overflow-x: hidden;
         }
+
+        /* Added styles for the transparent header */
+        .header-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-logo {
+            width: 75px;
+            height: auto;
+        }
     </style>
 </head>
 <body class="bg-dark">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" width="75" height="auto">
-            </a>
-        </div>
-    </nav>
+    <!-- New header section -->
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+    </div>
 
     <div class="container mt-5">
         <div class="row justify-content-center">
