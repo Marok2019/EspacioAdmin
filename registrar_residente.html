@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Administración de Condominio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+        height: 100%;
+        font-family: 'Share-TechMono', sans-serif;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        overflow-x: hidden; /* Evita el desbordamiento horizontal */
+        display: flex;
+        flex-direction: column;
+    }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            background-color: #352D29;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header img {
+            width: 50px;
+            height: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: #352D29;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="tel"],
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FF7F27;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px; /* Añadir margen entre los botones */
+        }
+
+        .form-container button:hover {
+            background-color: #e0671d;
+        }
+
+        .footer {
+            width: 100%;
+            padding: 20px;
+            background-color: #352D29;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo">
+    </div>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h2>Registrar residente</h2>
+            <form>
+                <select name="condominio" required>
+                    <option value="" disabled selected>Condominio</option>
+                    <option value="condo1">Condominio 1</option>
+                    <option value="condo2">Condominio 2</option>
+                </select>
+                <input type="text" name="apartamento" placeholder="Apartamento" required>
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="text" name="rut" placeholder="RUT" required>
+                <input type="tel" name="telefono" placeholder="Número telefónico" required>
+                <input type="text" name="estacionamiento" placeholder="Espacio estacionamiento" required>
+                <button type="submit">Guardar</button>
+                <button type="button" class="volver" onclick="window.history.back()">Volver</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
