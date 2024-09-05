@@ -63,4 +63,8 @@ body {
 
 footer {
     margin-top: auto; /* Push the footer to the bottom */
+    background-color: #434A54; /* Dark gray background */
+    color: #F5F5DC; /* Bone white text color */
+    padding: 10px 0;
+    text-align: center;
 }
