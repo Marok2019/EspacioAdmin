@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EspacioAdmin - Conserje</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="adminCondominioMainStyles.css">
+</head>
+<body class="bg-dark">
+    <!-- New header section -->
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Bienvenido/a, Administrador de Condominio</h1>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
+            <div class="col">
+                <div class="card" data-link="reporteMorosidad.html">
+                    <img src="deudor-de-cuenta.png" alt="Gestionar uso - Espacios Comunes">
+                    <div class="card-body">
+                        <h5 class="card-title">Reportar Morosidad</h5>
+                        <p class="card-text">Generar reportes sobre la morosidad de un residente.</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark py-3 mt-5">
+        <div class="container">
+            <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Add event listeners to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                const link = card.getAttribute('data-link');
+                if (link) {
+                    window.location.href = link;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
