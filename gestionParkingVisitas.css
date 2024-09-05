@@ -1,0 +1,60 @@
+body {
+    font-family: 'Share-TechMono', sans-serif;
+    background-image: url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f8dc18a4d2be6a7787f5071c69d.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+.card img {
+    width: 100px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.btn-primary {
+    width: 100%;
+}
+
+/* Added styles for the header */
+.header-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-logo {
+    width: 75px;
+    height: auto;
+}
+
+.logout-button {
+    margin-left: auto;
+}
+
+/* Added transparency effect for cards */
+.card {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Changed card text color to bone white */
+.card-body {
+    color: #F5F5DC;
+}
+
+/* New rule for header text color */
+.text-center {
+    color: #F5F5DC; /* Bone white */
+}

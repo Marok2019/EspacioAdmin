@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EspacioAdmin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #352D29 ;
+            padding: 10px;
+            text-align: left;
+            position: relative;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header-logo {
+            width: 75px;
+            height: auto;
+        }
+
+        header button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: #ff7b00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .manage-users {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        .manage-users img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        #search-container {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #search-container input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        #search-container button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .user-card {
+            background-color: #5e4842;
+            padding: 20px;
+            margin: 10px 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-card .user-info {
+            font-size: 18px;
+        }
+        .user-card .user-info p {
+            margin: 5px 0;
+        }
+        .user-card .actions button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .user-card .actions button img {
+            width: 24px;
+            height: 24px;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #3b2e2b;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .modal-content input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        .modal-content button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .delete-confirmation {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .delete-confirmation button {
+            background-color: #ff7b00;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .delete-confirmation button.no {
+            background-color: #757575;
+        }
+        .error-message {
+            color: #ff7b00;
+            font-size: 14px;
+            margin-top: -8px;
+            margin-bottom: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+    <button id="backButton">Volver</button>
+</header>
+
+<div class="manage-users">
+    <img src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png" alt="user icon">
+    Administrar Usuarios
+</div>
+
+<div id="search-container">
+    <input type="text" id="searchInput" placeholder="Buscar...">
+    <button id="addUserButton">Añadir Usuario</button>
+</div>
+
+<div id="user-list">
+    <div class="user-card">
+        <div class="user-info">
+            <p>Nombre Usuario: Juan Pérez Valenzuela</p>
+            <p>Condominio: Los Robles</p>
+            <p>Correo electrónico: juan.perez@example.com</p>
+        </div>
+        <div class="actions">
+            <button class="edit-button"><img src="https://cdn-icons-png.flaticon.com/512/1160/1160515.png" alt="edit icon"></button>
+            <button class="delete-button"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png" alt="delete icon"></button>
+        </div>
+    </div>
+</div>
+
+<div id="addUserModal" class="modal">
+    <div class="modal-content">
+        <span id="closeAddUserModal" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">X</span>
+        <h2>Añadir Usuario</h2>
+        <input type="text" id="nameInput" placeholder="Nombres">
+        <p class="error-message" id="nameError">Por favor, rellena este campo</p>
+        <input type="text" id="surnameInput" placeholder="Apellidos">
+        <p class="error-message" id="surnameError">Por favor, rellena este campo</p>
+        <input type="email" id="emailInput" placeholder="Correo">
+        <p class="error-message" id="emailError">Por favor, rellena este campo</p>
+        <input type="text" id="condoInput" placeholder="Condominio">
+        <p class="error-message" id="condoError">Por favor, rellena este campo</p>
+        <button id="saveUserButton">Guardar Usuario</button>
+    </div>
+</div>
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <p>¿Estás seguro de que quieres eliminar este usuario?</p>
+        <div class="delete-confirmation">
+            <button class="yes">Sí</button>
+            <button class="no">No</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('backButton').addEventListener('click', function() {
+        alert('Volver al menú anterior');
+    });
+
+    document.getElementById('addUserButton').addEventListener('click', function() {
+        document.getElementById('addUserModal').style.display = 'flex';
+    });
+
+    document.getElementById('closeAddUserModal').addEventListener('click', function() {
+        document.getElementById('addUserModal').style.display = 'none';
+    });
+
+    document.getElementById('saveUserButton').addEventListener('click', function() {
+        const name = document.getElementById('nameInput').value.trim();
+        const surname = document.getElementById('surnameInput').value.trim();
+        const email = document.getElementById('emailInput').value.trim();
+        const condo = document.getElementById('condoInput').value.trim();
+
+        let hasError = false;
+
+        if (!name) {
+            document.getElementById('nameError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('nameError').style.display = 'none';
+        }
+
+        if (!surname) {
+            document.getElementById('surnameError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('surnameError').style.display = 'none';
+        }
+
+        if (!email) {
+            document.getElementById('emailError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('emailError').style.display = 'none';
+        }
+
+        if (!condo) {
+            document.getElementById('condoError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('condoError').style.display = 'none';
+        }
+
+        if (hasError) {
+            return;
+        }
+
+        const newUserCard = document.createElement('div');
+        newUserCard.className = 'user-card';
+        newUserCard.innerHTML = `
+            <div class="user-info">
+                <p>Nombre Usuario: ${name} ${surname}</p>
+                <p>Condominio: ${condo}</p>
+                <p>Correo electrónico: ${email}</p>
+            </div>
+            <div class="actions">
+                <button class="edit-button"><img src="https://cdn-icons-png.flaticon.com/512/1160/1160515.png" alt="edit icon"></button>
+                <button class="delete-button"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png" alt="delete icon"></button>
+            </div>
+        `;
+        document.getElementById('user-list').appendChild(newUserCard);
+
+        document.getElementById('nameInput').value = '';
+        document.getElementById('surnameInput').value = '';
+        document.getElementById('emailInput').value = '';
+        document.getElementById('condoInput').value = '';
+
+        document.getElementById('addUserModal').style.display = 'none';
+
+        assignEditButtonEvent(newUserCard.querySelector('.edit-button'));
+        assignDeleteButtonEvent(newUserCard.querySelector('.delete-button'));
+    });
+
+    let userCardToDelete = null;
+
+    function assignDeleteButtonEvent(deleteButton) {
+        deleteButton.addEventListener('click', function() {
+            userCardToDelete = this.closest('.user-card');
+            document.getElementById('deleteModal').style.display = 'flex';
+        });
+    }
+
+    document.querySelectorAll('.delete-button').forEach(assignDeleteButtonEvent);
+
+    document.querySelector('.delete-confirmation .yes').addEventListener('click', function() {
+        if (userCardToDelete) {
+            userCardToDelete.remove();
+            userCardToDelete = null;
+        }
+        document.getElementById('deleteModal').style.display = 'none';
+    });
+
+    document.querySelector('.delete-confirmation .no').addEventListener('click', function() {
+        document.getElementById('deleteModal').style.display = 'none';
+    });
+
+    function assignEditButtonEvent(editButton) {
+        editButton.addEventListener('click', function() {
+            const userCard = this.closest('.user-card');
+            const userInfo = userCard.querySelector('.user-info');
+
+            const nameField = userInfo.querySelector('p:nth-child(1)');
+            const condoField = userInfo.querySelector('p:nth-child(2)');
+            const emailField = userInfo.querySelector('p:nth-child(3)');
+
+            const nameValue = nameField.textContent.split(':')[1].trim();
+            const condoValue = condoField.textContent.split(':')[1].trim();
+            const emailValue = emailField.textContent.split(':')[1].trim();
+
+            nameField.innerHTML = `Nombre Usuario: <input type="text" value="${nameValue}">`;
+            condoField.innerHTML = `Condominio: <input type="text" value="${condoValue}">`;
+            emailField.innerHTML = `Correo electrónico: <input type="text" value="${emailValue}">`;
+
+            const confirmButton = document.createElement('button');
+            confirmButton.textContent = 'Confirmar';
+            confirmButton.style.marginLeft = '10px';
+            confirmButton.style.backgroundColor = '#4caf50';
+            confirmButton.style.border = 'none';
+            confirmButton.style.padding = '5px 10px';
+            confirmButton.style.color = 'white';
+            confirmButton.style.cursor = 'pointer';
+            confirmButton.style.borderRadius = '5px';
+
+            userInfo.appendChild(confirmButton);
+
+            confirmButton.addEventListener('click', function() {
+                const newNameValue = nameField.querySelector('input').value;
+                const newCondoValue = condoField.querySelector('input').value;
+                const newEmailValue = emailField.querySelector('input').value;
+
+                nameField.innerHTML = `Nombre Usuario: ${newNameValue}`;
+                condoField.innerHTML = `Condominio: ${newCondoValue}`;
+                emailField.innerHTML = `Correo electrónico: ${newEmailValue}`;
+
+                confirmButton.remove();
+            });
+        });
+    }
+
+    document.querySelectorAll('.edit-button').forEach(assignEditButtonEvent);
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        const userCards = document.querySelectorAll('.user-card');
+
+        let found = false;
+        userCards.forEach(card => {
+            const userInfo = card.querySelector('.user-info').textContent.toLowerCase();
+            if (userInfo.includes(searchValue)) {
+                card.style.display = 'flex';
+                found = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        const noResultMessage = document.getElementById('noResultMessage');
+        if (!found) {
+            if (!noResultMessage) {
+                const noResultMessage = document.createElement('p');
+                noResultMessage.id = 'noResultMessage';
+                noResultMessage.style.textAlign = 'center';
+                noResultMessage.textContent = 'No se encuentra este usuario :(';
+                document.getElementById('user-list').appendChild(noResultMessage);
+            }
+        } else {
+            if (noResultMessage) {
+                noResultMessage.remove();
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
