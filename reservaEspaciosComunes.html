@@ -22,6 +22,19 @@
             <div class="row justify-content-between">
                 <div class="col-md-4">
                     <div class="card p-3">
+                        <div class="card-header">Seleccione el condominio</div>
+                        <div class="card-body">
+                            <select class="form-select" id="condominiumDropdown" aria-label="Condominium Selection" required>
+                                <option selected>Seleccione un condominio...</option>
+                                <option value="condominio1">Condominio 1</option>
+                                <option value="condominio2">Condominio 2</option>
+                                <option value="condominio3">Condominio 3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3">
                         <div class="card-header">Seleccione el espacio común</div>
                         <div class="card-body">
                             <select class="form-select" id="commonSpaceDropdown" aria-label="Common Space Selection" required>
@@ -69,6 +82,7 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
         const bookingForm = document.getElementById('bookingForm');
+        const condominiumDropdown = document.getElementById('condominiumDropdown');
         const commonSpaceDropdown = document.getElementById('commonSpaceDropdown');
         const startDateInput = document.getElementById('startDateInput');
         const endDateInput = document.getElementById('endDateInput');
@@ -77,6 +91,7 @@
         bookingForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            const selectedCondominium = condominiumDropdown.value;
             const selectedSpace = commonSpaceDropdown.value;
             const startDate = startDateInput.value;
             const endDate = endDateInput.value;
@@ -94,6 +109,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    condominio: selectedCondominium,
                     espacio_comun: selectedSpace,
                     fecha_inicio: startDate,
                     fecha_fin: endDate
@@ -102,7 +118,7 @@
 
             if (response.ok) {
                 const result = await response.json();
-                bookingResult.value = `Reserva confirmada con éxito.\nID Reserva: ${result.id_reserva}\nEspacio común: ${result.espacio_comun}\nFecha y hora inicio: ${new Date(result.fecha_inicio).toLocaleString()}\nFecha y hora término: ${new Date(result.fecha_fin).toLocaleString()}`;
+                bookingResult.value = `Reserva confirmada con éxito.\nID Reserva: ${result.id_reserva}\nCondominio: ${result.condominio}\nEspacio común: ${result.espacio_comun}\nFecha y hora inicio: ${new Date(result.fecha_inicio).toLocaleString()}\nFecha y hora término: ${new Date(result.fecha_fin).toLocaleString()}`;
             } else {
                 bookingResult.value = "Error al realizar la reserva. Por favor, inténtelo nuevamente.";
             }

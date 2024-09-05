@@ -1,17 +1,22 @@
 body {
-    background-image: url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f0a9e4d2be6a7787f5071c69d.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    font-family: 'Share-TechMono', sans-serif;
+    background-color: #000000; /* Black background */
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .navbar {
-    background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
+    background-color: #434A54; /* Dark gray */
+    border-bottom: 1px solid #FFFFFF;
+    color: #F5F5DC; /* Bone white */
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white */
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
@@ -23,13 +28,65 @@ body {
 }
 
 .card-header {
-    color: #F5F5DC !important;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #F5F5DC; /* Bone white */
+}
+
+.card-body {
+    padding: 20px;
+    color: #F5F5DC; /* Bone white */
 }
 
 .btn-primary {
+    background-color: #ff6600; /* Orange */
+    border: none;
+    color: white;
     width: 100%;
 }
 
+.btn-primary:hover {
+    background-color: #e0671d;
+}
+
 .form-select {
-    color: #F5F5DC;
+    background-color: black !important;
+    color: #F5F5DC !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* New styles for the footer */
+footer {
+    background-color: #434A54; /* Dark gray */
+    border-top: 1px solid #FFFFFF;
+    color: #F5F5DC; /* Bone white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+/* Force scrollbars if needed */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #000000;
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: 3px solid #000000;
 }

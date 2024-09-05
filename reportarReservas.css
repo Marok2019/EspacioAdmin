@@ -1,0 +1,98 @@
+body {
+    font-family: 'Share-TechMono', sans-serif;
+    background-color: black;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-logo {
+    width: 75px;
+    height: auto;
+}
+
+.logout-button {
+    margin-left: auto;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-select {
+    background-color: black !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+    background-color: #ff6600;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #e0671d;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+footer {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+}
+
+::placeholder {
+    color: white !important;
+    opacity: 1;
+}
+
+.container {
+    flex: 1;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+/* New styles for the page title and container title */
+h1 {
+    color: #F5F5DC; /* Bone white */
+}
+
+.card-header {
+    color: #F5F5DC; /* Bone white */
+}
