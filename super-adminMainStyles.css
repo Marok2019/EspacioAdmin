@@ -4,8 +4,18 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 .card img {
     width: 100px;
     height: auto;
@@ -41,15 +51,50 @@ body {
     background-color: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer; /* Add pointer cursor to indicate clickability */
-    transition: transform 0.3s ease; /* Add transition for hover effect */
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Add hover effect */
+    transform: translateY(-5px);
 }
 
 /* Changed card text color to bone white */
 .card-body {
     color: #F5F5DC; /* Bone white color */
+}
+
+footer {
+    background-color: #434A54; /* Steel gray */
+    border-top: 1px solid #FFFFFF;
+    color: #F5F5DC; /* Bone white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+/* Force scrollbars if needed */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #000000;
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: 3px solid #000000;
 }
