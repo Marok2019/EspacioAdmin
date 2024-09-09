@@ -3,73 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EspacioAdmin - Residentes</title>
+    <title>EspacioAdmin - Residente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="residenteMainStyles.css">
 </head>
 <body class="bg-dark">
-    <header>
-        <div class="header-container d-flex align-items-center">
-            <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-            <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+    <!-- New header section -->
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Bienvenido/a, Residente</h1>
+            </div>
         </div>
-    </header>
-    <main>
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <h1 class="text-center">Bienvenido/a, Residente</h1>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
+            <div class="col">
+                <div class="card" data-link="reservaEspaciosComunes.html">
+                    <img src="reserva.png" alt="Reservar Espacios Comunes">
+                    <div class="card-body">
+                        <h5 class="card-title">Reservar - Espacios Comunes</h5>
+                        <p class="card-text">Acceso rápido para la reserva de espacios comunes.</p>
+                    </div>
                 </div>
             </div>
-    
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
-                <div class="col">
-                    <div class="card" data-link="reservaEspaciosComunes.html">
-                        <img src="reserva.png" alt="Reservar - Espacios Comunes">
-                        <div class="card-body">
-                            <h5 class="card-title">Reservar - Espacios Comunes</h5>
-                            <p class="card-text">Acceso rápido para la reserva de espacios comunes.</p>
-                        </div>
+            <div class="col">
+                <div class="card" data-link="consultaGastosComunes.html">
+                    <img src="financiero.png" alt="Consulta Detalle Gastos Comunes">
+                    <div class="card-body">
+                        <h5 class="card-title">Consultar - Detalles de Gastos Comunes</h5>
+                        <p class="card-text">Administración rápida y detallada de tus gastos comunes.</p>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card" data-link="consultaGastosComunes.html">
-                        <img src="financiero.png" alt="Consultar - Detalles de Gastos Comunes">
-                        <div class="card-body">
-                            <h5 class="card-title">Consultar - Detalles de Gastos Comunes</h5>
-                            <p class="card-text">Administración rápida y con detalles de tus gastos comunes.</p>
-                        </div>
+            </div>
+            <div class="col">
+                <div class="card" data-link="pagoGastosComunes.html">
+                    <img src="mano.png" alt="Pagar Boleta Gastos Comunes">
+                    <div class="card-body">
+                        <h5 class="card-title">Pagar - Boleta de Gastos Comunes</h5>
+                        <p class="card-text">Plataforma de pago de tus gastos comunes.</p>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card" data-link="pagoGastosComunes.html">
-                        <img src="mano.png" alt="Pagar - Gastos Comunes">
-                        <div class="card-body">
-                            <h5 class="card-title">Pagar - Gastos Comunes</h5>
-                            <p class="card-text">Plataforma de pago de tus gastos comunes.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card" data-link="adjuntarBoleta.html">
-                        <img src="factura.png" alt="Cargar - Boleta de Gastos Comunes">
-                        <div class="card-body">
-                            <h5 class="card-title">Cargar - Boleta de Gastos Comunes</h5>
-                            <p class="card-text">Sube aquí de manera rápida y segura tu boleta de pago de gastos comunes.</p>
-                        </div>
+            </div>
+            <div class="col">
+                <div class="card" data-link="adjuntarBoleta.html">
+                    <img src="factura.png" alt="Cargar Boleta Gastos Comunes">
+                    <div class="card-body">
+                        <h5 class="card-title">Cargar - Boleta de Gastos Comunes</h5>
+                        <p class="card-text">Carga de manera rápida y segura tu boleta pagada de Gastos Comunes.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-    <footer class="text-white text-center py-3 mt-5">
-        <p>&copy; <span id="current-year"></span> Todos los derechos reservados.</p>
+    </div>
+
+    <footer class="bg-dark py-3 mt-5">
+        <div class="container">
+            <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+        </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
+        // Add event listeners to cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => {
                 const link = card.getAttribute('data-link');

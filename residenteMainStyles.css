@@ -1,14 +1,18 @@
+/* conserjeMainStyles.css */
+
 body {
     font-family: 'Share-TechMono', sans-serif;
     background-image: url('https://r4.wallpaperflare.com/wallpaper/314/778/449/1920x1080-px-los-angeles-anime-sailor-moon-hd-art-wallpaper-9930f80dc18a4d2be6a7787f5071c69d.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     overflow-x: hidden;
+    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+    display: flex; /* Use flexbox to stack content vertically */
+    flex-direction: column; /* Stack content vertically */
 }
 
 .card img {
-    padding-top: 15px;
-    width: 75px;
+    width: 100px;
     height: auto;
     margin: 0 auto;
 }
@@ -52,35 +56,15 @@ body {
     color: #F5F5DC;
 }
 
-	
-/* Updated footer styles */
+/* New styles to force footer to bottom */
+.container {
+    flex: 1; /* Allow the container to grow and push the footer down */
+}
+
 footer {
-    background-color: #434A54; /* Steel gray */
-    border-top: 1px solid #FFFFFF;
-    color: #F5F5DC; /* Bone white */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: auto; /* Push the footer to the bottom */
+    background-color: #434A54; /* Dark gray background */
+    color: #F5F5DC; /* Bone white text color */
     padding: 10px 0;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-}
-/* Force scrollbars if needed */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #ffffff #000000;
-}
-*::-webkit-scrollbar {
-    width: 12px;
-}
-*::-webkit-scrollbar-track {
-    background: #000000;
-}
-*::-webkit-scrollbar-thumb {
-    background-color: #ffffff;
-    border-radius: 20px;
-    border: 3px solid #000000;
+    text-align: center;
 }
