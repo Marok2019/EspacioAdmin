@@ -3,249 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrar Condominios</title>
-    <link rel="stylesheet" href="administrarCondominiosStyles.css">
+    <title>Administración de Condominios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="administrarCondominiosStyles.css"> 
 </head>
-<body>
-
-<header>
-    <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-    <button id="backButton">Volver</button>
-</header>
-
-<div id="header-icon-text">
-    <img src="C:\Users\PC\Desktop\desarrollo\edificio.png" alt="building icon" width="32" height="32">
-    Administrar Condominios
-</div>
-
-<div id="search-container">
-    <input type="text" id="searchInput" placeholder="Buscar...">
-    <button id="addUserButton">Añadir Condominio</button>
-</div>
-
-<div id="user-list">
-    <div class="user-card">
-        <div class="user-info">
-            <p>Nombre Administrador: Juan Pérez Valenzuela</p>
-            <p>Condominio: Los Robles</p>
-            <p>Correo electrónico: juan.perez@example.com</p>
-            <p>Ubicación: Calle Falsa 123, Ciudad</p>
-        </div>
-        <div class="actions">
-            <button class="edit-button"><img src="https://cdn-icons-png.flaticon.com/512/1160/1160515.png" alt="edit icon"></button>
-            <button class="delete-button"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png" alt="delete icon"></button>
-        </div>
+<body class="bg-dark">
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
     </div>
-</div>
 
-<div id="addUserModal" class="modal">
-    <div class="modal-content">
-        <span id="closeAddUserModal" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">X</span>
-        <h2>Añadir Condominio</h2>
-        <input type="text" id="nameInput" placeholder="Nombre y Apellido del Administrador">
-        <p class="error-message" id="nameError">Por favor, rellena este campo</p>
-        <input type="text" id="condoNameInput" placeholder="Nombre del Condominio">
-        <p class="error-message" id="condoNameError">Por favor, rellena este campo</p>
-        <input type="email" id="emailInput" placeholder="Correo Electrónico">
-        <p class="error-message" id="emailError">Por favor, rellena este campo</p>
-        <input type="text" id="locationInput" placeholder="Ubicación">
-        <p class="error-message" id="locationError">Por favor, rellena este campo</p>
-        <button id="saveUserButton">Guardar Condominio</button>
-    </div>
-</div>
+    <div class="main-content">
+        <div class="container mt-5">
+            <h1 class="text-center text-white mb-4">Administración de Condominios</h1>
 
-<div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <p>¿Estás seguro de que quieres eliminar este condominio?</p>
-        <div class="delete-confirmation">
-            <button class="yes">Sí</button>
-            <button class="no">No</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.getElementById('backButton').addEventListener('click', function() {
-        alert('Volver al menú anterior');
-    });
-
-    document.getElementById('addUserButton').addEventListener('click', function() {
-        document.getElementById('addUserModal').style.display = 'flex';
-    });
-
-    document.getElementById('closeAddUserModal').addEventListener('click', function() {
-        document.getElementById('addUserModal').style.display = 'none';
-    });
-
-    document.getElementById('saveUserButton').addEventListener('click', function() {
-        const name = document.getElementById('nameInput').value.trim();
-        const condoName = document.getElementById('condoNameInput').value.trim();
-        const email = document.getElementById('emailInput').value.trim();
-        const location = document.getElementById('locationInput').value.trim();
-
-        let hasError = false;
-
-        if (!name) {
-            document.getElementById('nameError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('nameError').style.display = 'none';
-        }
-
-        if (!condoName) {
-            document.getElementById('condoNameError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('condoNameError').style.display = 'none';
-        }
-
-        if (!email) {
-            document.getElementById('emailError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('emailError').style.display = 'none';
-        }
-
-        if (!location) {
-            document.getElementById('locationError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('locationError').style.display = 'none';
-        }
-
-        if (hasError) return;
-
-        const newUserCard = document.createElement('div');
-        newUserCard.classList.add('user-card');
-        newUserCard.innerHTML = `
-            <div class="user-info">
-                <p>Nombre Administrador: ${name}</p>
-                <p>Condominio: ${condoName}</p>
-                <p>Correo electrónico: ${email}</p>
-                <p>Ubicación: ${location}</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="searchInput" class="form-label text-white">Buscar Condominio:</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Ingrese el nombre del condominio">
+                    </div>
+                </div>
             </div>
-            <div class="actions">
-                <button class="edit-button"><img src="https://cdn-icons-png.flaticon.com/512/1160/1160515.png" alt="edit icon"></button>
-                <button class="delete-button"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png" alt="delete icon"></button>
+
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary w-100 search-button" onclick="searchCondos()">Buscar</button>
+                </div>
             </div>
-        `;
-        document.getElementById('user-list').appendChild(newUserCard);
 
-        document.getElementById('nameInput').value = '';
-        document.getElementById('condoNameInput').value = '';
-        document.getElementById('emailInput').value = '';
-        document.getElementById('locationInput').value = '';
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre del Administrador</th>
+                                <th>Condominio</th>
+                                <th>Correo Electrónico</th>
+                                <th>Ubicación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="condosTableBody">
+                            <!-- Data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        document.getElementById('addUserModal').style.display = 'none';
+    <footer>
+        <div class="container">
+            <p class="text-center text-white">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+        </div>
+    </footer>
 
-        assignEditButtonEvent(newUserCard.querySelector('.edit-button'));
-        assignDeleteButtonEvent(newUserCard.querySelector('.delete-button'));
-    });
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    let userCardToDelete = null;
+        function searchCondos() {
+            const searchQuery = document.getElementById('searchInput').value.trim();
 
-    function assignDeleteButtonEvent(deleteButton) {
-        deleteButton.addEventListener('click', function() {
-            userCardToDelete = this.closest('.user-card');
-            document.getElementById('deleteModal').style.display = 'flex';
-        });
-    }
+            if (searchQuery !== '') {
+                // Simulate API call to fetch data
+                const mockData = [
+                    { id: 1, adminName: 'Juan Pérez', condoName: 'Los Robles', email: 'juan.perez@example.com', location: 'Calle Falsa 123, Ciudad' },
+                    { id: 2, adminName: 'María García', condoName: 'El Bosque', email: 'maria.garcia@example.com', location: 'Avenida Principal 456, Ciudad' },
+                    { id: 3, adminName: 'Carlos López', condoName: 'La Montaña', email: 'carlos.lopez@example.com', location: 'Calle del Sol 789, Ciudad' }
+                ];
 
-    document.querySelectorAll('.delete-button').forEach(assignDeleteButtonEvent);
-
-    document.querySelector('.delete-confirmation .yes').addEventListener('click', function() {
-        if (userCardToDelete) {
-            userCardToDelete.remove();
-            userCardToDelete = null;
-        }
-        document.getElementById('deleteModal').style.display = 'none';
-    });
-
-    document.querySelector('.delete-confirmation .no').addEventListener('click', function() {
-        document.getElementById('deleteModal').style.display = 'none';
-    });
-
-    function assignEditButtonEvent(editButton) {
-        editButton.addEventListener('click', function() {
-            const userCard = this.closest('.user-card');
-            const userInfo = userCard.querySelector('.user-info');
-
-            const nameField = userInfo.querySelector('p:nth-child(1)');
-            const condoField = userInfo.querySelector('p:nth-child(2)');
-            const emailField = userInfo.querySelector('p:nth-child(3)');
-            const locationField = userInfo.querySelector('p:nth-child(4)');
-
-            const nameValue = nameField.textContent.split(':')[1].trim();
-            const condoValue = condoField.textContent.split(':')[1].trim();
-            const emailValue = emailField.textContent.split(':')[1].trim();
-            const locationValue = locationField.textContent.split(':')[1].trim();
-
-            nameField.innerHTML = `Nombre Administrador: <input type="text" value="${nameValue}">`;
-            condoField.innerHTML = `Condominio: <input type="text" value="${condoValue}">`;
-            emailField.innerHTML = `Correo electrónico: <input type="text" value="${emailValue}">`;
-            locationField.innerHTML = `Ubicación: <input type="text" value="${locationValue}">`;
-
-            const confirmButton = document.createElement('button');
-            confirmButton.textContent = 'Confirmar';
-            confirmButton.style.marginLeft = '10px';
-            confirmButton.style.backgroundColor = '#4caf50';
-            confirmButton.style.border = 'none';
-            confirmButton.style.padding = '5px 10px';
-            confirmButton.style.color = 'white';
-            confirmButton.style.cursor = 'pointer';
-            confirmButton.style.borderRadius = '5px';
-
-            userInfo.appendChild(confirmButton);
-
-            confirmButton.addEventListener('click', function() {
-                const newNameValue = nameField.querySelector('input').value;
-                const newCondoValue = condoField.querySelector('input').value;
-                const newEmailValue = emailField.querySelector('input').value;
-                const newLocationValue = locationField.querySelector('input').value;
-
-                nameField.innerHTML = `Nombre Administrador: ${newNameValue}`;
-                condoField.innerHTML = `Condominio: ${newCondoValue}`;
-                emailField.innerHTML = `Correo electrónico: ${newEmailValue}`;
-                locationField.innerHTML = `Ubicación: ${newLocationValue}`;
-
-                confirmButton.remove();
-            });
-        });
-    }
-
-    document.querySelectorAll('.edit-button').forEach(assignEditButtonEvent);
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchValue = this.value.toLowerCase();
-        const userCards = document.querySelectorAll('.user-card');
-
-        let found = false;
-        userCards.forEach(card => {
-            const userInfo = card.querySelector('.user-info').textContent.toLowerCase();
-            if (userInfo.includes(searchValue)) {
-                card.style.display = 'flex';
-                found = true;
+                populateCondosTable(mockData);
             } else {
-                card.style.display = 'none';
-            }
-        });
-
-        const noResultMessage = document.getElementById('noResultMessage');
-        if (!found) {
-            if (!noResultMessage) {
-                const noResultMessage = document.createElement('p');
-                noResultMessage.id = 'noResultMessage';
-                noResultMessage.style.textAlign = 'center';
-                noResultMessage.textContent = 'No se encuentra este condominio :(';
-                document.getElementById('user-list').appendChild(noResultMessage);
-            }
-        } else {
-            if (noResultMessage) {
-                noResultMessage.remove();
+                alert('Por favor, ingrese un nombre de condominio para buscar.');
             }
         }
-    });
-</script>
 
+        function populateCondosTable(data) {
+            const tbody = document.getElementById('condosTableBody');
+            tbody.innerHTML = ''; // Clear existing rows
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.adminName}</td>
+                    <td>${item.condoName}</td>
+                    <td>${item.email}</td>
+                    <td>${item.location}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="editCondo(${item.id})">Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteCondo(${item.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editCondo(id) {
+            // Implement edit functionality here
+            alert(`Editar condominio con ID: ${id}`);
+        }
+
+        function deleteCondo(id) {
+            // Implement delete functionality here
+            if (confirm(`¿Estás seguro de que quieres eliminar el condominio con ID: ${id}?`)) {
+                // Simulate deletion
+                alert(`Condominio con ID: ${id} eliminado.`);
+                // Refresh the table or remove the row
+            }
+        }
+    </script>
 </body>
 </html>

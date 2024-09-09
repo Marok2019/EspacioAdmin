@@ -1,36 +1,47 @@
+
 body {
     font-family: 'Share-TechMono', sans-serif;
     overflow-x: hidden;
-    background-color: #000000;
+    background-color: rgba(33,37,41,1);
 }
 
 .header-container {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(44,48,52,1);
     padding: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.header-logo {
-    width: auto;
-    height: auto;
+
+.footer {
+    background-color: rgba(44,48,52,1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1030;
 }
 
-.logout-button {
-    margin-left: auto;
+.footer p {
+    color: white;
+    margin: 0;
 }
 
 .form-control {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: white;
+    background-color: white;
+    color: black;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .form-select {
-    background-color: black !important;
-    color: white !important;
+    background-color: white;
+    color: black;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 .btn-primary {
     background-color: #ff6600;
     border: none;
@@ -53,26 +64,38 @@ body {
     background-color: #FF6400;
     border: none;
 }
+
 .btn-success:hover {
     background-color: #e65a00;
 }
 
-footer {
+.card {
     background-color: rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    color: #F5F5DC;
+}
+
+.table-dark th {
+    background-color: #FF7F27 !important;
+    color: white !important;
+}
+
+.table-dark td {
+    background-color: #dbdbdb !important;
+    color: black !important;
 }
 
 ::placeholder {
-    color: white !important;
+    color: black; /* Dark gray */
     opacity: 1;
-}
-
-.card {
-    background-color: #352D29;
-    border: none;
-    
-}
-.card-header {
-    background-color: #FF6400;
-    padding-top: 15px;
 }
