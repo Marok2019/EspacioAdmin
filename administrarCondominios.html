@@ -3,115 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Condominios</title>
+    <title>Administrar - Condominios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="administrarCondominiosStyles.css"> 
+    <link rel="stylesheet" href="administrarCondominiosStyles.css">
 </head>
 <body class="bg-dark">
+    <!-- Header -->
     <div class="header-container d-flex align-items-center">
         <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+        <button type="button" class="btn btn-danger logout-button">Volver</button>
     </div>
 
-    <div class="main-content">
-        <div class="container mt-5">
-            <h1 class="text-center text-white mb-4">Administración de Condominios</h1>
+    <!-- Body -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Administrar Condominios</h1>
+            </div>
+        </div>
 
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="searchInput" class="form-label text-white">Buscar Condominio:</label>
-                        <input type="text" class="form-control" id="searchInput" placeholder="Ingrese el nombre del condominio">
+        <!-- Formulario -->
+        <div class="card">
+            <div class="card-header">Filtros de administración</div>
+            <div class="card-body">
+                <div class="row justify-content-center text-center mt-4">
+
+                    <!-- Contenido Tabla -->
+                    <div class="col-md-12">
+                        <table class="table table-dark table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre del Condominio</th>
+                                    <th>Número de Unidades</th>
+                                    <th>Dirección</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="condoTableBody">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
-            <div class="row justify-content-center mb-4">
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-primary w-100 search-button" onclick="searchCondos()">Buscar</button>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <table class="table table-dark table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nombre del Administrador</th>
-                                <th>Condominio</th>
-                                <th>Correo Electrónico</th>
-                                <th>Ubicación</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="condosTableBody">
-                            <!-- Data will be populated here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 
-    <footer>
+    <!-- Footer -->
+    <footer class="bg-dark py-3 mt-5">
         <div class="container">
-            <p class="text-center text-white">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+            <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        // Datos de la tabla actualizados
+        const condominios = [
+            { id: 1, nombre: "Condominio Las Flores", unidades: 20, direccion: "Calle A 123" },
+            { id: 2, nombre: "Condominio El Sol", unidades: 15, direccion: "Calle B 456" },
+            { id: 3, nombre: "Condominio Los Pinos", unidades: 30, direccion: "Calle C 789" }
+        ];
 
-        function searchCondos() {
-            const searchQuery = document.getElementById('searchInput').value.trim();
-
-            if (searchQuery !== '') {
-                // Simulate API call to fetch data
-                const mockData = [
-                    { id: 1, adminName: 'Juan Pérez', condoName: 'Los Robles', email: 'juan.perez@example.com', location: 'Calle Falsa 123, Ciudad' },
-                    { id: 2, adminName: 'María García', condoName: 'El Bosque', email: 'maria.garcia@example.com', location: 'Avenida Principal 456, Ciudad' },
-                    { id: 3, adminName: 'Carlos López', condoName: 'La Montaña', email: 'carlos.lopez@example.com', location: 'Calle del Sol 789, Ciudad' }
-                ];
-
-                populateCondosTable(mockData);
-            } else {
-                alert('Por favor, ingrese un nombre de condominio para buscar.');
+        // Función para llenar la tabla
+        function llenarTabla() {
+            const tbody = document.getElementById('condoTableBody');
+            if (!tbody) {
+                console.error('El elemento con id "condoTableBody" no se encontró.');
+                return;
             }
-        }
+            tbody.innerHTML = ''; // Limpiar la tabla
 
-        function populateCondosTable(data) {
-            const tbody = document.getElementById('condosTableBody');
-            tbody.innerHTML = ''; // Clear existing rows
-            data.forEach(item => {
+            condominios.forEach(condominio => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item.adminName}</td>
-                    <td>${item.condoName}</td>
-                    <td>${item.email}</td>
-                    <td>${item.location}</td>
+                    <td>${condominio.id}</td>
+                    <td>${condominio.nombre}</td>
+                    <td>${condominio.unidades}</td>
+                    <td>${condominio.direccion}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="editCondo(${item.id})">Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteCondo(${item.id})">Eliminar</button>
+                        <button class="btn btn-success btn-sm mr-1" onclick="editarCondominio(${condominio.id})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarCondominio(${condominio.id})">Eliminar</button>
                     </td>
                 `;
                 tbody.appendChild(row);
             });
         }
 
-        function editCondo(id) {
-            // Implement edit functionality here
-            alert(`Editar condominio con ID: ${id}`);
-        }
+        // Llenar la tabla con los datos al cargar la página
+        llenarTabla();
 
-        function deleteCondo(id) {
-            // Implement delete functionality here
-            if (confirm(`¿Estás seguro de que quieres eliminar el condominio con ID: ${id}?`)) {
-                // Simulate deletion
-                alert(`Condominio con ID: ${id} eliminado.`);
-                // Refresh the table or remove the row
+        // Función para editar un condominio
+        function editarCondominio(id) {
+            const condominio = condominios.find(c => c.id === id);
+            if (condominio) {
+                const nuevoNombre = prompt("Ingrese el nuevo nombre del condominio:", condominio.nombre);
+                const nuevasUnidades = prompt("Ingrese el nuevo número de unidades:", condominio.unidades);
+                const nuevaDireccion = prompt("Ingrese la nueva dirección:", condominio.direccion);
+
+                if (nuevoNombre && nuevasUnidades && nuevaDireccion) {
+                    condominio.nombre = nuevoNombre;
+                    condominio.unidades = parseInt(nuevasUnidades);
+                    condominio.direccion = nuevaDireccion;
+                    llenarTabla(); // Actualizar la tabla después de editar
+                }
             }
         }
+
+        // Función para eliminar un condominio
+        function eliminarCondominio(id) {
+            const index = condominios.findIndex(c => c.id === id);
+            if (index !== -1) {
+                if (confirm("¿Está seguro de que desea eliminar este condominio?")) {
+                    condominios.splice(index, 1);
+                    llenarTabla(); // Actualizar la tabla después de eliminar
+                }
+            }
+        }
+
+        // Footer Script
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

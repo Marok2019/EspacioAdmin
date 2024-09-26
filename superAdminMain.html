@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,70 +9,80 @@
 
 </head>
 <body class="bg-dark">
-    <!-- New header section -->
+    <!-- Header -->
     <div class="header-container d-flex align-items-center">
         <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-        <button type="button" class="btn btn-danger logout-button" data-link="auth.html" onclick="window.location.href = this.getAttribute('data-link')">Cerrar Sesión</button>
+        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
     </div>
 
+    <!-- Body -->
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h1 class="text-center">Bienvenid@, SuperAdmin</h1>
+                <h1 class="text-center">Bienvenido/a, SuperAdmin</h1>
             </div>
         </div>
 
+        <!-- Cards -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
+            <!-- Administrar Usuarios Card -->
             <div class="col">
                 <div class="card" data-link="administrarUsuarios.html">
-                    <img src="administrar.png" alt="Administrar Usuarios">
+                    <img src="img-administrar.png" alt="Administrar - Usuarios">
                     <div class="card-body">
-                        <h5 class="card-title">Administrar Usuarios</h5>
-                        <p class="card-text">Gestiona la información y permisos de los usuarios del sistema, incluyendo la adición, edición y eliminación de cuentas.</p>
+                        <h5 class="card-title">Administrar - Usuarios</h5>
+                        <p class="card-text">Gestiona la información y permisos de los usuarios del sistema.</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Administrar Condominios Card -->
             <div class="col">
                 <div class="card" data-link="administrarCondominios.html">
-                    <img src="gestion-de-instalaciones.png" alt="Administrar Condominios">
+                    <img src="img-gestionInstalaciones.png" alt="Administrar - Condominios">
                     <div class="card-body">
-                        <h5 class="card-title">Administrar Condominios</h5>
-                        <p class="card-text">Administra la información y configuraciones de los condominios, como su ubicación, detalles de contacto y características.</p>
+                        <h5 class="card-title">Administrar - Condominios</h5>
+                        <p class="card-text">Administra la información y configuraciones de los condominios.</p>
                     </div>
                 </div>
             </div>
+            
+            <!-- Reportar Uso de Espacios Card -->
             <div class="col">
-                <div class="card" data-link="reportarGastosComunes.html">
-                    <img src="informe-seo.png" alt="Reportar Gastos Comunes">
+                <div class="card" data-link="reporteUsoEspaciosComunes.html">
+                    <img src="img-gestionEquipos.png" alt="Reportar Uso - Espacios Comunes">
                     <div class="card-body">
-                        <h5 class="card-title">Reportar Gastos Comunes</h5>
-                        <p class="card-text">Registra y controla los gastos compartidos entre los residentes.</p>
+                        <h5 class="card-title">Reportar Uso - Espacios Comunes</h5>
+                        <p class="card-text">Genera reportes sobre el uso de los espacios comunes.</p>
                     </div>
                 </div>
             </div>
+            
+            <!-- Reportar GGCC Card -->
             <div class="col">
-                <div class="card" data-link="reportarReservas.html">
-                    <img src="archivo.png" alt="Reportar Uso de Espacios">
+                <div class="card" data-link="reporteGastosComunes.html">
+                    <img src="img-administrativo.png" alt="Reportar - Gastos Comunes">
                     <div class="card-body">
-                        <h5 class="card-title">REPORTAR USO DE ESPACIOS</h5>
-                        <p class="card-text">Registra y monitorea el uso de áreas comunes o espacios compartidos dentro del condominio.</p>
+                        <h5 class="card-title">Reportar - Gastos Comunes</h5>
+                        <p class="card-text">Generación rápida de reportes de gastos comunes.</p>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-dark py-3 mt-5">
         <div class="container">
             <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // Add event listeners to cards
+        // Cards Script
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => {
                 const link = card.getAttribute('data-link');
@@ -81,6 +91,9 @@
                 }
             });
         });
+
+        // Footer Script
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

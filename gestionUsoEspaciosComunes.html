@@ -1,90 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EspacioAdmin - Conserje</title>
+    <title>Gestión - Espacios Comunes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="gestionUsoEspaciosComunes.css">
+    <link rel="stylesheet" href="gestionUsoEspaciosComunesStyles.css">
 </head>
 <body class="bg-dark">
-    <!-- New header section -->
+    <!-- Header -->
     <div class="header-container d-flex align-items-center">
         <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+        <button type="button" class="btn btn-danger logout-button">Volver</button>
     </div>
 
+    <!-- Body -->
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h1 class="text-center">Gestión de Espacios Comunes</h1>
+                <h1 class="text-center">Gestión de Uso de Espacios Comunes</h1>
             </div>
         </div>
 
-        <!-- Condominium Selection Dropdown -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <select class="form-select form-select-lg mb-3" id="condominiumSelect" aria-label=".form-select-lg example">
-                    <option selected>Seleccione el condominio</option>
-                    <option value="condominio1">Condominio 1</option>
-                    <option value="condominio2">Condominio 2</option>
-                    <option value="condominio3">Condominio 3</option>
-                </select>
-            </div>
-        </div>
+        <!-- Formulario -->
+        <div class="card">
+            <div class="card-header">Filtros de busqueda</div>
+            <div class="card-body">
+                <div class="row">
 
-        <!-- Common Space Selection -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>Seleccione un espacio común</option>
-                    <option value="space1">Espacio 1</option>
-                    <option value="space2">Espacio 2</option>
-                    <option value="space3">Espacio 3</option>
-                    <option value="space4">Espacio 4</option>
-                </select>
-            </div>
-        </div>
-        
-        <!-- Booking Table -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-12">
-                <table class="table table-dark table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID Reserva</th>
-                            <th>Reservista</th>
-                            <th>Fecha y Hora Inicio</th>
-                            <th>Fecha y Hora Término</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bookingTableBody">
-                        <!-- Placeholder rows will be added dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                    <!-- Condominio Dropdown -->
+                    <div class="mb-3">
+                        <label for="condominiumDropdown" class="form-label text-white">Seleccione el condominio:</label>
+                        <select class="form-select" id="condominioDropdown" aria-label="Condominio Selection" required>
+                            <option selected disabled>Seleccione un condominio...</option>
+                            <option value="condominio1">Condominio 1</option>
+                            <option value="condominio2">Condominio 2</option>
+                            <option value="condominio3">Condominio 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
 
-        <!-- Return to conserjeMain.html button -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-4">
-                <a href="conserjeMain.html" class="btn btn-primary btn-lg w-100">Regresar al Menú Principal</a>
+                    <!-- Common Space Selection -->
+                    <div class="mb-3">
+                        <label for="espacioDropdown" class="form-label text-white">Seleccione el espacio común:</label>
+                        <select class="form-select" id="espacioDropdown" aria-label=".form-select-lg example">
+                            <option selected>Seleccione un espacio común</option>
+                            <option value="space1">Espacio 1</option>
+                            <option value="space2">Espacio 2</option>
+                            <option value="space3">Espacio 3</option>
+                            <option value="space4">Espacio 4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row justify-content-center text-center mt-4">
+
+                    <!-- Contenido Tabla -->
+                    <div class="col-md-12">
+                        <table class="table table-dark table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Reserva</th>
+                                    <th>Residente</th>
+                                    <th>Fecha y Hora Inicio</th>
+                                    <th>Fecha y Hora Término</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-dark py-3 mt-5">
         <div class="container">
             <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        // Datos de la tabla actualizados
+        const reservaEspacioComun = [
+            { id: 1, residente: 'Juan Pérez', fecha_inicio: '2023-05-15', fecha_termino: '2023-05-16' },
+            { id: 2, residente: 'María García', fecha_inicio: '2023-05-16', fecha_termino: '2023-05-17' },
+            { id: 3, residente: 'Carlos López', fecha_inicio: '2023-05-17', fecha_termino: '2023-05-18' }
+        ];
 
-        // Function to cancel booking
+        // Función para llenar la tabla
+        function llenarTabla(reservaEspacioComun) {
+            const tbody = document.getElementById('bookingTableBody');
+            tbody.innerHTML = ''; // Limpiar la tabla
+
+            reservaEspacioComun.forEach(reservaEC => {
+                const row = document.createElement('tr');                
+                row.innerHTML = `
+                    <td>${reservaEC.id}</td>
+                    <td>${reservaEC.residente}</td>
+                    <td>${new Date(reservaEC.fecha_inicio).toLocaleString()}</td>
+                    <td>${new Date(reservaEC.fecha_termino).toLocaleString()}</td>
+                    <td><button class="btn btn-warning btn-sm" onclick="cancelBooking(${reservaEC.id})">Cancelar Reserva</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Llenar la tabla con los datos
+        llenarTabla(reservaEspacioComun);
+
+        // Evento de selección de condominio
+        document.getElementById('condominiumSelect').addEventListener('change', function() {
+            const selectedCondo = this.value;
+            console.log(`Selected Condominio: ${selectedCondo}`);
+        });
+
+        // Script Botón Cancelar Reserva
         function cancelBooking(bookingId) {
             if (confirm(`¿Estás seguro de que quieres cancelar esta reserva? ID: ${bookingId}`)) {
                 fetch('/cancel-booking', {
@@ -107,51 +143,8 @@
             }
         }
 
-        // Add event listeners to cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                const link = card.getAttribute('data-link');
-                if (link) {
-                    window.location.href = link;
-                }
-            });
-        });
-
-        // Function to populate the booking table
-        function populateBookingTable(bookings) {
-            const tbody = document.getElementById('bookingTableBody');
-            tbody.innerHTML = ''; // Clear existing rows
-            bookings.forEach(booking => {
-                const row = document.createElement('tr');
-                row.setAttribute('data-id', booking.id);
-                
-                row.innerHTML = `
-                    <td>${booking.id}</td>
-                    <td>${booking.reservista}</td>
-                    <td>${new Date(booking.fecha_inicio).toLocaleString()}</td>
-                    <td>${new Date(booking.fecha_termino).toLocaleString()}</td>
-                    <td><button class="btn btn-warning btn-sm" onclick="cancelBooking(${booking.id})">Cancelar Reserva</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // Example mock data
-        const mockBookings = [
-            { id: 1, reservista: 'Juan Pérez', fecha_inicio: '2023-05-15', fecha_termino: '2023-05-16' },
-            { id: 2, reservista: 'María García', fecha_inicio: '2023-05-16', fecha_termino: '2023-05-17' },
-            { id: 3, reservista: 'Carlos López', fecha_inicio: '2023-05-17', fecha_termino: '2023-05-18' }
-        ];
-
-        // Populate the table with mock data
-        populateBookingTable(mockBookings);
-
-        // Add event listener to condominium selection dropdown
-        document.getElementById('condominiumSelect').addEventListener('change', function() {
-            const selectedCondo = this.value;
-            console.log(`Selected Condominio: ${selectedCondo}`);
-            // Here you can add logic to update the common spaces based on the selected condo
-        });
+        // Footer Script
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

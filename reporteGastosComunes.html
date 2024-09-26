@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte - Gastos Comunes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="reporteGastosComunesStyles.css">
+</head>
+<body class="bg-dark">
+    <!-- Header -->
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+        <button type="button" class="btn btn-danger logout-button">Volver</button>
+    </div>
+
+    <!-- Body -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Reporte de Gastos Comunes</h1>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="card">
+            <div class="card-header">Filtros de busqueda</div>
+            <div class="card-body">
+                <div class="row">
+
+                    <!-- Condominio Dropdown -->
+                    <div class="col-md-6">
+                        <label for="condominiumDropdown" class="form-label text-white">Seleccione el condominio:</label>
+                        <select class="form-select" id="condominioDropdown" aria-label="Condominio Selection" required>
+                            <option selected disabled>Seleccione un condominio...</option>
+                            <option value="condominio1">Condominio 1</option>
+                            <option value="condominio2">Condominio 2</option>
+                            <option value="condominio3">Condominio 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Year Dropdown -->
+                    <div class="col-md-6">
+                        <label for="yearDropdown" class="form-label text-white">Seleccione el año:</label>
+                        <select class="form-select" id="yearDropdown" aria-label="Year Selection" required>
+                            <option selected disabled>Seleccione un año...</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <!-- Month Dropdown -->
+                    <div class="mt-3">
+                        <label for="monthDropdown" class="form-label text-white">Seleccione el mes:</label>
+                        <select class="form-select" id="monthDropdown" aria-label="Mes Selection" required>
+                            <option selected disabled>Seleccione un mes...</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-warning w-100 mt-3">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-3 mt-5">
+        <div class="container">
+            <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Footer Script
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
