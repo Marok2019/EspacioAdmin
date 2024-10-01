@@ -1,9 +1,20 @@
+<<<<<<< HEAD
+/* registroResidenteStyles.css */
+=======
+/* pagoGastosComunesStyles.css */
+>>>>>>> jsIF
+
 body {
     font-family: 'Share-TechMono', sans-serif;
+    background-color: black;
     overflow-x: hidden;
-    background-color: #000000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
 }
 
+/* Header */
 .header-container {
     background-color: rgba(255, 255, 255, 0.05);
     padding: 15px;
@@ -11,7 +22,7 @@ body {
 }
 
 .header-logo {
-    width: auto;
+    width: 75px;
     height: auto;
 }
 
@@ -19,18 +30,33 @@ body {
     margin-left: auto;
 }
 
-.form-control {
+/* Card */
+.card {
     background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.card-header {
+    text-align: center;
+    font-size: 18px;
+}
+
+<<<<<<< HEAD
+/* Forms */
 .form-select {
-    background-color: black !important;
-    color: white !important;
+    background-color: white !important;
+    color: black !important;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+::placeholder {
+    color: black !important;
+    opacity: 1;
+}
+
+/* Button */
 .btn-primary {
     background-color: #ff6600;
     border: none;
@@ -38,41 +64,22 @@ body {
 
 .btn-primary:hover {
     background-color: #e0671d;
+=======
+.card-body {
+    color: white;
+>>>>>>> jsIF
 }
 
-.btn-danger {
-    background-color: #dc3545;
-    border: none;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-.btn-success {
-    background-color: #FF6400;
-    border: none;
-}
-.btn-success:hover {
-    background-color: #e65a00;
-}
-
+/* Footer */
 footer {
-    background-color: rgba(255, 255, 255, 0.05);
+    margin-top: auto;
+    background-color: rgba(67, 74, 84, 0.9);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
 }
 
-::placeholder {
-    color: white !important;
-    opacity: 1;
-}
-
-.card {
-    background-color: #352D29;
-    border: none;
-    
-}
-.card-header {
-    background-color: #FF6400;
-    padding-top: 15px;
+.container {
+    flex: 1;
 }

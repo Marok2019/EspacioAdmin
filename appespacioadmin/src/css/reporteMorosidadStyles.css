@@ -1,0 +1,58 @@
+/* reporteMorosidadStyles.css */
+
+body {
+    font-family: 'Share-TechMono', sans-serif;
+    background-color: black;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+/* Header */
+.header-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-logo {
+    width: 75px;
+    height: auto;
+}
+
+.logout-button {
+    margin-left: auto;
+}
+
+/* Card */
+.card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    color: white;
+}
+
+.card-header {
+    text-align: center;
+    font-size: 18px;
+}
+
+.card-body {
+    color: white;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    background-color: rgba(67, 74, 84, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.container {
+    flex: 1;
+}

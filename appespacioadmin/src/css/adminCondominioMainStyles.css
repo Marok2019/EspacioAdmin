@@ -1,4 +1,4 @@
-/* conserjeMainStyles.css */
+/* adminCondominioMainStyles.css */
 
 body {
     font-family: 'Share-TechMono', sans-serif;
@@ -6,25 +6,13 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     overflow-x: hidden;
-    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
-    display: flex; /* Use flexbox to stack content vertically */
-    flex-direction: column; /* Stack content vertically */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: black;
 }
 
-.card img {
-    width: 100px;
-    height: auto;
-    margin: 0 auto;
-}
-
-.card-body {
-    text-align: center;
-}
-
-.btn-primary {
-    width: 100%;
-}
-
+/* Header */
 .header-container {
     background-color: rgba(255, 255, 255, 0.05);
     padding: 15px;
@@ -40,31 +28,40 @@ body {
     margin-left: auto;
 }
 
+/* Cards */
 .card {
     background-color: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     transition: transform 0.3s ease;
+    padding-top: 10px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.card img {
+    width: 100px;
+    height: auto;
+    margin: 0 auto;
 }
 
 .card-body {
-    color: #F5F5DC;
+    text-align: center;
+    color: white;
 }
 
-/* New styles to force footer to bottom */
-.container {
-    flex: 1; /* Allow the container to grow and push the footer down */
+.card:hover {
+    transform: translateY(10px);
 }
 
+/* Footer */
 footer {
-    margin-top: auto; /* Push the footer to the bottom */
-    background-color: #434A54; /* Dark gray background */
-    color: #F5F5DC; /* Bone white text color */
+    margin-top: auto;
+    background-color: #434A54;
+    color: #FFF;
     padding: 10px 0;
     text-align: center;
+}
+
+.container {
+    flex: 1;
 }

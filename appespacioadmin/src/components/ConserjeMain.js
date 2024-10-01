@@ -1,85 +1,91 @@
-// src/components/ConserjeMain.js
-import React, { useEffect } from 'react';
-import '../css/conserjeMainStyles.css'; // Ensure your CSS file is imported
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
+// Importa las imágenes
+import imgGestionEspacios from '../images/img-gestionEquipos.png'; 
+import imgEstacionamiento from '../images/img-ajuste.png'; 
+import imgReservarEspacios from '../images/img-calendario.png'; 
+import imgReportarGastos from '../images/img-administrativo.png'; 
+import imgConsultarGastos from '../images/img-gasto.png'; 
 
 const ConserjeMain = () => {
-    useEffect(() => {
-        // Set the current year in the footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    }, []);
-
-    const handleLogout = () => {
-        window.location.href = 'auth.html'; // Redirect to the login page
-    };
-
-    const handleCardClick = (link) => {
-        window.location.href = link; // Redirect to the appropriate page
-    };
+    const navigate = useNavigate();
 
     return (
-        <div className="bg-dark">
-            {/* New header section */}
+        <div className="bg-dark d-flex flex-column min-vh-100">
+            {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img
                     src="https://i.ibb.co/FW5SBG3/logo-no-background.png"
                     alt="Logo"
                     className="header-logo"
                 />
-                <button type="button" className="btn btn-danger logout-button" onClick={handleLogout}>
-                    Cerrar Sesión
+                <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/auth')}>
+                    Volver
                 </button>
             </div>
 
-            <div className="container mt-5">
+            {/* Body */}
+            <div className="container mt-5 flex-grow-1">
                 <div className="row justify-content-center">
                     <div className="col-md-10">
-                        <h1 className="text-center">Bienvenido/a, Conserje</h1>
+                        <h1 className="text-center text-white">Bienvenido/a, Conserje</h1>
                     </div>
                 </div>
 
+                {/* Cards */}
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
-                    <div className="col" onClick={() => handleCardClick('gestionUsoEspaciosComunes.html')}>
-                        <div className="card">
-                            <img src="gestion-de-equipos.png" alt="Gestionar uso - Espacios Comunes" />
+                    {/* Gestionar Espacios Comunes Card */}
+                    <div className="col">
+                        <div className="card transparent-card" onClick={() => navigate('/gestionUsoEspaciosComunes')}>
+                            <img src={imgGestionEspacios} alt="Gestionar Uso - Espacios Comunes" />
                             <div className="card-body">
-                                <h5 className="card-title">Gestionar uso - Espacios Comunes</h5>
+                                <h5 className="card-title">Gestionar Uso - Espacios Comunes</h5>
                                 <p className="card-text">Acceso rápido a la gestión de espacios comunes.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="col" onClick={() => handleCardClick('gestionParkingVisitas.html')}>
-                        <div className="card">
-                            <img src="ajuste.png" alt="Gestionar uso - Estacionamiento Visitas" />
+
+                    {/* Gestionar Estacionamiento Visitas Card */}
+                    <div className="col">
+                        <div className="card transparent-card" onClick={() => navigate('/gestionParkingVisitas')}>
+                            <img src={imgEstacionamiento} alt="Gestionar Uso - Estacionamiento Visitas" />
                             <div className="card-body">
-                                <h5 className="card-title">Gestionar uso - Estacionamiento Visitas</h5>
+                                <h5 className="card-title">Gestionar Uso - Estacionamiento Visitas</h5>
                                 <p className="card-text">Administración rápida del estacionamiento visitas.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="col" onClick={() => handleCardClick('reservaEspaciosComunes.html')}>
-                        <div className="card">
-                            <img src="cita.png" alt="Reserva - Espacios Comunes" />
+
+                    {/* Reserva Espacios Comunes Card */}
+                    <div className="col">
+                        <div className="card transparent-card" onClick={() => navigate('/reservaEspaciosComunes')}>
+                            <img src={imgReservarEspacios} alt="Reservar - Espacios Comunes" />
                             <div className="card-body">
-                                <h5 className="card-title">Reserva - Espacios Comunes</h5>
+                                <h5 className="card-title">Reservar - Espacios Comunes</h5>
                                 <p className="card-text">Facilidad para reservar espacios comunes.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="col" onClick={() => handleCardClick('reportarGastosComunes.html')}>
-                        <div className="card">
-                            <img src="administrativo.png" alt="Reportar - Gastos Comunes" />
+
+                    {/* Reportar GGCC Card */}
+                    <div className="col">
+                        <div className="card transparent-card" onClick={() => navigate('/reporteGastosComunes')}>
+                            <img src={imgReportarGastos} alt="Reportar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar - Gastos Comunes</h5>
                                 <p className="card-text">Generación rápida de reportes de gastos comunes.</p>
                             </div>
                         </div>
                     </div>
-                    <div className="col" onClick={() => handleCardClick('gestionGastosComunes.html')}>
-                        <div className="card">
-                            <img src="gasto.png" alt="Buscar - Gastos Comunes" />
+
+                    {/* Consultar GGCC Card */}
+                    <div className="col">
+                        <div className="card transparent-card" onClick={() => navigate('/consultaGastosComunes')}>
+                            <img src={imgConsultarGastos} alt="Consultar - Gastos Comunes" />
                             <div className="card-body">
-                                <h5 className="card-title">Buscar - Gastos Comunes</h5>
+                                <h5 className="card-title">Consultar - Gastos Comunes</h5>
                                 <p className="card-text">Búsqueda eficiente de gastos comunes.</p>
                             </div>
                         </div>
@@ -87,9 +93,10 @@ const ConserjeMain = () => {
                 </div>
             </div>
 
-            <footer className="bg-dark py-3 mt-5">
+            {/* Footer */}
+            <footer className="bg-dark py-3 mt-auto">
                 <div className="container">
-                    <p className="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+                    <p className="text-center text-white">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
                 </div>
             </footer>
         </div>

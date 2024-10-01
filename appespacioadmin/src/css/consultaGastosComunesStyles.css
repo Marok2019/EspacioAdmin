@@ -1,8 +1,16 @@
+/* consultaGastosComunesStyles.css */
+
 body {
     font-family: 'Share-TechMono', sans-serif;
+    background-color: black;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
 }
 
+/* Header */
 .header-container {
     background-color: rgba(255, 255, 255, 0.05);
     padding: 15px;
@@ -18,28 +26,33 @@ body {
     margin-left: auto;
 }
 
+/* Card */
 .card {
     background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    padding: 10px;
+    color: white;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.card-header {
+    text-align: center;
+    font-size: 18px;
 }
 
 .card-body {
-    color: #F5F5DC;
+    color: white;
 }
 
-.table-dark th {
-    background-color: #FF7F27 !important;
-    color: white !important;
+/* Footer */
+footer {
+    margin-top: auto;
+    background-color: rgba(67, 74, 84, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
 }
 
-.table-dark td {
-    background-color: #dbdbdb !important;
-    color: black !important;
+.container {
+    flex: 1;
 }

@@ -1,106 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EspacioAdmin - Conserje</title>
+    <title>Gestión - Parking Visitas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="gestionParkingVisitas.css">
+    <link rel="stylesheet" href="gestionParkingVisitasStyles.css">
 </head>
 <body class="bg-dark">
-    <!-- Header section -->
+    <!-- Header -->
     <div class="header-container d-flex align-items-center">
         <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-        <button type="button" class="btn btn-danger logout-button">Cerrar Sesión</button>
+        <button type="button" class="btn btn-danger logout-button">Volver</button>
     </div>
 
+    <!-- Body -->
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h1 class="text-center">Gestión Estacionamiento Visitas</h1>
+                <h1 class="text-center">Gestión de Estacionamiento de Visitas</h1>
             </div>
         </div>
 
-        <!-- Condo Selection Dropdown -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <select class="form-select form-select-lg mb-3" id="condoSelect" aria-label=".form-select-lg example">
-                    <option selected>Seleccione el Condominio</option>
-                    <option value="condominio1">Condominio 1</option>
-                    <option value="condominio2">Condominio 2</option>
-                    <option value="condominio3">Condominio 3</option>
-                </select>
-            </div>
-        </div>
+        <!-- Formulario -->
+        <div class="card">
+            <div class="card-header">Filtros de busqueda</div>
+            <div class="card-body">
+                <div class="row">
 
-        <!-- Parking Spot Selection -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>Parking Spot</option>
-                    <option value="spot1">Spot 1</option>
-                    <option value="spot2">Spot 2</option>
-                    <option value="spot3">Spot 3</option>
-                    <option value="spot4">Spot 4</option>
-                </select>
+                <!-- Condominio Dropdown -->
+                <div class="mb-3">
+                    <label for="condominiumDropdown" class="form-label text-white">Seleccione el condominio:</label>
+                    <select class="form-select" id="condominioDropdown" aria-label="Condominio Selection" required>
+                        <option selected disabled>Seleccione un condominio...</option>
+                        <option value="condominio1">Condominio 1</option>
+                        <option value="condominio2">Condominio 2</option>
+                        <option value="condominio3">Condominio 3</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        
-        <!-- Booking Table -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-12">
-                <table class="table table-dark table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID Reserva</th>
-                            <th>Titular</th>
-                            <th>Fecha y Hora Inicio</th>
-                            <th>Fecha y Hora Término</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bookingTableBody">
-                        <!-- Placeholder rows will be added dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <div class="row">
 
-        <!-- Return to conserjeMain.html button -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-4">
-                <a href="conserjeMain.html" class="btn btn-primary btn-lg w-100">Regresar al Menú Principal</a>
+                <!-- Common Space Selection -->
+                <div class="mb-3">
+                    <label for="espacioDropdown" class="form-label text-white">Seleccione el estacionamiento:</label>
+                    <select class="form-select" id="espacioDropdown" aria-label=".form-select-lg example">
+                        <option selected>Seleccione un estacionamiento...</option>
+                        <option value="space1">Espacio 1</option>
+                        <option value="space2">Espacio 2</option>
+                        <option value="space3">Espacio 3</option>
+                        <option value="space4">Espacio 4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center mt-4">
+
+                <!-- Contenido Tabla -->
+                <div class="col-md-12">
+                    <table class="table table-dark table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID Reserva</th>
+                                <th>Titular</th>
+                                <th>Fecha y Hora Inicio</th>
+                                <th>Fecha y Hora Término</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parkingTableBody">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-dark py-3 mt-5">
         <div class="container">
             <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        // Datos de la tabla actualizados
+        const reservaEstacionamiento = [
+            { id: 1, titular: 'Juan Pérez', fecha_inicio: '2023-05-15', hora_inicio: '08:00', fecha_termino: '2023-05-16', hora_termino: '18:00' },
+            { id: 2, titular: 'María García', fecha_inicio: '2023-05-16', hora_inicio: '09:30', fecha_termino: '2023-05-17', hora_termino: '19:30' },
+            { id: 3, titular: 'Carlos López', fecha_inicio: '2023-05-17', hora_inicio: '11:00', fecha_termino: '2023-05-18', hora_termino: '21:00' }
+        ];
 
-        // Function to cancel booking
-        function cancelBooking(bookingId) {
-            if (confirm(`¿Estás seguro de que quieres cancelar esta reserva? ID: ${bookingId}`)) {
-                // Send AJAX request to cancel the booking
+        // Función para llenar la tabla
+        function llenarTabla(reservaEstacionamiento) {
+            const tbody = document.getElementById('parkingTableBody');
+            tbody.innerHTML = ''; // Limpiar la tabla
+
+            reservaEstacionamiento.forEach(estacionamiento => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${estacionamiento.id}</td>
+                    <td>${estacionamiento.titular}</td>
+                    <td>${estacionamiento.fecha_inicio} ${estacionamiento.hora_inicio}</td>
+                    <td>${estacionamiento.fecha_termino} ${estacionamiento.hora_termino}</td>
+                    <td><button class="btn btn-warning btn-sm" onclick="cancelBooking(${estacionamiento.id})">Cancelar Reserva</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Llenar la tabla con los datos
+        llenarTabla(reservaEstacionamiento);
+        
+        // Evento de selección de condominio
+        document.getElementById('condominiumSelect').addEventListener('change', function() {
+            const selectedCondo = this.value;
+            console.log(`Selected Condominio: ${selectedCondo}`);
+        });
+        
+        // Script Botón Cancelar Reserva
+        function cancelBooking(estacionamientoId) {
+            if (confirm(`¿Estás seguro de que quieres cancelar esta reserva? ID: ${estacionamientoId}`)) {
                 fetch('/cancel-booking', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ id: bookingId })
+                    body: JSON.stringify({ id: estacionamientoId })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         alert('Reserva cancelada exitosamente.');
-                        // Remove the row from the table
-                        document.querySelector(`tr[data-id="${bookingId}"]`).remove();
+                        document.querySelector(`tr[data-id="${estacionamientoId}"]`).remove();
                     } else {
                         alert('Error al cancelar la reserva.');
                     }
@@ -109,51 +142,8 @@
             }
         }
 
-        // Add event listeners to cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => {
-                const link = card.getAttribute('data-link');
-                if (link) {
-                    window.location.href = link;
-                }
-            });
-        });
-
-        // Function to populate the booking table
-        function populateBookingTable(bookings) {
-            const tbody = document.getElementById('bookingTableBody');
-            tbody.innerHTML = ''; // Clear existing rows
-            bookings.forEach(booking => {
-                const row = document.createElement('tr');
-                row.setAttribute('data-id', booking.id);
-                
-                row.innerHTML = `
-                    <td>${booking.id}</td>
-                    <td>${booking.titular}</td>
-                    <td>${booking.fecha_inicio} ${booking.hora_inicio}</td>
-                    <td>${booking.fecha_termino} ${booking.hora_termino}</td>
-                    <td><button class="btn btn-warning btn-sm" onclick="cancelBooking(${booking.id})">Cancelar Reserva</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // Example mock data
-        const mockBookings = [
-            { id: 1, titular: 'Juan Pérez', fecha_inicio: '2023-05-15', hora_inicio: '08:00', fecha_termino: '2023-05-16', hora_termino: '18:00' },
-            { id: 2, titular: 'María García', fecha_inicio: '2023-05-16', hora_inicio: '09:30', fecha_termino: '2023-05-17', hora_termino: '19:30' },
-            { id: 3, titular: 'Carlos López', fecha_inicio: '2023-05-17', hora_inicio: '11:00', fecha_termino: '2023-05-18', hora_termino: '21:00' }
-        ];
-
-        // Populate the table with mock data
-        populateBookingTable(mockBookings);
-
-        // Add event listener to condo selection dropdown
-        document.getElementById('condoSelect').addEventListener('change', function() {
-            const selectedCondo = this.value;
-            console.log(`Selected Condominio: ${selectedCondo}`);
-            // Here you can add logic to update the parking spots based on the selected condo
-        });
+        // Footer Script
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

@@ -3,243 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EspacioAdmin</title>
+    <title>Administrar - Residentes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="administrarUsuariosStyles.css">
 </head>
-<body>
-<header>
-    <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
-    <button id="backButton">Volver</button>
-</header>
-
-<div class="manage-users">
-    <img src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png" alt="user icon">
-    Administrar Usuarios
-</div>
-
-<div id="search-container">
-    <input type="text" id="searchInput" placeholder="Buscar...">
-    <button id="addUserButton">Añadir Usuario</button>
-</div>
-
-<div id="user-list">
-    <div class="user-card">
-        <div class="user-info">
-            <p>Nombre Usuario: Juan Pérez Valenzuela</p>
-            <p>Condominio: Los Robles</p>
-            <p>Correo electrónico: juan.perez@example.com</p>
-        </div>
-        <div class="actions">
-            <button class="edit-button"><img src="https://cdn-icons-png.flaticon.com/512/1160/1160515.png" alt="edit icon"></button>
-            <button class="delete-button"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png" alt="delete icon"></button>
-        </div>
+<body class="bg-dark">
+    <!-- Header -->
+    <div class="header-container d-flex align-items-center">
+        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" class="header-logo">
+        <button type="button" class="btn btn-danger logout-button">Volver</button>
     </div>
-</div>
 
-<div id="addUserModal" class="modal">
-    <div class="modal-content">
-        <span id="closeAddUserModal" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">X</span>
-        <h2>Añadir Usuario</h2>
-        <input type="text" id="nameInput" placeholder="Nombres">
-        <p class="error-message" id="nameError">Por favor, rellena este campo</p>
-        <input type="text" id="surnameInput" placeholder="Apellidos">
-        <p class="error-message" id="surnameError">Por favor, rellena este campo</p>
-        <input type="email" id="emailInput" placeholder="Correo">
-        <p class="error-message" id="emailError">Por favor, rellena este campo</p>
-        <input type="text" id="condoInput" placeholder="Condominio">
-        <p class="error-message" id="condoError">Por favor, rellena este campo</p>
-        <button id="saveUserButton">Guardar Usuario</button>
-    </div>
-</div>
-
-<div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <p>¿Estás seguro de que quieres eliminar este usuario?</p>
-        <div class="delete-confirmation">
-            <button class="yes">Sí</button>
-            <button class="no">No</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.getElementById('backButton').addEventListener('click', function() {
-        alert('Volver al menú anterior');
-    });
-
-    document.getElementById('addUserButton').addEventListener('click', function() {
-        document.getElementById('addUserModal').style.display = 'flex';
-    });
-
-    document.getElementById('closeAddUserModal').addEventListener('click', function() {
-        document.getElementById('addUserModal').style.display = 'none';
-    });
-
-    document.getElementById('saveUserButton').addEventListener('click', function() {
-        const name = document.getElementById('nameInput').value.trim();
-        const surname = document.getElementById('surnameInput').value.trim();
-        const email = document.getElementById('emailInput').value.trim();
-        const condo = document.getElementById('condoInput').value.trim();
-
-        let hasError = false;
-
-        if (!name) {
-            document.getElementById('nameError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('nameError').style.display = 'none';
-        }
-
-        if (!surname) {
-            document.getElementById('surnameError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('surnameError').style.display = 'none';
-        }
-
-        if (!email) {
-            document.getElementById('emailError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('emailError').style.display = 'none';
-        }
-
-        if (!condo) {
-            document.getElementById('condoError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('condoError').style.display = 'none';
-        }
-
-        if (hasError) {
-            return;
-        }
-
-        const newUserCard = document.createElement('div');
-        newUserCard.className = 'user-card';
-        newUserCard.innerHTML = `
-            <div class="user-info">
-                <p>Nombre Usuario: ${name} ${surname}</p>
-                <p>Condominio: ${condo}</p>
-                <p>Correo electrónico: ${email}</p>
+    <!-- Body -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Administrar Usuarios</h1>
             </div>
-            <div class="actions">
-                <button class="edit-button"><img src="https://cdn-icons-png.flaticon.com/512/1160/1160515.png" alt="edit icon"></button>
-                <button class="delete-button"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096687.png" alt="delete icon"></button>
+        </div>
+
+        <!-- Formulario -->
+        <div class="card">
+            <div class="card-header">Filtros de administración</div>
+            <div class="card-body">
+                <div class="row justify-content-center text-center mt-4">
+
+                    <!-- Contenido Tabla -->
+                    <div class="col-md-12">
+                        <table class="table table-dark table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Edad</th>
+                                    <th>Dirección</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="residentTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        `;
-        document.getElementById('user-list').appendChild(newUserCard);
+        </div>
+    </div>
 
-        document.getElementById('nameInput').value = '';
-        document.getElementById('surnameInput').value = '';
-        document.getElementById('emailInput').value = '';
-        document.getElementById('condoInput').value = '';
+    <!-- Footer -->
+    <footer class="bg-dark py-3 mt-5">
+        <div class="container">
+            <p class="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+        </div>
+    </footer>
 
-        document.getElementById('addUserModal').style.display = 'none';
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Datos de la tabla actualizados
+        const residentes = [
+            { id: 1, nombre: "Juan Pérez", edad: 30, direccion: "Av. Siempreviva 123" },
+            { id: 2, nombre: "María García", edad: 40, direccion: "Av. Siempreviva 456" },
+            { id: 3, nombre: "Carlos López", edad: 50, direccion: "Av. Siempreviva 789" }
+        ];
 
-        assignEditButtonEvent(newUserCard.querySelector('.edit-button'));
-        assignDeleteButtonEvent(newUserCard.querySelector('.delete-button'));
-    });
+        // Función para llenar la tabla
+        function llenarTabla() {
+            const tbody = document.getElementById('residentTableBody');
+            if (!tbody) {
+                console.error('El elemento con id "residentTableBody" no se encontró.');
+                return;
+            }
+            tbody.innerHTML = ''; // Limpiar la tabla
 
-    let userCardToDelete = null;
-
-    function assignDeleteButtonEvent(deleteButton) {
-        deleteButton.addEventListener('click', function() {
-            userCardToDelete = this.closest('.user-card');
-            document.getElementById('deleteModal').style.display = 'flex';
-        });
-    }
-
-    document.querySelectorAll('.delete-button').forEach(assignDeleteButtonEvent);
-
-    document.querySelector('.delete-confirmation .yes').addEventListener('click', function() {
-        if (userCardToDelete) {
-            userCardToDelete.remove();
-            userCardToDelete = null;
-        }
-        document.getElementById('deleteModal').style.display = 'none';
-    });
-
-    document.querySelector('.delete-confirmation .no').addEventListener('click', function() {
-        document.getElementById('deleteModal').style.display = 'none';
-    });
-
-    function assignEditButtonEvent(editButton) {
-        editButton.addEventListener('click', function() {
-            const userCard = this.closest('.user-card');
-            const userInfo = userCard.querySelector('.user-info');
-
-            const nameField = userInfo.querySelector('p:nth-child(1)');
-            const condoField = userInfo.querySelector('p:nth-child(2)');
-            const emailField = userInfo.querySelector('p:nth-child(3)');
-
-            const nameValue = nameField.textContent.split(':')[1].trim();
-            const condoValue = condoField.textContent.split(':')[1].trim();
-            const emailValue = emailField.textContent.split(':')[1].trim();
-
-            nameField.innerHTML = `Nombre Usuario: <input type="text" value="${nameValue}">`;
-            condoField.innerHTML = `Condominio: <input type="text" value="${condoValue}">`;
-            emailField.innerHTML = `Correo electrónico: <input type="text" value="${emailValue}">`;
-
-            const confirmButton = document.createElement('button');
-            confirmButton.textContent = 'Confirmar';
-            confirmButton.style.marginLeft = '10px';
-            confirmButton.style.backgroundColor = '#4caf50';
-            confirmButton.style.border = 'none';
-            confirmButton.style.padding = '5px 10px';
-            confirmButton.style.color = 'white';
-            confirmButton.style.cursor = 'pointer';
-            confirmButton.style.borderRadius = '5px';
-
-            userInfo.appendChild(confirmButton);
-
-            confirmButton.addEventListener('click', function() {
-                const newNameValue = nameField.querySelector('input').value;
-                const newCondoValue = condoField.querySelector('input').value;
-                const newEmailValue = emailField.querySelector('input').value;
-
-                nameField.innerHTML = `Nombre Usuario: ${newNameValue}`;
-                condoField.innerHTML = `Condominio: ${newCondoValue}`;
-                emailField.innerHTML = `Correo electrónico: ${newEmailValue}`;
-
-                confirmButton.remove();
+            residentes.forEach(residente => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${residente.id}</td>
+                    <td>${residente.nombre}</td>
+                    <td>${residente.edad}</td>
+                    <td>${residente.direccion}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm mr-1" onclick="editarResidente(${residente.id})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarResidente(${residente.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
             });
-        });
-    }
+        }
 
-    document.querySelectorAll('.edit-button').forEach(assignEditButtonEvent);
+        // Llenar la tabla con los datos al cargar la página
+        llenarTabla();
 
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchValue = this.value.toLowerCase();
-        const userCards = document.querySelectorAll('.user-card');
+        // Función para editar un residente
+        function editarResidente(id) {
+            const residente = residentes.find(r => r.id === id);
+            if (residente) {
+                const nuevoNombre = prompt("Ingrese el nuevo nombre:", residente.nombre);
+                const nuevaEdad = prompt("Ingrese la nueva edad:", residente.edad);
+                const nuevaDireccion = prompt("Ingrese la nueva dirección:", residente.direccion);
 
-        let found = false;
-        userCards.forEach(card => {
-            const userInfo = card.querySelector('.user-info').textContent.toLowerCase();
-            if (userInfo.includes(searchValue)) {
-                card.style.display = 'flex';
-                found = true;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        const noResultMessage = document.getElementById('noResultMessage');
-        if (!found) {
-            if (!noResultMessage) {
-                const noResultMessage = document.createElement('p');
-                noResultMessage.id = 'noResultMessage';
-                noResultMessage.style.textAlign = 'center';
-                noResultMessage.textContent = 'No se encuentra este usuario :(';
-                document.getElementById('user-list').appendChild(noResultMessage);
-            }
-        } else {
-            if (noResultMessage) {
-                noResultMessage.remove();
+                if (nuevoNombre && nuevaEdad && nuevaDireccion) {
+                    residente.nombre = nuevoNombre;
+                    residente.edad = parseInt(nuevaEdad);
+                    residente.direccion = nuevaDireccion;
+                    llenarTabla(); // Actualizar la tabla después de editar
+                }
             }
         }
-    });
-</script>
 
+        // Función para eliminar un residente
+        function eliminarResidente(id) {
+            const index = residentes.findIndex(r => r.id === id);
+            if (index !== -1) {
+                if (confirm("¿Está seguro de que desea eliminar este residente?")) {
+                    residentes.splice(index, 1);
+                    llenarTabla(); // Actualizar la tabla después de eliminar
+                }
+            }
+        }
+
+        // Footer Script
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

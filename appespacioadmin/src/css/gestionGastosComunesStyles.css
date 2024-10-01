@@ -1,23 +1,16 @@
+/* gestionGastosComunesStyles.css */
+
 body {
     font-family: 'Share-TechMono', sans-serif;
+    background-color: black;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
 }
 
-.card img {
-    width: 100px;
-    height: auto;
-    margin: 0 auto;
-}
-
-.card-body {
-    text-align: center;
-}
-
-.btn-primary {
-    width: 100%;
-}
-
-/* Added styles for the header */
+/* Header */
 .header-container {
     background-color: rgba(255, 255, 255, 0.05);
     padding: 15px;
@@ -33,24 +26,33 @@ body {
     margin-left: auto;
 }
 
-/* Added transparency effect for cards */
+/* Card */
 .card {
     background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    padding: 10px;
+    color: white;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.card-header {
+    text-align: center;
+    font-size: 18px;
 }
 
-/* Changed card text color to bone white */
 .card-body {
-    color: #F5F5DC;
+    color: white;
 }
 
-.text-center {
-    color: #F5F5DC; /* Bone white */
+/* Footer */
+footer {
+    margin-top: auto;
+    background-color: rgba(67, 74, 84, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.container {
+    flex: 1;
 }
