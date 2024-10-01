@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Importación de componentes
 import AdjuntarBoleta from './components/AdjuntarBoleta';
+import AdminCondominioMain from './components/AdminCondominioMain';
 import AdministrarCondominios from './components/AdministrarCondominios';
 import AdministrarResidentes from './components/AdministrarResidentes';
-import AdminCondominioMain from './components/AdminCondominioMain';
 import Auth from './components/Auth';
 import ConserjeMain from './components/ConserjeMain';
 import ConsultaGastosComunes from './components/ConsultaGastosComunes';
@@ -16,7 +16,6 @@ import GestionUsoEspaciosComunes from './components/GestionUsoEspaciosComunes';
 import PagoGastosComunes from './components/PagoGastosComunes';
 import RegistroResidente from './components/RegistroResidente';
 import ReportarGastosComunes from './components/ReporteGastosComunes';
-import ReportarMorosidad from './components/ReportarMorosidad';
 import ReporteMorosidad from './components/ReporteMorosidad';
 import ReporteUsoEspaciosComunes from './components/ReporteUsoEspaciosComunes';
 import ReservaEspaciosComunes from './components/ReservaEspaciosComunes';
@@ -27,20 +26,23 @@ import SuperAdminMain from './components/SuperAdminMain';
 import './css/adjuntarBoletaStyles.css';
 import './css/adminCondominioMainStyles.css';
 import './css/administrarCondominiosStyles.css';
-import './css/administrarUsuariosStyles.css';
+import './css/administrarUsuariosStyles.css'; // Para Administrar Usuarios
 import './css/auth.css';
 import './css/conserjeMainStyles.css';
+import './css/consultaGastosComunesStyles.css';
+import './css/directivaMainStyles.css';
 import './css/gestionGastosComunesStyles.css';
+import './css/gestionParkingVisitasStyles.css';
+import './css/gestionUsoEspaciosComunesStyles.css';
 import './css/pagoGastosComunesStyles.css';
 import './css/registroResidenteStyles.css';
-import './css/reportarGastosComunesStyles.css';
-import './css/reportarMorosidadStyles.css';
+import './css/reporteGastosComunesStyles.css';
 import './css/reporteMorosidadStyles.css'; 
 import './css/reporteUsoEspaciosComunesStyles.css';
 import './css/reservaEspaciosComunesStyles.css';
-import './css/residenteMainStyles.css'
-import './css/superAdminMainStyles.css'; // Importing the CSS for ReporteUsoEspaciosComunes
-// Importing the CSS for ReporteMorosidad
+import './css/residenteMainStyles.css';
+import './css/superAdminMainStyles.css';
+
 
 
 const App = () => {
