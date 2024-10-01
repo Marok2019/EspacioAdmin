@@ -1,17 +1,19 @@
+// src/App.js
 import React from 'react';
-import './App.css';  // Si tienes algún estilo global en App.css
-import LoginPage from './components/LoginPage';  // Importamos el componente LoginPage
-import AdjuntarBoleta from './components/AdjuntarBoleta';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login'; // Import the Login component
+import ConserjeMain from './components/ConserjeMain'; // Import the main component
 
-
-function App() {
-  return (
-    <div className="App">
-      <LoginPage />
-      <AdjuntarBoleta />
-    </div>
-  );
-}
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/conserjeMain" element={<ConserjeMain />} />
+                {/* Add other routes here */}
+            </Routes>
+        </Router>
+    );
+};
 
 export default App;
