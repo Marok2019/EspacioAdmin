@@ -63,7 +63,6 @@ const App = () => {
                 <Route path="/pago-gastos-comunes" element={<PagoGastosComunes />} />
                 <Route path="/registro-residente" element={<RegistroResidente />} />
                 <Route path="/reportar-gastos-comunes" element={<ReportarGastosComunes />} />
-                <Route path="/reportar-morosidad" element={<ReportarMorosidad />} />
                 <Route path="/reporte-morosidad" element={<ReporteMorosidad />} /> // Route for ReporteMorosidad
                 <Route path="/reporte-uso-espacios-comunes" element={<ReporteUsoEspaciosComunes />} /> // Route for ReporteUsoEspaciosComunes
                 <Route path="/reservar-espacio-comun" element={<ReservaEspaciosComunes />} />
