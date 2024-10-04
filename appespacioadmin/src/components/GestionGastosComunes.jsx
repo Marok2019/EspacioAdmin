@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../images/logo-no-background.png'; // Update the path according to your structure
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para manejar la navegación
+import logo from '../images/logo-no-background.png'; // Actualiza la ruta según la ubicación de tu imagen
 
 const GestionGastosComunes = () => {
     const [pagos, setPagos] = useState([]);
     const [selectedCondo, setSelectedCondo] = useState('');
+    const navigate = useNavigate(); // Hook para la navegación
 
     useEffect(() => {
-        // Simulate fetching data (replace with actual data fetching logic)
+        // Simula la obtención de datos (reemplaza con la lógica de obtención de datos real)
         const datosPagos = [
             { id: 1, residente: 'Juan Perez', estado: 'Pagado', fecha: new Date().toLocaleDateString() },
             { id: 2, residente: 'María García', estado: 'Pagado', fecha: new Date().toLocaleDateString() },
@@ -21,12 +23,37 @@ const GestionGastosComunes = () => {
         console.log(`Selected Condominio: ${selectedCondoValue}`);
     };
 
+    // Función para manejar el clic en "Volver"
+    const handleGoBack = () => {
+        navigate('/admin-condominio');
+    };
+
+    // Función para manejar el cierre de sesión
+    const handleLogout = () => {
+        navigate('/auth');
+    };
+
     return (
         <div className="bg-dark">
             {/* Header */}
-            <div className="header-container d-flex align-items-center">
+            <div className="header-container d-flex align-items-center justify-content-between">
                 <img src={logo} alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                <div>
+                    <button
+                        type="button"
+                        className="btn btn-secondary me-2"
+                        onClick={handleGoBack} // Llama a la función para ir a "admin-condominio"
+                    >
+                        Volver
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={handleLogout} // Llama a la función para cerrar sesión
+                    >
+                        Cerrar Sesión
+                    </button>
+                </div>
             </div>
 
             {/* Body */}

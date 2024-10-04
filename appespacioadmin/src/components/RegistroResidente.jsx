@@ -1,12 +1,36 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RegistroResidente = () => {
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+        navigate('/admin-condominio'); // Redirect to AdminCondominio
+    };
+
+    const handleLogout = () => {
+        navigate('/auth'); // Redirect to Auth
+    };
+
     return (
         <div className="bg-dark">
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                <button 
+                    type="button" 
+                    className="btn btn-danger logout-button" 
+                    onClick={handleBack}
+                >
+                    Volver
+                </button>
+                <button 
+                    type="button" 
+                    className="btn btn-danger logout-button ms-2" 
+                    onClick={handleLogout}
+                >
+                    Cerrar Sesión
+                </button>
             </div>
 
             {/* Body */}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PagoGastosComunes = () => {
     const [condominio, setCondominio] = useState('');
@@ -7,6 +8,7 @@ const PagoGastosComunes = () => {
     const [montoPago, setMontoPago] = useState('');
     const [metodoPago, setMetodoPago] = useState('');
     const [mostrarCardInfo, setMostrarCardInfo] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Set the current year for the footer
@@ -36,7 +38,12 @@ const PagoGastosComunes = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/residente-main')}>
+                    Volver
+                </button>
+                <button type="button" className="btn btn-danger logout-button ms-2" onClick={() => navigate('/auth')}>
+                    Cerrar Sesión
+                </button>
             </div>
 
             {/* Body */}

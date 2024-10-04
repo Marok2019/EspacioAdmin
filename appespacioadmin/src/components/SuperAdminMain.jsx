@@ -2,7 +2,10 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import imgAdministrar from '../images/img-administrar.png'; // Adjust the path as necessary
+import imgGestionInstalaciones from '../images/img-gestionInstalaciones.png'; // Adjust the path as necessary
+import imgGestionEquipos from '../images/img-gestionEquipos.png'; // Adjust the path as necessary
+import imgAdministrativo from '../images/img-administrativo.png'; // Adjust the path as necessary
 
 const SuperAdminMain = () => {
     const navigate = useNavigate();
@@ -32,8 +35,8 @@ const SuperAdminMain = () => {
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
                     {/* Administrar Usuarios Card */}
                     <div className="col">
-                        <div className="card" onClick={() => navigate('/administrar-usuarios')}>
-                            <img src="img-administrar.png" alt="Administrar - Usuarios" />
+                        <div className="card" onClick={() => navigate('/administrar-residentes')}>
+                            <img src={imgAdministrar} alt="Administrar - Usuarios" />
                             <div className="card-body">
                                 <h5 className="card-title">Administrar - Usuarios</h5>
                                 <p className="card-text">Gestiona la información y permisos de los usuarios del sistema.</p>
@@ -44,7 +47,7 @@ const SuperAdminMain = () => {
                     {/* Administrar Condominios Card */}
                     <div className="col">
                         <div className="card" onClick={() => navigate('/administrar-condominios')}>
-                            <img src="img-gestionInstalaciones.png" alt="Administrar - Condominios" />
+                            <img src={imgGestionInstalaciones} alt="Administrar - Condominios" />
                             <div className="card-body">
                                 <h5 className="card-title">Administrar - Condominios</h5>
                                 <p className="card-text">Administra la información y configuraciones de los condominios.</p>
@@ -54,8 +57,8 @@ const SuperAdminMain = () => {
 
                     {/* Reportar Uso de Espacios Card */}
                     <div className="col">
-                        <div className="card" onClick={() => navigate('/reportar-uso-espacios-comunes')}>
-                            <img src="img-gestionEquipos.png" alt="Reportar Uso - Espacios Comunes" />
+                        <div className="card" onClick={() => navigate('/reporte-uso-espacios-comunes')}>
+                            <img src={imgGestionEquipos} alt="Reportar Uso - Espacios Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar Uso - Espacios Comunes</h5>
                                 <p className="card-text">Genera reportes sobre el uso de los espacios comunes.</p>
@@ -66,7 +69,7 @@ const SuperAdminMain = () => {
                     {/* Reportar GGCC Card */}
                     <div className="col">
                         <div className="card" onClick={() => navigate('/reportar-gastos-comunes')}>
-                            <img src="img-administrativo.png" alt="Reportar - Gastos Comunes" />
+                            <img src={imgAdministrativo} alt="Reportar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar - Gastos Comunes</h5>
                                 <p className="card-text">Generación rápida de reportes de gastos comunes.</p>

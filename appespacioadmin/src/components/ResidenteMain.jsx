@@ -2,6 +2,10 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import imgCalendario from '../images/img-calendario.png'; // Adjust the path as necessary
+import imgGasto from '../images/img-gasto.png'; // Adjust the path as necessary
+import imgMano from '../images/img-mano.png'; // Adjust the path as necessary
+import imgFactura from '../images/img-factura.png'; // Adjust the path as necessary
 
 const ResidenteMain = () => {
     const navigate = useNavigate();
@@ -32,7 +36,7 @@ const ResidenteMain = () => {
                     {/* Reserva Espacios Comunes Card */}
                     <div className="col">
                         <div className="card" onClick={() => navigate('/reservar-espacio-comun')}>
-                            <img src="img-calendario.png" alt="Reservar - Espacios Comunes" />
+                            <img src={imgCalendario} alt="Reservar - Espacios Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reservar - Espacios Comunes</h5>
                                 <p className="card-text">Facilidad para reservar espacios comunes.</p>
@@ -42,8 +46,8 @@ const ResidenteMain = () => {
 
                     {/* Consultar GGCC Card */}
                     <div className="col">
-                        <div className="card" onClick={() => navigate('/consultar-gastos-comunes')}>
-                            <img src="img-gasto.png" alt="Consultar - Gastos Comunes" />
+                        <div className="card" onClick={() => navigate('/consulta-gastos-comunes')}>
+                            <img src={imgGasto} alt="Consultar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Consultar - Gastos Comunes</h5>
                                 <p className="card-text">Búsqueda eficiente de gastos comunes.</p>
@@ -53,8 +57,8 @@ const ResidenteMain = () => {
 
                     {/* Pagar GGCC Card */}
                     <div className="col">
-                        <div className="card" onClick={() => navigate('/pagar-gastos-comunes')}>
-                            <img src="img-mano.png" alt="Pagar - Gastos Comunes" />
+                        <div className="card" onClick={() => navigate('/pago-gastos-comunes')}>
+                            <img src={imgMano} alt="Pagar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Pagar - Gastos Comunes</h5>
                                 <p className="card-text">Plataforma de pago de tus gastos comunes.</p>
@@ -64,8 +68,8 @@ const ResidenteMain = () => {
 
                     {/* Cargar Boleta GGCC Card */}
                     <div className="col">
-                        <div className="card" onClick={() => navigate('/cargar-boleta')}>
-                            <img src="img-factura.png" alt="Cargar - Boleta de Gastos Comunes" />
+                        <div className="card" onClick={() => navigate('/adjuntar-boleta')}>
+                            <img src={imgFactura} alt="Cargar - Boleta de Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Cargar - Boleta de Gastos Comunes</h5>
                                 <p className="card-text">Sube aquí de manera rápida y segura tu boleta de pago de gastos comunes.</p>

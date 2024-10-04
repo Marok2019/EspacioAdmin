@@ -1,6 +1,7 @@
+// ConserjeMain.jsx
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
 
 // Importa las imágenes
 import imgGestionEspacios from '../images/img-gestionEquipos.png'; 
@@ -22,7 +23,7 @@ const ConserjeMain = () => {
                     className="header-logo"
                 />
                 <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/auth')}>
-                    Volver
+                    Cerrar sesión
                 </button>
             </div>
 
@@ -38,7 +39,7 @@ const ConserjeMain = () => {
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
                     {/* Gestionar Espacios Comunes Card */}
                     <div className="col">
-                        <div className="card transparent-card" onClick={() => navigate('/gestionUsoEspaciosComunes')}>
+                        <div className="card transparent-card" onClick={() => navigate('/gestion-uso-espacios-comunes')}>
                             <img src={imgGestionEspacios} alt="Gestionar Uso - Espacios Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Gestionar Uso - Espacios Comunes</h5>
@@ -49,7 +50,7 @@ const ConserjeMain = () => {
 
                     {/* Gestionar Estacionamiento Visitas Card */}
                     <div className="col">
-                        <div className="card transparent-card" onClick={() => navigate('/gestionParkingVisitas')}>
+                        <div className="card transparent-card" onClick={() => navigate('/gestion-parking-visitas')}>
                             <img src={imgEstacionamiento} alt="Gestionar Uso - Estacionamiento Visitas" />
                             <div className="card-body">
                                 <h5 className="card-title">Gestionar Uso - Estacionamiento Visitas</h5>
@@ -60,7 +61,7 @@ const ConserjeMain = () => {
 
                     {/* Reserva Espacios Comunes Card */}
                     <div className="col">
-                        <div className="card transparent-card" onClick={() => navigate('/reservaEspaciosComunes')}>
+                        <div className="card transparent-card" onClick={() => navigate('/reservar-espacio-comun')}>
                             <img src={imgReservarEspacios} alt="Reservar - Espacios Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reservar - Espacios Comunes</h5>
@@ -71,7 +72,7 @@ const ConserjeMain = () => {
 
                     {/* Reportar GGCC Card */}
                     <div className="col">
-                        <div className="card transparent-card" onClick={() => navigate('/reporteGastosComunes')}>
+                        <div className="card transparent-card" onClick={() => navigate('/reportar-gastos-comunes')}>
                             <img src={imgReportarGastos} alt="Reportar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar - Gastos Comunes</h5>
@@ -82,7 +83,7 @@ const ConserjeMain = () => {
 
                     {/* Consultar GGCC Card */}
                     <div className="col">
-                        <div className="card transparent-card" onClick={() => navigate('/consultaGastosComunes')}>
+                        <div className="card transparent-card" onClick={() => navigate('/consulta-gastos-comunes')}>
                             <img src={imgConsultarGastos} alt="Consultar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Consultar - Gastos Comunes</h5>

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdministrarResidentes = () => {
+    const navigate = useNavigate();
+
     const residentes = [
         { id: 1, nombre: "Juan Pérez", edad: 30, direccion: "Av. Siempreviva 123" },
         { id: 2, nombre: "María García", edad: 40, direccion: "Av. Siempreviva 456" },
@@ -33,8 +36,7 @@ const AdministrarResidentes = () => {
                 residente.nombre = nuevoNombre;
                 residente.edad = parseInt(nuevaEdad);
                 residente.direccion = nuevaDireccion;
-                // Actualizar la tabla después de editar
-                // Aquí tendrías que hacer un setState si lo convertirás a un componente de estado
+                // Aquí podrías hacer un setState si conviertes esto a un componente con estado
             }
         }
     };
@@ -44,10 +46,19 @@ const AdministrarResidentes = () => {
         if (index !== -1) {
             if (window.confirm("¿Está seguro de que desea eliminar este residente?")) {
                 residentes.splice(index, 1);
-                // Actualizar la tabla después de eliminar
-                // Aquí tendrías que hacer un setState si lo convertirás a un componente de estado
+                // Aquí tendrías que hacer un setState si lo convertirás a un componente con estado
             }
         }
+    };
+
+    // Función para manejar el botón de volver
+    const handleBackToSuperAdminMain = () => {
+        navigate('/superadmin-main');
+    };
+
+    // Función para manejar el botón de cerrar sesión
+    const handleLogout = () => {
+        navigate('/auth');
     };
 
     return (
@@ -55,7 +66,22 @@ const AdministrarResidentes = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                {/* Botón para volver a SuperAdminMain */}
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button mr-2"
+                    onClick={handleBackToSuperAdminMain}
+                >
+                    Volver
+                </button>
+                {/* Botón para cerrar sesión */}
+                <button
+                    type="button"
+                    className="btn btn-secondary logout-button"
+                    onClick={handleLogout}
+                >
+                    Cerrar sesión
+                </button>
             </div>
 
             {/* Body */}

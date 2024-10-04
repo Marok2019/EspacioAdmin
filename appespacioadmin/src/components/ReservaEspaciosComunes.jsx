@@ -1,5 +1,3 @@
-// ReservaEspaciosComunes.jsx
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +5,10 @@ const ReservaEspaciosComunes = () => {
     const navigate = useNavigate();
 
     const handleVolver = () => {
+        navigate('/residente-main'); // Cambia la ruta a la de tu componente ResidenteMain
+    };
+
+    const handleLogout = () => {
         navigate('/auth'); // Cambia la ruta a la de tu componente Auth
     };
 
@@ -50,7 +52,20 @@ const ReservaEspaciosComunes = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button" onClick={handleVolver}>Volver</button>
+                <button 
+                    type="button" 
+                    className="btn btn-danger logout-button" 
+                    onClick={handleVolver}
+                >
+                    Volver
+                </button>
+                <button 
+                    type="button" 
+                    className="btn btn-danger logout-button ms-2" 
+                    onClick={handleLogout}
+                >
+                    Cerrar Sesión
+                </button>
             </div>
 
             {/* Body */}
@@ -122,14 +137,9 @@ const ReservaEspaciosComunes = () => {
             {/* Footer */}
             <footer className="bg-dark py-3 mt-5">
                 <div className="container">
-                    <p className="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+                    <p className="text-center">&copy; {new Date().getFullYear()} Todos los derechos reservados</p>
                 </div>
             </footer>
-
-            {/* Scripts */}
-            <script>
-                document.getElementById('current-year').textContent = new Date().getFullYear();
-            </script>
         </div>
     );
 };

@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ConsultaGastosComunes = () => {
+    const navigate = useNavigate();
+
     const [gastosComunes] = useState([
         { residente: 'Juan Pérez', rut: '88.888.888-8', condominio: 'Condominio 1', impAgua: 5000, impGas: 3000, impElectricidad: 4000, total: 12000 },
         { residente: 'María García', rut: '99.999.999-9', condominio: 'Condominio 2', impAgua: 6000, impGas: 3500, impElectricidad: 4500, total: 14000 },
         { residente: 'Carlos López', rut: '77.777.777-7', condominio: 'Condominio 3', impAgua: 5500, impGas: 3200, impElectricidad: 4200, total: 12900 }
     ]);
+    
     const [filteredGastos, setFilteredGastos] = useState(gastosComunes);
     const [selectedCondominio, setSelectedCondominio] = useState('');
     const [rut, setRut] = useState('');
@@ -19,12 +23,44 @@ const ConsultaGastosComunes = () => {
         setFilteredGastos(filtered);
     };
 
+    // Función para manejar la navegación del botón "Volver"
+    const handleBack = () => {
+        const shouldGoToResidenteMain = window.confirm('¿Deseas ir a residente-main?');
+        if (shouldGoToResidenteMain) {
+            navigate('/residente-main');
+        } else {
+            navigate('/conserje-main');
+        }
+    };
+
+    // Función para cerrar sesión
+    const handleLogout = () => {
+        navigate('/auth'); // O la ruta que utilices para la pantalla de inicio de sesión
+    };
+
     return (
         <div className="bg-dark">
             {/* Header */}
-            <div className="header-container d-flex align-items-center">
+            <div className="header-container d-flex justify-content-between align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                <div>
+                    {/* Botón de "Volver" */}
+                    <button
+                        type="button"
+                        className="btn btn-danger me-2"
+                        onClick={handleBack}
+                    >
+                        Volver
+                    </button>
+                    {/* Botón de "Cerrar sesión" */}
+                    <button
+                        type="button"
+                        className="btn btn-warning"
+                        onClick={handleLogout}
+                    >
+                        Cerrar sesión
+                    </button>
+                </div>
             </div>
 
             {/* Body */}

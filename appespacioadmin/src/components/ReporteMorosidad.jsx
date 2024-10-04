@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ReporteMorosidad = () => {
     const [condominium, setCondominium] = useState('');
     const [rut, setRut] = useState('');
     const [morosidadData, setMorosidadData] = useState([]);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Simulate initial data load
@@ -28,12 +30,43 @@ const ReporteMorosidad = () => {
         }
     };
 
+    const handleBack = () => {
+        const page = window.prompt("¿A qué página deseas volver? (admin-condominio, directiva)");
+        switch (page) {
+            case 'admin-condominio':
+                navigate('/admin-condominio');
+                break;
+            case 'directiva':
+                navigate('/directiva');
+                break;
+            default:
+                alert('Página no válida, por favor intenta de nuevo.');
+        }
+    };
+
+    const handleLogout = () => {
+        navigate('/auth'); // Redirect to Auth
+    };
+
     return (
         <div className="bg-dark">
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                <button 
+                    type="button" 
+                    className="btn btn-danger logout-button" 
+                    onClick={handleBack}
+                >
+                    Volver
+                </button>
+                <button 
+                    type="button" 
+                    className="btn btn-danger logout-button ms-2" 
+                    onClick={handleLogout}
+                >
+                    Cerrar Sesión
+                </button>
             </div>
 
             {/* Body */}

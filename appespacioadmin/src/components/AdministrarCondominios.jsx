@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdministrarCondominios = () => {
     const [condominios, setCondominios] = useState([
@@ -7,15 +8,7 @@ const AdministrarCondominios = () => {
         { id: 3, nombre: "Condominio Los Pinos", unidades: 30, direccion: "Calle C 789" }
     ]);
 
-    // Función para llenar la tabla
-    const llenarTabla = () => {
-        // Esta función es innecesaria en React, ya que el estado controla la visualización
-    };
-
-    useEffect(() => {
-        // Cargar los condominios al montar el componente
-        llenarTabla();
-    }, []);
+    const navigate = useNavigate();
 
     // Función para editar un condominio
     const editarCondominio = (id) => {
@@ -44,6 +37,16 @@ const AdministrarCondominios = () => {
         }
     };
 
+    // Función para manejar el botón de volver
+    const handleBackToSuperAdminMain = () => {
+        navigate('/superadmin-main');
+    };
+
+    // Función para manejar el botón de cerrar sesión
+    const handleLogout = () => {
+        navigate('/auth');
+    };
+
     return (
         <div className="bg-dark">
             {/* Header */}
@@ -53,7 +56,22 @@ const AdministrarCondominios = () => {
                     alt="Logo"
                     className="header-logo"
                 />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                {/* Botón para volver a SuperAdminMain */}
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button mr-2"
+                    onClick={handleBackToSuperAdminMain}
+                >
+                    Volver
+                </button>
+                {/* Botón para cerrar sesión */}
+                <button
+                    type="button"
+                    className="btn btn-secondary logout-button"
+                    onClick={handleLogout}
+                >
+                    Cerrar sesión
+                </button>
             </div>
 
             {/* Body */}

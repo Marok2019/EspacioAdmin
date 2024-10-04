@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const GestionUsoEspaciosComunes = () => {
     const [reservas, setReservas] = useState([]);
     const [condominio, setCondominio] = useState('');
     const [espacio, setEspacio] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Initial booking data
+        // Datos de reserva inicial
         const reservaEspacioComun = [
             { id: 1, residente: 'Juan Pérez', fecha_inicio: '2023-05-15T08:00', fecha_termino: '2023-05-16T18:00' },
             { id: 2, residente: 'María García', fecha_inicio: '2023-05-16T09:30', fecha_termino: '2023-05-17T19:30' },
@@ -31,7 +33,7 @@ const GestionUsoEspaciosComunes = () => {
 
     const cancelBooking = (bookingId) => {
         if (window.confirm(`¿Estás seguro de que quieres cancelar esta reserva? ID: ${bookingId}`)) {
-            // Simulate a fetch request
+            // Simular una solicitud de fetch
             setReservas(reservas.filter(reserva => reserva.id !== bookingId));
             alert('Reserva cancelada exitosamente.');
         }
@@ -42,7 +44,10 @@ const GestionUsoEspaciosComunes = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Volver</button>
+                <div className="ml-auto">
+                    <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/conserje-main')}>Volver</button>
+                    <button type="button" className="btn btn-warning ml-2" onClick={() => navigate('/auth')}>Cerrar Sesión</button>
+                </div>
             </div>
 
             {/* Body */}

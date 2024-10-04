@@ -1,4 +1,7 @@
+// DirectivaMain.jsx
+
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para manejar la navegación
 import logo from '../images/logo-no-background.png'; // Actualiza la ruta según la ubicación de tu imagen
 import imgGestionEspacios from '../images/img-gestionEquipos.png'; // Actualiza la ruta según la ubicación de tu imagen
 import imgAdministrativo from '../images/img-administrativo.png'; // Actualiza la ruta según la ubicación de tu imagen
@@ -6,12 +9,25 @@ import imgDeudor from '../images/img-deudorCuenta.png'; // Actualiza la ruta seg
 import imgGasto from '../images/img-gasto.png'; // Actualiza la ruta según la ubicación de tu imagen
 
 const DirectivaMain = () => {
+    const navigate = useNavigate();
+
+    // Función para manejar el cierre de sesión
+    const handleLogout = () => {
+        navigate('/auth'); // Redirige a la ruta de autenticación
+    };
+
     return (
         <div className="bg-dark">
             {/* Header */}
-            <div className="header-container d-flex align-items-center">
+            <div className="header-container d-flex align-items-center justify-content-between">
                 <img src={logo} alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button">Cerrar Sesión</button>
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button"
+                    onClick={handleLogout} // Llama a la función para cerrar sesión
+                >
+                    Cerrar Sesión
+                </button>
             </div>
 
             {/* Body */}
@@ -26,7 +42,7 @@ const DirectivaMain = () => {
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 justify-content-center">
                     {/* Reportar Uso de Espacios Card */}
                     <div className="col">
-                        <div className="card">
+                        <div className="card" onClick={() => navigate('/reporte-uso-espacios-comunes')}>
                             <img src={imgGestionEspacios} alt="Reportar Uso - Espacios Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar Uso - Espacios Comunes</h5>
@@ -37,7 +53,7 @@ const DirectivaMain = () => {
 
                     {/* Reportar GGCC Card */}
                     <div className="col">
-                        <div className="card">
+                        <div className="card" onClick={() => navigate('/reportar-gastos-comunes')}>
                             <img src={imgAdministrativo} alt="Reportar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar - Gastos Comunes</h5>
@@ -48,7 +64,7 @@ const DirectivaMain = () => {
 
                     {/* Reportar Morosidad Card */}
                     <div className="col">
-                        <div className="card">
+                        <div className="card" onClick={() => navigate('/reporte-morosidad')}>
                             <img src={imgDeudor} alt="Reportar - Morosidad" />
                             <div className="card-body">
                                 <h5 className="card-title">Reportar - Morosidad</h5>
@@ -59,7 +75,7 @@ const DirectivaMain = () => {
 
                     {/* Consultar GGCC Card */}
                     <div className="col">
-                        <div className="card">
+                        <div className="card" onClick={() => navigate('/consulta-gastos-comunes')}>
                             <img src={imgGasto} alt="Consultar - Gastos Comunes" />
                             <div className="card-body">
                                 <h5 className="card-title">Consultar - Gastos Comunes</h5>

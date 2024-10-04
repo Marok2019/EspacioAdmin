@@ -28,7 +28,7 @@ const AdjuntarBoleta = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/auth')}>Volver</button>
+                <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/residente-main')}>Volver</button>
             </div>
 
             {/* Body */}

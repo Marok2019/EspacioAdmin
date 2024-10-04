@@ -30,7 +30,10 @@ const GestionParkingVisitas = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button" onClick={() => navigate(-1)}>Volver</button>
+                <div className="ml-auto">
+                    <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/conserje-main')}>Volver</button>
+                    <button type="button" className="btn btn-warning ml-2" onClick={() => navigate('/auth')}>Cerrar Sesión</button>
+                </div>
             </div>
 
             {/* Body */}
