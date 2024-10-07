@@ -49,6 +49,7 @@ const App = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<Auth />} />
                 <Route path="/adjuntar-boleta" element={<AdjuntarBoleta />} />
                 <Route path="/administrar-condominios" element={<AdministrarCondominios />} />
                 <Route path="/administrar-residentes" element={<AdministrarResidentes />} />
