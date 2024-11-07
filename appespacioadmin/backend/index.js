@@ -2,8 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const userRoutes = require('./src/routes/userRoutes');  // Ruta de usuarios
-const authMiddleware = require('./src/middleware/authMiddleware'); // Si tienes middleware para protección de rutas
+const userRoutes = require('./src/routes/userRoutes'); // Ruta de usuarios
+const condominiumRoutes = require('./src/routes/condominiumRoutes'); // Ruta de condominios
+const authMiddleware = require('./src/middleware/authMiddleware'); // Middleware para protección de rutas
 
 // Cargar variables de entorno
 dotenv.config();
@@ -23,6 +24,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 // Rutas
 // Usamos el prefijo '/api/users' para las rutas de usuario
 app.use('/api/users', userRoutes);
+
+// Usamos el prefijo '/api/condominiums' para las rutas de condominios
+app.use('/api/condominiums', condominiumRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {

@@ -7,7 +7,7 @@ const commonSpaceSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['Estacionamiento', 'Quincho', 'Multicancha', 'Sala de Eventos'],
+    enum: ['Estacionamiento', 'Quincho', 'Multicancha', 'Sala de Eventos', 'Gym', 'Cowork', 'CanchaDeportes'],
     required: true,
   },
   available: {

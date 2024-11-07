@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, getUsers, getUserById, updateUser, deleteUser } = require('../controllers/userController');
+const { register, login, getUsers, getUserById, updateUser, deleteUser, deleteAllUsers } = require('../controllers/userController');
 const router = express.Router();
 
 // Ruta para registrar un nuevo usuario
@@ -16,6 +16,8 @@ router.get('/:id', getUserById);
 
 // Ruta para eliminar un usuario
 router.delete('/:id', deleteUser);
+
+router.delete('/', deleteAllUsers);
 
 router.put('/:id', updateUser); // Ruta para actualizar un usuario
 

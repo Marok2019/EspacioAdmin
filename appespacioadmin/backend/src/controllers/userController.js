@@ -116,3 +116,14 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+// Función para eliminar todos los usuarios
+exports.deleteAllUsers = async (req, res) => {
+  try {
+    await User.deleteMany({});
+    res.status(200).json({ message: 'Todos los usuarios han sido eliminados con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
