@@ -1,30 +1,20 @@
 const express = require('express');
-const { 
-  createReservation, 
-  getReservations, 
-  getReservationById, 
-  updateReservation, 
-  deleteReservation, 
-  deleteAllReservations 
-} = require('../controllers/reservationController');
 const router = express.Router();
+const reservationController = require('../controllers/reservationController');
 
-// Ruta para crear una nueva reserva
-router.post('/create', createReservation);
+// Ruta para crear una reserva
+router.post('/', reservationController.createReservation);
 
 // Ruta para obtener todas las reservas
-router.get('/', getReservations);
+router.get('/', reservationController.getReservations);
 
 // Ruta para obtener una reserva por ID
-router.get('/:id', getReservationById);
+router.get('/:id', reservationController.getReservationById);
 
 // Ruta para actualizar una reserva
-router.put('/:id', updateReservation);
+router.put('/:id', reservationController.updateReservation);
 
 // Ruta para eliminar una reserva
-router.delete('/:id', deleteReservation);
-
-// Ruta para eliminar todas las reservas
-router.delete('/deleteAll', deleteAllReservations);
+router.delete('/:id', reservationController.deleteReservation);
 
 module.exports = router;

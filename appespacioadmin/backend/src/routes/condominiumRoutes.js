@@ -1,30 +1,27 @@
 const express = require('express');
-const {
-  createCondominium,
-  getCondominiums,
-  getCondominiumById,
-  updateCondominium,
-  deleteCondominium,
-  deleteAllCondominiums
-} = require('../controllers/condominiumController');
-
 const router = express.Router();
+const condominiumController = require('../controllers/condominiumController');
 
-// Crear un nuevo condominio
-router.post('/create', createCondominium);
+// Ruta para eliminar todos los condominios
+router.delete('/', condominiumController.deleteAllCondominiums);
 
-// Obtener todos los condominios
-router.get('/', getCondominiums);
+// Ruta para crear un condominio
+router.post('/', condominiumController.createCondominium);
 
-// Obtener un condominio por su ID
-router.get('/:id', getCondominiumById);
+// Ruta para obtener todos los condominios
+router.get('/', condominiumController.getCondominiums);
 
-// Actualizar un condominio
-router.put('/:id', updateCondominium);
+// Ruta para obtener un condominio por ID
+router.get('/:id', condominiumController.getCondominiumById);
 
-// Eliminar un condominio
-router.delete('/:id', deleteCondominium);
+// Ruta para actualizar un condominio
+router.put('/:id', condominiumController.updateCondominium);
 
-router.delete('/', deleteAllCondominiums);
+// Ruta para eliminar un condominio
+router.delete('/:id', condominiumController.deleteCondominium);
+
+// Ruta para obtener los espacios comunes de un condominio por ID
+router.get('/:id/common-spaces', condominiumController.getCommonSpacesByCondominiumId);
+
 
 module.exports = router;

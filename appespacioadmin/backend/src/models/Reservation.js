@@ -1,32 +1,22 @@
 const mongoose = require('mongoose');
 
 const reservationSchema = new mongoose.Schema({
-  user: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',  // Asegúrate de que 'User' es el nombre del modelo de usuario
+    required: true
   },
-  condominium: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Condominium', 
-    required: true 
+  commonSpace: {
+    type: String,  // O si estás utilizando un tipo diferente, ajústalo aquí
+    enum: ['gym', 'cowork', 'quincho', 'estacionamientoVisitas', 'salonEventos', 'canchaDeportes'],
+    required: true
   },
-  space: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Condominium.commonSpaces', 
-    required: true 
-  },
-  reservedAt: { 
-    type: Date, 
-    required: true 
-  },
-  status: { 
-    type: String, 
-    enum: ['pending', 'confirmed', 'canceled'], 
-    default: 'pending' 
-  },
+  reservedAt: {
+    type: Date,
+    required: true
+  }
 }, {
-  timestamps: true,
+  timestamps: true
 });
 
 module.exports = mongoose.model('Reservation', reservationSchema);

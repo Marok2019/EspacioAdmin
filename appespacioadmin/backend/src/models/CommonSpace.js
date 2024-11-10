@@ -7,12 +7,17 @@ const commonSpaceSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['Estacionamiento', 'Quincho', 'Multicancha', 'Sala de Eventos', 'Gym', 'Cowork', 'CanchaDeportes'],
+    enum: ['gym', 'salonEventos', 'canchaDeportes', 'quincho', 'cowork', 'estacionamientoVisitas'],
     required: true,
   },
-  available: {
-    type: Boolean,
-    default: true,
+  cost: {
+    type: Number,
+    required: true,
+  },
+  condominium: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Condominium',
+    required: true,
   },
 }, {
   timestamps: true,

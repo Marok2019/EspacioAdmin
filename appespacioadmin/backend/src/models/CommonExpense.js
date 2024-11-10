@@ -1,29 +1,42 @@
 const mongoose = require('mongoose');
 
-const commonExpenseSchema = new mongoose.Schema({
-  condominium: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Condominium',
-    required: true,
+const commonExpenseSchema = new mongoose.Schema(
+  {
+    condominiumId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Condominium',
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    month: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'paid', 'expired'],
+      default: 'pending',
+    },
   },
-  month: {
-    type: String,
-    required: true,
-  },
-  year: {
-    type: Number,
-    required: true,
-  },
-  totalAmount: {
-    type: Number,
-    required: true,
-  },
-  paidAmount: {
-    type: Number,
-    default: 0,
-  },
-}, {
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('CommonExpense', commonExpenseSchema);
+module.exports = mongoose.model('Expense', commonExpenseSchema);
