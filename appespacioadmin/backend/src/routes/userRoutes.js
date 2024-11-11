@@ -21,5 +21,4 @@ router.delete('/', deleteAllUsers);
 
 router.put('/:id', updateUser); // Ruta para actualizar un usuario
 
-
 module.exports = router;

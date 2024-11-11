@@ -1,11 +1,9 @@
-// index.js - Servidor principal
-
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const userRoutes = require('./src/routes/userRoutes');
 const commonExpenseRoutes = require('./src/routes/commonExpenseRoutes');
-
 
 // Cargar variables de entorno
 dotenv.config();
@@ -26,7 +24,6 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch((error) => console.error('Error al conectar a la base de datos MongoDB:', error));
 
 // Importar controladores
-
 const {
   createCondominium,
   getCondominiums,
@@ -36,16 +33,6 @@ const {
   deleteAllCondominiums,
   getCommonSpacesByCondominiumId,
 } = require('./src/controllers/condominiumController');
-
-const {
-  register,
-  login,
-  getUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-  deleteAllUsers,
-} = require('./src/controllers/userController');
 
 const {
   createReservation,
@@ -78,15 +65,8 @@ app.get('/api/common-expenses/:id', getExpenseById); // Obtener un gasto común 
 app.put('/api/common-expenses/:id', updateExpense); // Actualizar un gasto común
 app.delete('/api/common-expenses/:id', deleteExpense); // Eliminar un gasto común
 
-
 // Rutas de Usuarios
-app.post('/api/register', register); // Registrar un nuevo usuario
-app.post('/api/login', login); // Iniciar sesión de usuario
-app.get('/api/users', getUsers); // Obtener todos los usuarios
-app.get('/api/user/:id', getUserById); // Obtener un usuario por ID
-app.put('/api/user/:id', updateUser); // Actualizar un usuario
-app.delete('/api/user/:id', deleteUser); // Eliminar un usuario
-app.delete('/api/users', deleteAllUsers); // Eliminar todos los usuarios
+app.use('/api/users', userRoutes);
 
 // Rutas de Reservas
 app.post('/api/reservations', createReservation); // Crear una nueva reserva

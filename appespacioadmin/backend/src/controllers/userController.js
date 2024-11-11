@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
@@ -33,6 +34,34 @@ exports.register = async (req, res) => {
 
     // Enviar respuesta con el usuario y el token
     res.status(201).json({ user, token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Iniciar sesión de usuario
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Buscar al usuario por su email
+    const user = await User.findOne({ email });
+
+    // Verificar si el usuario existe y si la contraseña es válida
+    if (user && await bcrypt.compare(password, user.password)) {
+      // Generar un token JWT
+      const token = jwt.sign(
+        { userId: user._id, email: user.email, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      // Enviar la respuesta con el token
+      res.status(200).json({ token });
+    } else {
+      // Credenciales inválidas
+      res.status(401).json({ message: 'Credenciales inválidas' });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -99,24 +128,6 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
-// Iniciar sesión de usuario
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email });
-    if (user && await bcrypt.compare(password, user.password)) {
-      const token = generateToken(user._id);
-      res.json({ token });
-    } else {
-      res.status(401).json({ message: 'Credenciales inválidas' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 
 // Función para eliminar todos los usuarios
 exports.deleteAllUsers = async (req, res) => {
