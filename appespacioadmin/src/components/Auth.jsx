@@ -16,7 +16,7 @@ const Auth = () => {
         event.preventDefault();
         try {
             // Llama al backend con las credenciales
-            const response = await axios.post('/auth/login', { email, password });
+            const response = await axios.post('/api/users/login', { email, password });
             
             // Guarda el token en el almacenamiento local o sesión
             localStorage.setItem('token', response.data.token);
@@ -25,7 +25,7 @@ const Auth = () => {
             if (response.data.role === 'conserje') {
                 navigate('/conserje-main');
             } else {
-                navigate('/dashboard'); // Ajusta según tu aplicación
+                navigate('/residente-main'); // Ajusta según tu aplicación
             }
         } catch (err) {
             setError('Credenciales inválidas o error en el servidor.');

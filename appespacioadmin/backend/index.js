@@ -1,4 +1,4 @@
-import cors from 'cors';
+
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -8,7 +8,8 @@ const userRoutes = require('./src/routes/userRoutes');
 const commonExpenseRoutes = require('./src/routes/commonExpenseRoutes');
 
 // Cargar variables de entorno
-dotenv.config();
+require('dotenv').config();
+
 
 // Crear la aplicación Express
 const app = express();

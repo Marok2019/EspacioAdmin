@@ -42,27 +42,27 @@ exports.register = async (req, res) => {
 // Iniciar sesión de usuario
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log("Received login attempt:", { email, password });
 
   try {
-    // Buscar al usuario por su email
     const user = await User.findOne({ email });
+    console.log("User found:", user);
 
-    // Verificar si el usuario existe y si la contraseña es válida
     if (user && await bcrypt.compare(password, user.password)) {
-      // Generar un token JWT
       const token = jwt.sign(
         { userId: user._id, email: user.email, role: user.role },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
       );
 
-      // Enviar la respuesta con el token
-      res.status(200).json({ token });
+      console.log("Login successful, token generated");
+      return res.status(200).json({ token, role: user.role });
     } else {
-      // Credenciales inválidas
-      res.status(401).json({ message: 'Credenciales inválidas' });
+      console.log("Invalid credentials");
+      return res.status(401).json({ message: 'Credenciales inválidas' });
     }
   } catch (error) {
+    console.error("Error during login:", error);
     res.status(500).json({ message: error.message });
   }
 };
