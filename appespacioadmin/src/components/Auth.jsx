@@ -1,18 +1,35 @@
-// src/components/Auth.js
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios'; // Asegúrate de que este archivo esté correctamente configurado
 
 const Auth = () => {
-    const navigate = useNavigate(); // Inicializa navigate
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        // Actualiza el año en el footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
     }, []);
 
-    const handleSubmit = (event) => {
-        event.preventDefault(); // Prevenir el envío del formulario
-        navigate('/conserje-main'); // Usar navigate para redirigir a conserjeMain
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            // Llama al backend con las credenciales
+            const response = await axios.post('/auth/login', { email, password });
+            
+            // Guarda el token en el almacenamiento local o sesión
+            localStorage.setItem('token', response.data.token);
+            
+            // Redirige al usuario dependiendo de su rol (ejemplo)
+            if (response.data.role === 'conserje') {
+                navigate('/conserje-main');
+            } else {
+                navigate('/dashboard'); // Ajusta según tu aplicación
+            }
+        } catch (err) {
+            setError('Credenciales inválidas o error en el servidor.');
+        }
     };
 
     return (
@@ -32,25 +49,31 @@ const Auth = () => {
                             <div className="card-body">
                                 {/* Formulario */}
                                 <form id="loginForm" onSubmit={handleSubmit}>
-                                    {/* Ingresar Usuario */}
+                                    {/* Mostrar error si existe */}
+                                    {error && <p className="text-danger">{error}</p>}
                                     <div className="mb-3">
-                                        <label htmlFor="username" className="form-label">Usuario:</label>
-                                        <input type="text" className="form-control" id="username" name="username" required />
+                                        <label htmlFor="email" className="form-label">Correo:</label>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            id="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
                                     </div>
-
-                                    {/* Ingresar Clave */}
                                     <div className="mb-3">
                                         <label htmlFor="password" className="form-label">Contraseña:</label>
-                                        <input type="password" className="form-control" id="password" name="password" required />
-                                    </div>
-
-                                    {/* Check de Recordar Usuario */}
-                                    <div className="mb-3 form-check">
-                                        <input className="form-check-input" type="checkbox" id="remember" name="remember" />
-                                        <label className="form-check-label" htmlFor="remember">Recuérdame</label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            id="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
                                     </div>
                                     <button type="submit" className="btn btn-primary">Iniciar sesión</button>
-                                    <button type="button" className="btn btn-warning">Reiniciar contraseña</button>
                                 </form>
                             </div>
                         </div>

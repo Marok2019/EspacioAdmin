@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/authContext'
 
 // Importación de componentes
 import AdjuntarBoleta from './components/AdjuntarBoleta';
@@ -47,6 +48,7 @@ import './css/superAdminMainStyles.css';
 
 const App = () => {
     return (
+        <AuthProvider>
         <Router>
             <Routes>
                 <Route path="/" element={<Auth />} />
@@ -71,6 +73,7 @@ const App = () => {
                 <Route path="/superadmin-main" element={<SuperAdminMain />} />
             </Routes>
         </Router>
+        </AuthProvider>
     );
 };
 

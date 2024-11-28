@@ -1,0 +1,1 @@
+export const API_URL = import.meta.VITE_API_URL|| "localhost:5000/api/users/login"
