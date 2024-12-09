@@ -32,7 +32,7 @@ const AdministrarResidentes = () => {
 
             if (nuevoNombre && nuevaEmail) {
                 axios
-                    .put(`/api/users/${id}`, { name: nuevoNombre, email: nuevaEmail })
+                    .put(`http://localhost:5000/api/users/${id}`, { name: nuevoNombre, email: nuevaEmail })
                     .then(() => {
                         setResidentes(prev =>
                             prev.map(r => (r._id === id ? { ...r, name: nuevoNombre, email: nuevaEmail } : r))
@@ -47,7 +47,7 @@ const AdministrarResidentes = () => {
     const eliminarResidente = (id) => {
         if (window.confirm("¿Está seguro de que desea eliminar este residente?")) {
             axios
-                .delete(`/api/users/${id}`)
+                .delete(`http://localhost:5000/api/users/${id}`)
                 .then(() => {
                     setResidentes(prev => prev.filter(r => r._id !== id));
                     alert("Residente eliminado con éxito.");
