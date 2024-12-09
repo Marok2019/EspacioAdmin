@@ -46,7 +46,7 @@ const AdministrarCondominios = () => {
     const eliminarCondominio = (id) => {
         if (window.confirm("¿Está seguro de que desea eliminar este condominio?")) {
             axios
-                .delete(`http://localhost:5000/api/condominiums/${id}`)
+                .delete(`http://localhost:5000/api/condominium/${id}`)
                 .then(() => {
                     setCondominios(prev => prev.filter(c => c._id !== id));
                     alert("Condominio eliminado con éxito.");
