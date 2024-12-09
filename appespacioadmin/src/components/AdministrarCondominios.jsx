@@ -1,58 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AdministrarCondominios = () => {
     const [condominios, setCondominios] = useState([]);
     const navigate = useNavigate();
+    const apiBaseURL = 'http://localhost:5000/api/condominiums';
 
-    // Cargar condominios al montar el componente
+    // Obtener condominios al cargar el componente
     useEffect(() => {
-        const fetchCondominios = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/condominiums');
-                if (response.ok) {
-                    const data = await response.json();
-                    setCondominios(data);
-                } else {
-                    console.error('Error al obtener los condominios');
-                }
-            } catch (error) {
-                console.error('Error al conectar con el servidor:', error);
-            }
-        };
-
         fetchCondominios();
     }, []);
 
+    const fetchCondominios = async () => {
+        try {
+            const response = await axios.get(apiBaseURL);
+            setCondominios(response.data);
+        } catch (error) {
+            console.error('Error al obtener los condominios:', error);
+        }
+    };
+
     // Función para editar un condominio
     const editarCondominio = async (id) => {
-        const condominio = condominios.find((c) => c._id === id);
+        const condominio = condominios.find(c => c._id === id);
         if (condominio) {
-            const nuevoNombre = prompt('Ingrese el nuevo nombre del condominio:', condominio.name);
-            const nuevaDireccion = prompt('Ingrese la nueva dirección:', condominio.location);
-            if (nuevoNombre && nuevaDireccion) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/condominiums/${id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            name: nuevoNombre,
-                            location: nuevaDireccion,
-                        }),
-                    });
+            const nuevoNombre = prompt("Ingrese el nuevo nombre del condominio:", condominio.name);
+            const nuevasUnidades = prompt("Ingrese la nueva ubicación:", condominio.location);
 
-                    if (response.ok) {
-                        const updatedCondominio = await response.json();
-                        setCondominios((prev) =>
-                            prev.map((c) => (c._id === id ? updatedCondominio : c))
-                        );
-                    } else {
-                        console.error('Error al actualizar el condominio');
-                    }
+            if (nuevoNombre && nuevasUnidades) {
+                try {
+                    await axios.put(`${apiBaseURL}/${id}`, {
+                        name: nuevoNombre,
+                        location: nuevasUnidades,
+                    });
+                    fetchCondominios(); // Recargar datos
                 } catch (error) {
-                    console.error('Error al conectar con el servidor:', error);
+                    console.error('Error al actualizar el condominio:', error);
                 }
             }
         }
@@ -60,19 +44,12 @@ const AdministrarCondominios = () => {
 
     // Función para eliminar un condominio
     const eliminarCondominio = async (id) => {
-        if (window.confirm('¿Está seguro de que desea eliminar este condominio?')) {
+        if (window.confirm("¿Está seguro de que desea eliminar este condominio?")) {
             try {
-                const response = await fetch(`http://localhost:5000/api/condominiums/${id}`, {
-                    method: 'DELETE',
-                });
-
-                if (response.ok) {
-                    setCondominios((prev) => prev.filter((c) => c._id !== id));
-                } else {
-                    console.error('Error al eliminar el condominio');
-                }
+                await axios.delete(`${apiBaseURL}/${id}`);
+                fetchCondominios(); // Recargar datos
             } catch (error) {
-                console.error('Error al conectar con el servidor:', error);
+                console.error('Error al eliminar el condominio:', error);
             }
         }
     };
@@ -96,6 +73,7 @@ const AdministrarCondominios = () => {
                     alt="Logo"
                     className="header-logo"
                 />
+                {/* Botón para volver a SuperAdminMain */}
                 <button
                     type="button"
                     className="btn btn-danger logout-button mr-2"
@@ -103,6 +81,7 @@ const AdministrarCondominios = () => {
                 >
                     Volver
                 </button>
+                {/* Botón para cerrar sesión */}
                 <button
                     type="button"
                     className="btn btn-secondary logout-button"
@@ -120,22 +99,24 @@ const AdministrarCondominios = () => {
                     </div>
                 </div>
 
+                {/* Formulario */}
                 <div className="card">
                     <div className="card-header text-white">Filtros de administración</div>
                     <div className="card-body">
                         <div className="row justify-content-center text-center mt-4">
+                            {/* Contenido Tabla */}
                             <div className="col-md-12">
                                 <table className="table table-dark table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Nombre del Condominio</th>
-                                            <th>Dirección</th>
+                                            <th>Ubicación</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {condominios.map((condominio) => (
+                                        {condominios.map(condominio => (
                                             <tr key={condominio._id}>
                                                 <td>{condominio._id}</td>
                                                 <td>{condominio.name}</td>
@@ -167,9 +148,7 @@ const AdministrarCondominios = () => {
             {/* Footer */}
             <footer className="bg-dark py-3 mt-5">
                 <div className="container">
-                    <p className="text-center text-white">
-                        &copy; {new Date().getFullYear()} Todos los derechos reservados
-                    </p>
+                    <p className="text-center text-white">&copy; Todos los derechos reservados</p>
                 </div>
             </footer>
         </div>
