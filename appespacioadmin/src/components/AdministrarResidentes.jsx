@@ -4,23 +4,24 @@ import axios from 'axios';
 
 const AdministrarResidentes = () => {
     const navigate = useNavigate();
-    const [residentes, setResidentes] = useState([]); // Estado para los usuarios
+    const [residentes, setResidentes] = useState([]); // Estado para los residentes
     const [loading, setLoading] = useState(true); // Estado para el loading
     const [error, setError] = useState(null); // Estado para errores
 
-    // Obtener los usuarios al cargar el componente
+    // Obtener los residentes al cargar el componente
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchResidents = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/users'); // Cambia la URL según tu backend
-                setResidentes(response.data);
+                const soloResidentes = response.data.filter(user => user.role === 'resident'); // Filtrar residentes
+                setResidentes(soloResidentes);
                 setLoading(false);
             } catch (err) {
                 setError(err.message || 'Error al obtener los residentes.');
                 setLoading(false);
             }
         };
-        fetchUsers();
+        fetchResidents();
     }, []);
 
     const editarResidente = (id) => {
@@ -94,7 +95,6 @@ const AdministrarResidentes = () => {
                                     <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Email</th>
-                                    <th>Rol</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -104,7 +104,6 @@ const AdministrarResidentes = () => {
                                         <td>{residente._id}</td>
                                         <td>{residente.name}</td>
                                         <td>{residente.email}</td>
-                                        <td>{residente.role}</td>
                                         <td>
                                             <button className="btn btn-success btn-sm mr-1" onClick={() => editarResidente(residente._id)}>Editar</button>
                                             <button className="btn btn-danger btn-sm" onClick={() => eliminarResidente(residente._id)}>Eliminar</button>
