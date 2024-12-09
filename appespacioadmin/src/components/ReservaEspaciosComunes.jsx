@@ -42,6 +42,42 @@ const ReservaEspaciosComunes = () => {
     navigate('/auth');
   };
 
+  // Fetch list of condominiums on component mount
+  useEffect(() => {
+    const fetchCondominios = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/condominiums');
+        setCondominios(response.data);
+      } catch (error) {
+        console.error('Error al obtener la lista de condominios:', error);
+        alert('No se pudo cargar la información de los condominios');
+      }
+    };
+
+    fetchCondominios();
+  }, []);
+
+  // Handle condominium selection to dynamically set available spaces
+  useEffect(() => {
+    const setAvailableSpaces = () => {
+      if (selectedCondominio) {
+        const spaces = [
+          'gym',
+          'cowork',
+          'quincho',
+          'estacionamientoVisitas',
+          'salonEventos',
+          'canchaDeportes',
+        ];
+        setEspaciosComunes(spaces);
+      } else {
+        setEspaciosComunes([]);
+      }
+    };
+
+    setAvailableSpaces();
+  }, [selectedCondominio]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedCondominio || !selectedSpace || !startDate || !endDate) {
@@ -75,144 +111,71 @@ const ReservaEspaciosComunes = () => {
     }
   };
 
-  // Obtener la lista de condominios al montar el componente
-  useEffect(() => {
-    const fetchCondominios = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/condominiums');
-        setCondominios(response.data);
-      } catch (error) {
-        console.error('Error al cargar los condominios:', error);
-      }
-    };
-
-    fetchCondominios();
-  }, []);
-
-  // Obtener los espacios comunes dinámicamente cuando se selecciona un condominio
-  useEffect(() => {
-    const fetchSpaces = async () => {
-      if (selectedCondominio) {
-        try {
-          const response = await axios.get(`http://localhost:5000/api/condominiums/${selectedCondominio}/common-spaces`);
-          const spaces = Object.entries(response.data)
-            .filter(([key, value]) => value) // Filtrar solo los espacios activos
-            .map(([key, value]) => ({
-              id: key,
-              name: key.replace(/([A-Z])/g, ' $1').trim(), // Formatear el nombre para el dropdown
-            }));
-          setEspaciosComunes(spaces);
-        } catch (error) {
-          console.error('Error al cargar los espacios comunes:', error);
-        }
-      } else {
-        setEspaciosComunes([]);
-      }
-    };
-
-    fetchSpaces();
-  }, [selectedCondominio]);
-
   return (
-    <div className="bg-dark">
-      {/* Header */}
-      <div className="header-container d-flex align-items-center">
-        <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-        <button
-          type="button"
-          className="btn btn-danger logout-button"
-          onClick={handleVolver}
-        >
+    <div className="container">
+      <h2>Reservar Espacio Común</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="condominio">Seleccionar Condominio</label>
+          <select
+            id="condominio"
+            className="form-control"
+            value={selectedCondominio}
+            onChange={(e) => setSelectedCondominio(e.target.value)}
+          >
+            <option value="">--Seleccione un Condominio--</option>
+            {condominios.map((condominio) => (
+              <option key={condominio._id} value={condominio._id}>
+                {condominio.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="espacio">Seleccionar Espacio Común</label>
+          <select
+            id="espacio"
+            className="form-control"
+            value={selectedSpace}
+            onChange={(e) => setSelectedSpace(e.target.value)}
+          >
+            <option value="">--Seleccione un Espacio--</option>
+            {espaciosComunes.map((espacio, index) => (
+              <option key={index} value={espacio}>
+                {espacio}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Fecha Inicio:</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Fecha Fin:</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          {loading ? 'Reservando...' : 'Reservar'}
+        </button>
+        <button type="button" className="btn btn-secondary ml-2" onClick={handleVolver}>
           Volver
         </button>
-        <button
-          type="button"
-          className="btn btn-danger logout-button ms-2"
-          onClick={handleLogout}
-        >
-          Cerrar Sesión
-        </button>
-      </div>
-
-      {/* Cuerpo Principal */}
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-10">
-            <h1 className="text-center text-white">Reservar Espacios Comunes</h1>
-          </div>
-        </div>
-
-        <div className="card">
-          <div className="card-header">Formulario de Reserva</div>
-          <form onSubmit={handleSubmit}>
-            <div className="card-body">
-              {/* Selección de Condominios */}
-              <div className="mb-3">
-                <label htmlFor="condominioDropdown" className="form-label text-white">Seleccione el condominio:</label>
-                <select
-                  className="form-select"
-                  id="condominioDropdown"
-                  value={selectedCondominio}
-                  onChange={(e) => setSelectedCondominio(e.target.value)}
-                  required
-                >
-                  <option value="">Seleccione un condominio...</option>
-                  {condominios.map(condominio => (
-                    <option key={condominio._id} value={condominio._id}>{condominio.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Selección de Espacios Comunes */}
-              <div className="mb-3">
-                <label htmlFor="espacioDropdown" className="form-label text-white">Seleccione el espacio común:</label>
-                <select
-                  className="form-select"
-                  id="espacioDropdown"
-                  value={selectedSpace}
-                  onChange={(e) => setSelectedSpace(e.target.value)}
-                  required
-                >
-                  <option value="">Seleccione un espacio común...</option>
-                  {espaciosComunes.map(space => (
-                    <option key={space.id} value={space.id}>{space.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Fecha de Inicio y Fin */}
-              <div className="mb-3">
-                <label htmlFor="startDate" className="form-label text-white">Fecha de Inicio:</label>
-                <input
-                  type="datetime-local"
-                  className="form-control"
-                  id="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="endDate" className="form-label text-white">Fecha de Término:</label>
-                <input
-                  type="datetime-local"
-                  className="form-control"
-                  id="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Botón de Envío */}
-              <button type="submit" className="btn btn-warning w-100 mt-3" disabled={loading}>
-                {loading ? 'Procesando...' : 'Confirmar Reserva'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      </form>
     </div>
   );
 };
