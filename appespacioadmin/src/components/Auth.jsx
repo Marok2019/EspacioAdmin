@@ -22,11 +22,20 @@ const Auth = () => {
             localStorage.setItem('token', response.data.token);
             
             // Redirige al usuario dependiendo de su rol (ejemplo)
-            if (response.data.role === 'conserje') {
+            if (response.data.role === 'resident') {
+                navigate('/residente-main');
+            } else if (response.data.role === 'admincondo') {
+                navigate('/admin-condominio');
+            } else if (response.data.role === 'conserje') {
                 navigate('/conserje-main');
+            } else if (response.data.role === 'superadmin') {
+                navigate('/superadmin-main');
+            } else if (response.data.role === 'directive') {
+                navigate('/directiva');
             } else {
-                navigate('/residente-main'); // Ajusta según tu aplicación
+                console.error('Rol no reconocido:', response.data.role);
             }
+            
         } catch (err) {
             setError('Credenciales inválidas o error en el servidor.');
         }
