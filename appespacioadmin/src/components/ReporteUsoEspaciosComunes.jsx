@@ -11,6 +11,7 @@ const ReporteUsoEspaciosComunes = () => {
     const [rut, setRut] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchResults, setSearchResults] = useState([]); // Estado para guardar los resultados de búsqueda
 
     // Manejar navegación según rol
     const handleBack = () => {
@@ -64,8 +65,7 @@ const ReporteUsoEspaciosComunes = () => {
             );
         });
 
-        console.log('Resultados filtrados:', filteredReservations);
-        alert('Búsqueda realizada. Consulta la consola para ver los resultados.');
+        setSearchResults(filteredReservations); // Actualiza el estado para mostrar resultados en la interfaz
     };
 
     if (loading) return <div className="text-center">Cargando...</div>;
@@ -163,6 +163,35 @@ const ReporteUsoEspaciosComunes = () => {
                             Buscar
                         </button>
                     </div>
+                </div>
+                
+                {/* Mostrar resultados */}
+                <div className="mt-4">
+                    <h3 className="text-white">Resultados de Búsqueda</h3>
+                    {searchResults.length > 0 ? (
+                        <table className="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Condominio</th>
+                                    <th>Espacio Común</th>
+                                    <th>RUT del Usuario</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {searchResults.map(result => (
+                                    <tr key={result._id}>
+                                        <td>{result.condominio}</td>
+                                        <td>{result.commonSpace}</td>
+                                        <td>{result.userRut}</td>
+                                        <td>{new Date(result.reservedAt).toLocaleString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p className="text-white">No se encontraron resultados para los filtros seleccionados.</p>
+                    )}
                 </div>
             </div>
 
