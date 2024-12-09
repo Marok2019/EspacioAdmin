@@ -38,7 +38,7 @@ const ReporteUsoEspaciosComunes = () => {
         const fetchData = async () => {
             try {
                 const [condominiosResponse, reservationsResponse] = await Promise.all([
-                    axios.get('http://localhost:5000/api/condominios'),
+                    axios.get('http://localhost:5000/api/condominiums'),
                     axios.get('http://localhost:5000/api/reservations'),
                 ]);
 
