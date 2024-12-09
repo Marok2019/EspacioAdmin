@@ -40,29 +40,34 @@ const Auth = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); // Estado para mostrar cargando mientras se envía la solicitud
+    setLoading(true);
     setError('');
-
+  
     try {
-      // Realizar solicitud con credenciales
       const response = await axios.post('/api/users/login', { email, password });
-
-      // Validar la respuesta y guardar token y rol
-      if (response?.data?.token && response?.data?.role) {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('role', response.data.role);
-        localStorage.setItem('userId', response.data.id);
-
-        navigateToRole(response.data.role);
+  
+      console.log('Respuesta completa del servidor: ', response);
+  
+      const { token, role, id } = response?.data || {};
+  
+      if (token && role && id) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
+        localStorage.setItem('userId', id);
+  
+        navigateToRole(role);
       } else {
-        throw new Error('Datos inválidos');
+        throw new Error('Datos inválidos en la respuesta');
       }
     } catch (err) {
-      setError('Credenciales inválidas o error en el servidor.');
+      console.error('Error en la solicitud de inicio de sesión:', err);
+      setError(err.message || 'Credenciales inválidas o error en el servidor');
     } finally {
       setLoading(false);
     }
   };
+  
+  
 
   return (
     <div className="bg-dark">

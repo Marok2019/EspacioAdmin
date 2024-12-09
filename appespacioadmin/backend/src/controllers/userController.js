@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
       );
 
       console.log("Login successful, token generated");
-      return res.status(200).json({ token, role: user.role });
+      return res.status(200).json({ token, role: user.role, id: user._id });
     } else {
       console.log("Invalid credentials");
       return res.status(401).json({ message: 'Credenciales inválidas' });
@@ -66,6 +66,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
