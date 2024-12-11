@@ -17,4 +17,8 @@ router.put('/:id', reservationController.updateReservation);
 // Ruta para eliminar una reserva
 router.delete('/:id', reservationController.deleteReservation);
 
+// Ruta para eliminar todas las reservas
+router.delete('/', reservationController.deleteAllReservations);
+
+
 module.exports = router;

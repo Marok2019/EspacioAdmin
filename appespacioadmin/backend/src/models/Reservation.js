@@ -14,7 +14,8 @@ const reservationSchema = new mongoose.Schema({
   reservedAt: {
     type: Date,
     required: true
-  }
+  },
+
 }, {
   timestamps: true
 });

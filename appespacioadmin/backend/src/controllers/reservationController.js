@@ -23,6 +23,8 @@ exports.createReservation = async (req, res) => {
   }
 };
 
+
+
 // Obtener todas las reservas
 exports.getReservations = async (req, res) => {
   try {
@@ -82,3 +84,15 @@ exports.deleteReservation = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Eliminar todas las reservas
+exports.deleteAllReservations = async (req, res) => {
+  try {
+    const result = await Reservation.deleteMany({});
+    res.json({ message: 'Todas las reservas han sido eliminadas', deletedCount: result.deletedCount });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+

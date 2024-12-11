@@ -43,6 +43,7 @@ const {
   getReservationById,
   updateReservation,
   deleteReservation,
+  deleteAllReservations,
 } = require('./src/controllers/reservationController');
 
 const {
@@ -77,6 +78,8 @@ app.get('/api/reservations', getReservations); // Obtener todas las reservas
 app.get('/api/reservation/:id', getReservationById); // Obtener una reserva por ID
 app.put('/api/reservation/:id', updateReservation); // Actualizar una reserva
 app.delete('/api/reservation/:id', deleteReservation); // Eliminar una reserva
+app.delete('/api/reservations', deleteAllReservations); // Eliminar todas las reservas
+
 
 app.use('/api/common-expenses', commonExpenseRoutes);
 
