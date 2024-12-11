@@ -8,6 +8,27 @@ const ReporteMorosidad = () => {
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const navigate = useNavigate();
 
+    // Manejar navegación según rol
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'admincondo':
+                navigate('/admin-condominio');
+                break;
+            case 'directive':
+                navigate('/directiva');
+                break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/auth');
+    };
+
     useEffect(() => {
         // Simulate initial data load
         const initialMorosidad = [
@@ -28,24 +49,6 @@ const ReporteMorosidad = () => {
         } else {
             alert('Por favor, complete todos los campos.');
         }
-    };
-
-    const handleBack = () => {
-        const page = window.prompt("¿A qué página deseas volver? (admin-condominio, directiva)");
-        switch (page) {
-            case 'admin-condominio':
-                navigate('/admin-condominio');
-                break;
-            case 'directiva':
-                navigate('/directiva');
-                break;
-            default:
-                alert('Página no válida, por favor intenta de nuevo.');
-        }
-    };
-
-    const handleLogout = () => {
-        navigate('/auth'); // Redirect to Auth
     };
 
     return (
