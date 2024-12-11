@@ -13,6 +13,27 @@ const ReservaEspaciosComunes = () => {
     const [commonSpaces, setCommonSpaces] = useState([]);
     const [isLoadingSpaces, setIsLoadingSpaces] = useState(false);
 
+// Manejar navegación según rol
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'resident':
+                navigate('/residente-main');
+                break;
+            case 'conserje':
+                navigate('/conserje-main');
+                break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/auth');
+    };
+
     // Fetch condominiums when the component is mounted
     useEffect(() => {
         const fetchCondominiums = async () => {
@@ -45,27 +66,6 @@ const ReservaEspaciosComunes = () => {
 
         fetchCommonSpaces();
     }, [selectedCondominio]);
-
-    // Redirection based on role
-    const handleVolver = () => {
-        const userRole = localStorage.getItem('role');
-        switch (userRole) {
-            case 'resident':
-                navigate('/residente-main');
-                break;
-            case 'conserje':
-                navigate('/conserje-main');
-                break;
-            default:
-                alert('Rol no válido o no definido.');
-                navigate('/auth');
-        }
-    };
-
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/auth');
-    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -121,7 +121,7 @@ const ReservaEspaciosComunes = () => {
                 <button
                     type="button"
                     className="btn btn-danger logout-button"
-                    onClick={handleVolver}
+                    onClick={handleBack}
                 >
                     Volver
                 </button>
