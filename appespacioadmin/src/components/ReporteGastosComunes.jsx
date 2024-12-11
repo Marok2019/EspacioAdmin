@@ -40,7 +40,9 @@ const ReporteGastosComunes = () => {
         }
     };
 
-    
+    const handleLogout = () => {
+        navigate('/auth'); // Redirect to Auth
+    };
 
     return (
         <div className="bg-dark">
