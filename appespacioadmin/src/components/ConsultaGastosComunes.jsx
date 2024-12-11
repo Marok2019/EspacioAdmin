@@ -3,16 +3,38 @@ import { useNavigate } from 'react-router-dom';
 
 const ConsultaGastosComunes = () => {
     const navigate = useNavigate();
-
     const [gastosComunes] = useState([
         { residente: 'Juan Pérez', rut: '88.888.888-8', condominio: 'Condominio 1', impAgua: 5000, impGas: 3000, impElectricidad: 4000, total: 12000 },
         { residente: 'María García', rut: '99.999.999-9', condominio: 'Condominio 2', impAgua: 6000, impGas: 3500, impElectricidad: 4500, total: 14000 },
         { residente: 'Carlos López', rut: '77.777.777-7', condominio: 'Condominio 3', impAgua: 5500, impGas: 3200, impElectricidad: 4200, total: 12900 }
     ]);
-    
     const [filteredGastos, setFilteredGastos] = useState(gastosComunes);
     const [selectedCondominio, setSelectedCondominio] = useState('');
     const [rut, setRut] = useState('');
+
+    // Manejar navegación según rol
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'conserje':
+                navigate('/conserje-main');
+                break;
+            case 'directive':
+                navigate('/directiva');
+                break;
+            case 'resident':
+                    navigate('/residente-main');
+                    break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/auth');
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -21,21 +43,6 @@ const ConsultaGastosComunes = () => {
             (rut ? gasto.rut === rut : true)
         );
         setFilteredGastos(filtered);
-    };
-
-    // Función para manejar la navegación del botón "Volver"
-    const handleBack = () => {
-        const shouldGoToResidenteMain = window.confirm('¿Deseas ir a residente-main?');
-        if (shouldGoToResidenteMain) {
-            navigate('/residente-main');
-        } else {
-            navigate('/conserje-main');
-        }
-    };
-
-    // Función para cerrar sesión
-    const handleLogout = () => {
-        navigate('/auth'); // O la ruta que utilices para la pantalla de inicio de sesión
     };
 
     return (
