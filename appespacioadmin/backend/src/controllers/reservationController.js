@@ -1,4 +1,7 @@
 const Reservation = require('../models/Reservation');
+const User = require('../models/User'); // Asegúrate de importar el modelo de User
+const Condominium = require('../models/Condominium');
+const mongoose = require('mongoose');
 
 // Crear una reserva
 exports.createReservation = async (req, res) => {
@@ -45,16 +48,57 @@ exports.createReservation = async (req, res) => {
   }
 };
 
-
-// Obtener todas las reservas
+// Obtener todas las reservas o con filtros
+// Obtener todas las reservas o con filtros
 exports.getReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find().populate('user condominium');
-    res.json(reservations);
+    const { rut, espacio, condominio } = req.query;
+
+    // Creamos un objeto de filtros vacío
+    const filter = {};
+
+    // Si se recibe un filtro para 'rut', buscamos al usuario
+    if (rut) {
+      const user = await User.findOne({ rut }).select('_id');
+      if (user) {
+        filter.user = user._id;
+      } else {
+        return res.status(404).json({ message: 'Usuario con ese RUT no encontrado' });
+      }
+    }
+
+    // Si se recibe un filtro para 'espacio', lo agregamos
+    if (espacio) {
+      filter.commonSpace = espacio;
+    }
+
+    // Si se recibe un filtro para 'condominio', lo buscamos por nombre
+    if (condominio) {
+      const condominium = await Condominium.findOne({ name: condominio }); // Buscar por nombre
+      if (condominium) {
+        filter.condominium = condominium._id; // Asignar el ObjectId del condominio
+      } else {
+        return res.status(404).json({ message: 'Condominio no encontrado' });
+      }
+    }
+
+    // Si no se pasan filtros, retornamos todas las reservas
+    const reservations = await Reservation.find(filter)
+      .populate('user', 'rut')  // Asegúrate de que la propiedad 'rut' del modelo User se incluya
+      .populate('condominium', 'name') // Incluye el nombre del condominio
+      .exec();
+
+    if (reservations.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron reservas con los filtros proporcionados.' });
+    }
+
+    res.json(reservations); // Devuelve las reservas encontradas
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error al obtener reservas filtradas:', error);
+    res.status(500).json({ message: 'Error al obtener las reservas filtradas.' });
   }
 };
+
 
 // Obtener una reserva por ID
 exports.getReservationById = async (req, res) => {
@@ -112,24 +156,6 @@ exports.deleteAllReservations = async (req, res) => {
   try {
     const result = await Reservation.deleteMany({});
     res.json({ message: 'Todas las reservas han sido eliminadas', deletedCount: result.deletedCount });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Función para obtener reservas filtradas
-exports.getFilteredReservations = async (req, res) => {
-  const { condominiumId, commonSpace, userRut } = req.query;
-
-  // Crear un filtro basado en los parámetros de búsqueda
-  const filter = {};
-  if (condominiumId) filter.condominium = condominiumId;
-  if (commonSpace) filter.commonSpace = commonSpace;
-  if (userRut) filter.userRut = userRut;
-
-  try {
-    const reservations = await Reservation.find(filter).populate('user condominium');
-    res.json(reservations);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -5,7 +5,7 @@ const reservationController = require('../controllers/reservationController');
 // Ruta para crear una reserva
 router.post('/', reservationController.createReservation);
 
-// Ruta para obtener todas las reservas
+// Ruta para obtener todas las reservas o con filtros
 router.get('/', reservationController.getReservations);
 
 // Ruta para obtener una reserva por ID
@@ -19,8 +19,5 @@ router.delete('/:id', reservationController.deleteReservation);
 
 // Ruta para eliminar todas las reservas
 router.delete('/', reservationController.deleteAllReservations);
-
-// Ruta para obtener reservas filtradas
-router.get('/filtered', reservationController.getFilteredReservations);
 
 module.exports = router;

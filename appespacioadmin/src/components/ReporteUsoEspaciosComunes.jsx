@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 
 const ReporteUsoEspaciosComunes = () => {
     const navigate = useNavigate();
@@ -13,7 +14,12 @@ const ReporteUsoEspaciosComunes = () => {
     const [error, setError] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
 
-    // Manejar navegación según rol
+    // Validate RUT format
+    const isValidRut = (rutValue) => {
+        return rutValue === '' || /^\d{7,8}-[0-9kK]$/.test(rutValue);
+    };
+
+    // Handle navigation based on user role
     const handleBack = () => {
         const userRole = localStorage.getItem('role');
         switch (userRole) {
@@ -29,12 +35,39 @@ const ReporteUsoEspaciosComunes = () => {
         }
     };
 
+    // Logout handler
     const handleLogout = () => {
         localStorage.clear();
         navigate('/auth');
     };
 
-    // Obtener datos de condominios y reservas al cargar el componente
+    // Export search results to Excel
+    const handleExport = () => {
+        if (searchResults.length === 0) {
+            alert('No hay resultados para exportar.');
+            return;
+        }
+
+        // Transform results for export (flatten nested objects)
+        const exportData = searchResults.map(result => ({
+            'Condominio': result.condoName,
+            'Espacio Común': result.commonSpace,
+            'RUT Usuario': result.userRut,
+            'Fecha de Reserva': new Date(result.reservedAt).toLocaleString(),
+            'Fecha de Inicio': new Date(result.startDate).toLocaleString(),
+            'Fecha de Fin': new Date(result.endDate).toLocaleString()
+        }));
+
+        // Create worksheet
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Reservas');
+
+        // Generate and download file
+        XLSX.writeFile(workbook, `Reporte_Reservas_${new Date().toISOString().split('T')[0]}.xlsx`);
+    };
+
+    // Fetch condominiums and reservations on component load
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -43,9 +76,9 @@ const ReporteUsoEspaciosComunes = () => {
                     axios.get('http://localhost:5000/api/reservations'),
                 ]);
 
-                // Combinar los datos de reservas con los nombres de los condominios
+                // Combine reservation data with condominium names
                 const updatedReservations = reservationsResponse.data.map(reservation => {
-                    const condo = condominiosResponse.data.find(condo => condo._id === reservation.condominio);
+                    const condo = condominiosResponse.data.find(condo => condo._id === reservation.condominium);
                     return {
                         ...reservation,
                         condoName: condo ? condo.name : 'Desconocido',
@@ -56,7 +89,14 @@ const ReporteUsoEspaciosComunes = () => {
                 setReservations(updatedReservations);
                 setLoading(false);
             } catch (err) {
-                setError(err.message || 'Error al cargar los datos.');
+                // Comprehensive error handling
+                if (err.response) {
+                    setError(err.response.data.message || 'Error al cargar los datos.');
+                } else if (err.request) {
+                    setError('No se pudo conectar con el servidor.');
+                } else {
+                    setError('Error en la configuración de la solicitud.');
+                }
                 setLoading(false);
             }
         };
@@ -64,17 +104,60 @@ const ReporteUsoEspaciosComunes = () => {
         fetchData();
     }, []);
 
-    // Manejar la búsqueda
-    const handleSearch = () => {
-        const filteredReservations = reservations.filter(reservation => {
-            return (
-                (selectedCondominio ? reservation.condominio === selectedCondominio : true) &&
-                (selectedSpace ? reservation.commonSpace === selectedSpace : true) &&
-                (rut ? reservation.userRut === rut : true)
-            );
-        });
+    // Handle search functionality
+    const handleSearch = async () => {
+        // Validate inputs before search
+        if (!selectedCondominio || !selectedSpace) {
+            alert('Por favor, seleccione un condominio y un espacio común.');
+            return;
+        }
 
-        setSearchResults(filteredReservations);
+        // Validate RUT if provided
+        if (!isValidRut(rut)) {
+            alert('Por favor, ingrese un RUT válido (formato: 12345678-K).');
+            return;
+        }
+
+        try {
+            // Find the condominium by its _id
+            const condominium = condominios.find(condo => condo._id === selectedCondominio);
+            
+            // Make the GET request to the reservations endpoint
+            const response = await axios.get('http://localhost:5000/api/reservations', {
+                params: {
+                    condominio: condominium.name,
+                    espacio: selectedSpace,
+                    rut: rut
+                }
+            });
+
+            // Check if results are empty
+            if (response.data.length === 0) {
+                alert('No se encontraron resultados para su búsqueda.');
+            }
+
+            // Map results to include condominium name and user RUT
+            const resultsWithCondoName = response.data.map(result => ({
+                ...result,
+                condoName: condominium.name,
+                userRut: result.user.rut // Assuming the backend populates user.rut
+            }));
+
+            setSearchResults(resultsWithCondoName);
+        } catch (err) {
+            // Comprehensive error handling
+            if (err.response) {
+                setError(err.response.data.message || 'Error al realizar la búsqueda.');
+                alert(err.response.data.message || 'Error al realizar la búsqueda.');
+            } else if (err.request) {
+                setError('No se pudo conectar con el servidor.');
+                alert('No se pudo conectar con el servidor.');
+            } else {
+                setError('Error en la configuración de la solicitud.');
+                alert('Error en la configuración de la solicitud.');
+            }
+            console.error(err);
+        }
     };
 
     if (loading) return <div className="text-center">Cargando...</div>;
@@ -109,7 +192,7 @@ const ReporteUsoEspaciosComunes = () => {
                     </div>
                 </div>
 
-                {/* Formulario */}
+                {/* Search Form */}
                 <div className="card">
                     <div className="card-header">Filtros de búsqueda</div>
                     <div className="card-body">
@@ -130,7 +213,7 @@ const ReporteUsoEspaciosComunes = () => {
                                 </select>
                             </div>
 
-                            {/* Selección de Espacio Común */}
+                            {/* Common Space Selection */}
                             <div className="col-md-6">
                                 <label htmlFor="espacioDropdown" className="form-label text-white">Seleccione el espacio común:</label>
                                 <select
@@ -152,15 +235,20 @@ const ReporteUsoEspaciosComunes = () => {
                         <div className="row">
                             {/* RUT Search */}
                             <div className="mt-3">
-                                <label htmlFor="rutInput" className="form-label text-white">Buscar por RUT:</label>
+                                <label htmlFor="rutInput" className="form-label text-white">Buscar por RUT (opcional):</label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     id="rutInput"
-                                    placeholder="Ingrese el RUT"
+                                    placeholder="Ingrese el RUT (12345678-K)"
                                     value={rut}
                                     onChange={e => setRut(e.target.value)}
                                 />
+                                {rut && !isValidRut(rut) && (
+                                    <small className="text-danger">
+                                        RUT inválido. Usar formato 12345678-K
+                                    </small>
+                                )}
                             </div>
                         </div>
                         <button
@@ -172,35 +260,65 @@ const ReporteUsoEspaciosComunes = () => {
                         </button>
                     </div>
                 </div>
-                
-                {/* Mostrar resultados */}
-                <div className="mt-4">
-                    <h3 className="text-white">Resultados de Búsqueda</h3>
-                    {searchResults.length > 0 ? (
-                        <table className="table table-dark table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Condominio</th>
-                                    <th>Espacio Común</th>
-                                    <th>RUT del Usuario</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searchResults.map(result => (
-                                    <tr key={result._id}>
-                                        <td>{result.condoName}</td>
-                                        <td>{result.commonSpace}</td>
-                                        <td>{result.userRut}</td>
-                                        <td>{new Date(result.reservedAt).toLocaleString()}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p className="text-white">No se encontraron resultados para los filtros seleccionados.</p>
-                    )}
-                </div>
+
+{/* Search Results Section */}
+<div className="mt-4 text-center" style={{color: 'white'}}>
+    <div className="d-flex justify-content-center align-items-center mb-3">
+        <h3 style={{color: 'white'}}>Resultados de Búsqueda</h3>
+        {searchResults.length > 0 && (
+            <button 
+                className="btn btn-success ms-3" 
+                onClick={handleExport}
+                style={{color: 'white'}}
+            >
+                Exportar Resultados
+            </button>
+        )}
+    </div>
+    
+    {searchResults.length > 0 ? (
+        <div className="table-responsive d-flex justify-content-center">
+            <table 
+                className="table table-dark" 
+                style={{
+                    maxWidth: '1000px', 
+                    color: 'white', 
+                    borderColor: 'white'
+                }}
+            >
+                <thead>
+                    <tr>
+                        {['Condominio', 'Espacio Común', 'RUT del Usuario', 'Fecha de Reserva', 'Fecha de Inicio', 'Fecha de Fin'].map(header => (
+                            <th key={header} style={{color: 'white', borderColor: 'white'}}>
+                                {header}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {searchResults.map(result => (
+                        <tr key={result._id} style={{color: 'white', borderColor: 'white'}}>
+                            <td style={{color: 'white', borderColor: 'white'}}>{result.condoName}</td>
+                            <td style={{color: 'white', borderColor: 'white'}}>{result.commonSpace}</td>
+                            <td style={{color: 'white', borderColor: 'white'}}>{result.userRut}</td>
+                            <td style={{color: 'white', borderColor: 'white'}}>{new Date(result.reservedAt).toLocaleString()}</td>
+                            <td style={{color: 'white', borderColor: 'white'}}>{new Date(result.startDate).toLocaleString()}</td>
+                            <td style={{color: 'white', borderColor: 'white'}}>{new Date(result.endDate).toLocaleString()}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    ) : (
+        <p style={{color: 'white'}}>No se encontraron resultados para los filtros seleccionados.</p>
+    )}
+    
+    {searchResults.length > 0 && (
+        <div style={{color: 'white'}} className="text-center mt-2">
+            Total de Resultados: {searchResults.length}
+        </div>
+    )}
+</div>
             </div>
 
             {/* Footer */}
