@@ -3,21 +3,32 @@ const mongoose = require('mongoose');
 const reservationSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',  // Asegúrate de que 'User' es el nombre del modelo de usuario
-    required: true
+    ref: 'User',
+    required: true,
   },
   commonSpace: {
-    type: String,  // O si estás utilizando un tipo diferente, ajústalo aquí
-    enum: ['gym', 'cowork', 'quincho', 'estacionamientoVisitas', 'salonEventos', 'canchaDeportes'],
-    required: true
+    type: String,
+    required: true,
   },
-  reservedAt: {
+  startDate: {
     type: Date,
-    required: true
+    required: true,
   },
-
-}, {
-  timestamps: true
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  reservedAt: { 
+    type: Date,
+    required: true,
+    default: Date.now, 
+  },
+  condominium: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Condominium',
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+const Reservation = mongoose.model('Reservation', reservationSchema);
+module.exports = Reservation;

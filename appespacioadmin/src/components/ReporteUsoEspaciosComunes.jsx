@@ -11,7 +11,7 @@ const ReporteUsoEspaciosComunes = () => {
     const [rut, setRut] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [searchResults, setSearchResults] = useState([]); // Estado para guardar los resultados de búsqueda
+    const [searchResults, setSearchResults] = useState([]);
 
     // Manejar navegación según rol
     const handleBack = () => {
@@ -43,8 +43,17 @@ const ReporteUsoEspaciosComunes = () => {
                     axios.get('http://localhost:5000/api/reservations'),
                 ]);
 
+                // Combinar los datos de reservas con los nombres de los condominios
+                const updatedReservations = reservationsResponse.data.map(reservation => {
+                    const condo = condominiosResponse.data.find(condo => condo._id === reservation.condominio);
+                    return {
+                        ...reservation,
+                        condoName: condo ? condo.name : 'Desconocido',
+                    };
+                });
+
                 setCondominios(condominiosResponse.data);
-                setReservations(reservationsResponse.data);
+                setReservations(updatedReservations);
                 setLoading(false);
             } catch (err) {
                 setError(err.message || 'Error al cargar los datos.');
@@ -65,7 +74,7 @@ const ReporteUsoEspaciosComunes = () => {
             );
         });
 
-        setSearchResults(filteredReservations); // Actualiza el estado para mostrar resultados en la interfaz
+        setSearchResults(filteredReservations);
     };
 
     if (loading) return <div className="text-center">Cargando...</div>;
@@ -111,7 +120,6 @@ const ReporteUsoEspaciosComunes = () => {
                                 <select
                                     className="form-select"
                                     id="condominioDropdown"
-                                    aria-label="Condominio Selection"
                                     value={selectedCondominio}
                                     onChange={e => setSelectedCondominio(e.target.value)}
                                 >
@@ -181,7 +189,7 @@ const ReporteUsoEspaciosComunes = () => {
                             <tbody>
                                 {searchResults.map(result => (
                                     <tr key={result._id}>
-                                        <td>{result.condominio}</td>
+                                        <td>{result.condoName}</td>
                                         <td>{result.commonSpace}</td>
                                         <td>{result.userRut}</td>
                                         <td>{new Date(result.reservedAt).toLocaleString()}</td>

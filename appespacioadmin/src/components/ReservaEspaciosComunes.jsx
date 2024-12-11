@@ -11,6 +11,7 @@ const ReservaEspaciosComunes = () => {
     const [loading, setLoading] = useState(false);
     const [condominios, setCondominios] = useState([]);
     const [commonSpaces, setCommonSpaces] = useState([]);
+    const [isLoadingSpaces, setIsLoadingSpaces] = useState(false);
 
     // Fetch condominiums when the component is mounted
     useEffect(() => {
@@ -30,11 +31,14 @@ const ReservaEspaciosComunes = () => {
     useEffect(() => {
         const fetchCommonSpaces = async () => {
             if (selectedCondominio) {
+                setIsLoadingSpaces(true);
                 try {
                     const response = await axios.get(`http://localhost:5000/api/condominiums/${selectedCondominio}/common-spaces`);
                     setCommonSpaces(response.data);
                 } catch (error) {
                     console.error('Error fetching common spaces:', error);
+                } finally {
+                    setIsLoadingSpaces(false);
                 }
             }
         };
@@ -46,17 +50,8 @@ const ReservaEspaciosComunes = () => {
     const handleVolver = () => {
         const userRole = localStorage.getItem('role');
         switch (userRole) {
-            case 'superadmin':
-                navigate('/superadmin-main');
-                break;
-            case 'directive':
-                navigate('/directiva');
-                break;
             case 'resident':
                 navigate('/residente-main');
-                break;
-            case 'admincondo':
-                navigate('/admincondominio-main');
                 break;
             case 'conserje':
                 navigate('/conserje-main');
@@ -74,37 +69,49 @@ const ReservaEspaciosComunes = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+       
         if (!selectedCondominio || !selectedSpace || !startDate || !endDate) {
-            alert("Por favor, complete todos los campos para confirmar la reserva.");
-            return;
+          alert("Por favor, complete todos los campos para confirmar la reserva.");
+          return;
         }
-
-        // Validate dates
+       
         if (new Date(startDate) >= new Date(endDate)) {
-            alert("La fecha de inicio debe ser anterior a la fecha de término.");
-            return;
+          alert("La fecha de inicio debe ser anterior a la fecha de término.");
+          return;
         }
-
+       
+        if (new Date(startDate) < new Date()) {
+          alert("La fecha de inicio no puede ser en el pasado.");
+          return;
+        }
+       
         try {
-            setLoading(true);
-            const response = await axios.post('http://localhost:5000/api/reservations', {
-                userId: localStorage.getItem('userId'),
-                commonSpaceId: selectedSpace,
-                reservedAt: new Date(startDate).toISOString(),
-            });
-
-            if (response.status === 201) {
-                alert('Reserva realizada con éxito');
-            } else {
-                alert('No se pudo realizar la reserva');
-            }
+          setLoading(true);
+       
+          // Enviar fechas convertidas a formato ISO
+          const response = await axios.post('http://localhost:5000/api/reservations', {
+            userId: localStorage.getItem('userId'),
+            condominium: selectedCondominio,
+            commonSpace: selectedSpace,
+            startDate: new Date(startDate).toISOString(),
+            endDate: new Date(endDate).toISOString(),
+          });
+       
+          if (response.status === 201) {
+            alert('Reserva realizada con éxito');
+          } else {
+            alert('No se pudo realizar la reserva');
+          }
         } catch (error) {
-            console.error('Error al realizar la solicitud:', error);
-            alert('Error al realizar la solicitud');
+          console.error('Error al realizar la solicitud:', error);
+          alert('Error al realizar la solicitud');
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
-    };
+      };
+      
+    
+    
 
     return (
         <div className="bg-dark">
@@ -167,9 +174,13 @@ const ReservaEspaciosComunes = () => {
                                     required
                                 >
                                     <option value="">Seleccione un espacio común...</option>
-                                    {commonSpaces && Object.keys(commonSpaces).map(space => (
-                                        commonSpaces[space] ? <option key={space} value={space}>{space.charAt(0).toUpperCase() + space.slice(1)}</option> : null
-                                    ))}
+                                    {isLoadingSpaces ? (
+                                        <option value="">Cargando espacios comunes...</option>
+                                    ) : (
+                                        commonSpaces && Object.keys(commonSpaces).map(space => (
+                                            commonSpaces[space] ? <option key={space} value={space}>{space.charAt(0).toUpperCase() + space.slice(1)}</option> : null
+                                        ))
+                                    )}
                                 </select>
                             </div>
 

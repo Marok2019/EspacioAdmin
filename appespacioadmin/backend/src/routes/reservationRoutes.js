@@ -20,5 +20,7 @@ router.delete('/:id', reservationController.deleteReservation);
 // Ruta para eliminar todas las reservas
 router.delete('/', reservationController.deleteAllReservations);
 
+// Ruta para obtener reservas filtradas
+router.get('/filtered', reservationController.getFilteredReservations);
 
 module.exports = router;
