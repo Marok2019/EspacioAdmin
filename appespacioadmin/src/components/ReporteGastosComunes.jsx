@@ -2,11 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ReporteGastosComunes = () => {
+    const navigate = useNavigate();
     const [condominium, setCondominium] = useState('');
     const [year, setYear] = useState('');
     const [month, setMonth] = useState('');
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-    const navigate = useNavigate();
+    
+    // Manejar navegación según rol
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'superadmin':
+                navigate('/superadmin-main');
+                break;
+            case 'directive':
+                navigate('/directiva');
+                break;
+            case 'conserje':
+                    navigate('/conserje-main');
+                    break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/auth');
+    };
 
     useEffect(() => {
         setCurrentYear(new Date().getFullYear());
@@ -21,27 +45,6 @@ const ReporteGastosComunes = () => {
         } else {
             alert('Por favor, complete todos los campos.');
         }
-    };
-
-    const handleBack = () => {
-        const page = window.prompt("¿A qué página deseas volver? (conserje-main, superadmin-main, directiva)");
-        switch (page) {
-            case 'conserje-main':
-                navigate('/conserje-main');
-                break;
-            case 'superadmin-main':
-                navigate('/superadmin-main');
-                break;
-            case 'directiva':
-                navigate('/directiva');
-                break;
-            default:
-                alert('Página no válida, por favor intenta de nuevo.');
-        }
-    };
-
-    const handleLogout = () => {
-        navigate('/auth'); // Redirect to Auth
     };
 
     return (
