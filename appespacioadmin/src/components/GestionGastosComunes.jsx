@@ -5,81 +5,118 @@ import axios from 'axios';
 const GestionGastosComunes = () => {
     const navigate = useNavigate();
     const [condominios, setCondominios] = useState([]);
-    const [gastosComunes, setGastosComunes] = useState([]); // Estado para gastos comunes
+    const [gastos, setGastos] = useState([]);
     const [selectedCondominio, setSelectedCondominio] = useState('');
     const [selectedMonth, setSelectedMonth] = useState('');
     const [rut, setRut] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchResults, setSearchResults] = useState([]);
+
+    // Month names in Spanish
+    const monthNames = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
 
     // Manejo de navegación basado en el rol
     const handleBack = () => {
         const userRole = localStorage.getItem('role');
         switch (userRole) {
-            case 'superadmin':
-                navigate('/superadmin-main');
+            case 'admincondo':
+                navigate('/admin-condominio');
                 break;
-            case 'directive':
-                navigate('/directiva');
-                break;
-            case 'conserje':
-                navigate('/conserje-main');
-                break;
-            default:
+           default:
                 alert('Rol no válido o no definido.');
                 navigate('/auth');
         }
+    };
+
+    // Manejo de Logout
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/auth');
     };
 
     // Cargar condominios
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const condominiosResponse = await axios.get('http://localhost:5000/api/condominiums');
+                const [condominiosResponse, gastosResponse] = await Promise.all([
+                    axios.get('http://localhost:5000/api/condominiums'),
+                    axios.get('http://localhost:5000/api/common-expenses'),
+                ]);
+
+                const updatedGastos = gastosResponse.data.map(gasto => {
+                    const condo = condominiosResponse.data.find(condo => condo._id === gasto.condominium);
+                    return {
+                        ...gasto,
+                        condoName: condo ? condo.name : 'Desconocido',
+                    };
+                });
+
                 setCondominios(condominiosResponse.data);
+                setGastos(updatedGastos);
                 setLoading(false);
             } catch (err) {
-                setError('Error al cargar los datos de condominios.');
+                if (err.response) {
+                    setError(err.response.data.message || 'Error al cargar los datos.');
+                } else if (err.request) {
+                    setError('No se pudo conectar con el servidor.');
+                } else {
+                    setError('Error en la configuración de la solicitud.');
+                }
                 setLoading(false);
             }
         };
-
         fetchData();
     }, []);
 
     // Manejo de búsqueda de gastos comunes
     const handleSearch = async () => {
-        if (!selectedCondominio) {
-            alert('Por favor seleccione un condominio.');
+        if (!selectedCondominio || !selectedMonth ) {
+            alert('Por favor seleccione un condominio y mes.');
             return;
         }
     
         try {
-            const condominium = condominios.find(condo => condo._id === selectedCondominio);
-            if (!condominium) {
-                alert('No se ha encontrado el condominio seleccionado.');
-                return;
-            }
-
             const response = await axios.get('http://localhost:5000/api/common-expenses', {
                 params: {
-                    condominio: selectedCondominio,
-                    rut: rut,
+                    condominiumId: selectedCondominio,
                     month: selectedMonth,
-                    year: new Date().getFullYear()
+                    rut: rut
                 }
             });
             
             if (response.data.length === 0) {
-                alert('No se encontraron resultados para los filtros seleccionados.');
+                alert('No se encontraron resultados para su búsqueda.');
             }
 
-            setGastosComunes(response.data);
-        } catch (err) {
-            console.error(err);
-            setError('Error al realizar la búsqueda.');
+            const resultsWithCondoName = response.data.map(result => ({
+                ...result,
+                condoName: condominios.find(condo => condo._id === selectedCondominio).name,
+                month: monthNames[parseInt(selectedMonth) - 1]
+              }));
+
+              setSearchResults(resultsWithCondoName);
+            } catch (err) {
+              // Comprehensive error handling
+              if (err.response) {
+                setError(err.response.data.message || 'Error al realizar la búsqueda.');
+                alert(err.response.data.message || 'Error al realizar la búsqueda.');
+              } else if (err.request) {
+                setError('No se pudo conectar con el servidor.');
+                alert('No se pudo conectar con el servidor.');
+              } else {
+                setError('Error en la configuración de la solicitud.');
+                alert('Error en la configuración de la solicitud.');
+              }
+              console.error(err);
         }
     };
+
+    if (loading) return <div className="text-center">Cargando...</div>;
+    if (error) return <div className="text-center text-danger">{error}</div>;
 
     // Manejo de cancelación de gasto común (si aplica)
     const handleCancelGasto = async (gastoId) => {
@@ -90,7 +127,7 @@ const GestionGastosComunes = () => {
 
         try {
             await axios.delete(`http://localhost:5000/api/common-expenses/${gastoId}`);
-            setGastosComunes(gastosComunes.filter(gasto => gasto._id !== gastoId));
+            setGastos(gastos.filter(gasto => gasto._id !== gastoId));
             alert('Gasto común cancelado exitosamente.');
         } catch (err) {
             alert('Error al cancelar el gasto común.');
@@ -189,7 +226,7 @@ const GestionGastosComunes = () => {
 
                 <div className="mt-4 text-center" style={{color: 'white'}}>
                     <h3>Resultados de Gastos Comunes</h3>
-                    {gastosComunes.length > 0 ? (
+                    {gastos.length > 0 ? (
                         <div className="table-responsive d-flex justify-content-center">
                             <table 
                                 className="table table-dark" 
@@ -203,7 +240,7 @@ const GestionGastosComunes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {gastosComunes.map(gasto => (
+                                    {gastos.map(gasto => (
                                         <tr key={gasto._id} style={{color: 'white', borderColor: 'white'}}>
                                             <td>{gasto.condoName}</td>
                                             <td>{gasto.userId.email}</td>
