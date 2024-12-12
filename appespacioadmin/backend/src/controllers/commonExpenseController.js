@@ -22,15 +22,48 @@ exports.createExpense = async (req, res) => {
 };
 
 exports.getAllExpenses = async (req, res) => {
-    try {
-      const expenses = await commonExpense.find()
-        .populate('condominiumId', 'name')
-        .populate('userId', 'name email');
-      res.json(expenses);
-    } catch (error) {
-      res.status(500).json({ message: 'Error al obtener los gastos comunes', error });
+  const { month, year, condominiumId } = req.query;
+
+  console.log('Parámetros de entrada:', { month, year, condominiumId });
+
+  try {
+    // Inicializa un objeto de consulta vacío
+    const query = {};
+
+    // Añade el condominio a la consulta si está presente
+    if (condominiumId) {
+      query.condominiumId = condominiumId;
     }
-  };
+    // Añade el mes a la consulta si está presente
+    if (month) {
+      query.month = month;
+    }
+    // Añade el año a la consulta si está presente
+    if (year) {
+      query.year = year;
+    }
+
+    // Log para verificar la consulta final
+    console.log('Objeto de consulta:', query);
+
+    // Realiza la búsqueda con los filtros aplicados
+    const expenses = await commonExpense.find(query)
+      .populate('condominiumId', 'name')
+      .populate('userId', 'name email');
+    
+    // Log para verificar los resultados de la búsqueda
+    console.log('Resultados encontrados:', expenses);
+      
+    // Responde con los resultados encontrados
+    res.json(expenses);
+  } catch (error) {
+    console.error('Error durante la búsqueda:', error);
+    res.status(500).json({ message: 'Error al obtener los gastos comunes', error });
+  }
+};
+
+
+
 
   exports.getExpenseById = async (req, res) => {
     const { id } = req.params;

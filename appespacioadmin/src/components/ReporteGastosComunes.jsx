@@ -115,52 +115,50 @@ const ReporteGastosComunes = () => {
     const handleSearch = async () => {
         // Validate inputs before search
         if (!selectedCondominio || !selectedMonth || !selectedYear) {
-            alert('Por favor, seleccione un condominio, mes y año.');
-            return;
+          alert('Por favor, seleccione un condominio, mes y año.');
+          return;
         }
-
+      
         try {
-            // Find the condominium by its _id
-            const condominium = condominios.find(condo => condo._id === selectedCondominio);
-            
-            // Make the GET request to the common expenses endpoint
-            const response = await axios.get('http://localhost:5000/api/common-expenses', {
-                params: {
-                    condominio: condominium.name,
-                    mes: selectedMonth,
-                    año: selectedYear
-                }
-            });
-
-            // Check if results are empty
-            if (response.data.length === 0) {
-                alert('No se encontraron resultados para su búsqueda.');
+          // Make the GET request to the common expenses endpoint
+          const response = await axios.get('http://localhost:5000/api/common-expenses', {
+            params: {
+              condominiumId: selectedCondominio, // Enviar el ID del condominio
+              month: selectedMonth,
+              year: selectedYear
             }
-
-            // Map results to include condominium name
-            const resultsWithCondoName = response.data.map(result => ({
-                ...result,
-                condoName: condominium.name,
-                month: monthNames[parseInt(selectedMonth) - 1],
-                year: selectedYear
-            }));
-
-            setSearchResults(resultsWithCondoName);
+          });
+      
+          // Check if results are empty
+          if (response.data.length === 0) {
+            alert('No se encontraron resultados para su búsqueda.');
+          }
+      
+          // Map results to include condominium name
+          const resultsWithCondoName = response.data.map(result => ({
+            ...result,
+            condoName: condominios.find(condo => condo._id === selectedCondominio).name,
+            month: monthNames[parseInt(selectedMonth) - 1],
+            year: selectedYear
+          }));
+      
+          setSearchResults(resultsWithCondoName);
         } catch (err) {
-            // Comprehensive error handling
-            if (err.response) {
-                setError(err.response.data.message || 'Error al realizar la búsqueda.');
-                alert(err.response.data.message || 'Error al realizar la búsqueda.');
-            } else if (err.request) {
-                setError('No se pudo conectar con el servidor.');
-                alert('No se pudo conectar con el servidor.');
-            } else {
-                setError('Error en la configuración de la solicitud.');
-                alert('Error en la configuración de la solicitud.');
-            }
-            console.error(err);
+          // Comprehensive error handling
+          if (err.response) {
+            setError(err.response.data.message || 'Error al realizar la búsqueda.');
+            alert(err.response.data.message || 'Error al realizar la búsqueda.');
+          } else if (err.request) {
+            setError('No se pudo conectar con el servidor.');
+            alert('No se pudo conectar con el servidor.');
+          } else {
+            setError('Error en la configuración de la solicitud.');
+            alert('Error en la configuración de la solicitud.');
+          }
+          console.error(err);
         }
-    };
+      };
+      
 
     if (loading) return <div className="text-center">Cargando...</div>;
     if (error) return <div className="text-center text-danger">{error}</div>;
