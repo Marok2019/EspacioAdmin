@@ -12,7 +12,6 @@ import ConserjeMain from './components/ConserjeMain';
 import ConsultaGastosComunes from './components/ConsultaGastosComunes';
 import DirectivaMain from './components/DirectivaMain';
 import GestionGastosComunes from './components/GestionGastosComunes';
-import GestionParkingVisitas from './components/GestionParkingVisitas';
 import GestionUsoEspaciosComunes from './components/GestionUsoEspaciosComunes';
 import PagoGastosComunes from './components/PagoGastosComunes';
 import RegistroResidente from './components/RegistroResidente';
@@ -33,7 +32,6 @@ import './css/conserjeMainStyles.css';
 import './css/consultaGastosComunesStyles.css';
 import './css/directivaMainStyles.css';
 import './css/gestionGastosComunesStyles.css';
-import './css/gestionParkingVisitasStyles.css';
 import './css/gestionUsoEspaciosComunesStyles.css';
 import './css/pagoGastosComunesStyles.css';
 import './css/registroResidenteStyles.css';
@@ -61,7 +59,6 @@ const App = () => {
                 <Route path="/consulta-gastos-comunes" element={<ConsultaGastosComunes />} />
                 <Route path="/directiva" element={<DirectivaMain />} />
                 <Route path="/gestion-gastos-comunes" element={<GestionGastosComunes />} />
-                <Route path="/gestion-parking-visitas" element={<GestionParkingVisitas />} />
                 <Route path="/gestion-uso-espacios-comunes" element={<GestionUsoEspaciosComunes />} />
                 <Route path="/pago-gastos-comunes" element={<PagoGastosComunes />} />
                 <Route path="/registro-residente" element={<RegistroResidente />} />

@@ -1,62 +1,119 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate para manejar la navegación
-import logo from '../images/logo-no-background.png'; // Actualiza la ruta según la ubicación de tu imagen
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const GestionGastosComunes = () => {
-    const [pagos, setPagos] = useState([]);
-    const [selectedCondo, setSelectedCondo] = useState('');
-    const navigate = useNavigate(); // Hook para la navegación
+    const navigate = useNavigate();
+    const [condominios, setCondominios] = useState([]);
+    const [gastosComunes, setGastosComunes] = useState([]); // Estado para gastos comunes
+    const [selectedCondominio, setSelectedCondominio] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [rut, setRut] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    // Manejo de navegación basado en el rol
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'superadmin':
+                navigate('/superadmin-main');
+                break;
+            case 'directive':
+                navigate('/directiva');
+                break;
+            case 'conserje':
+                navigate('/conserje-main');
+                break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
+        }
+    };
+
+    // Cargar condominios
     useEffect(() => {
-        // Simula la obtención de datos (reemplaza con la lógica de obtención de datos real)
-        const datosPagos = [
-            { id: 1, residente: 'Juan Perez', estado: 'Pagado', fecha: new Date().toLocaleDateString() },
-            { id: 2, residente: 'María García', estado: 'Pagado', fecha: new Date().toLocaleDateString() },
-            { id: 3, residente: 'Carlos López', estado: 'Sin pagar', fecha: new Date().toLocaleDateString() }
-        ];
-        setPagos(datosPagos);
+        const fetchData = async () => {
+            try {
+                const condominiosResponse = await axios.get('http://localhost:5000/api/condominiums');
+                setCondominios(condominiosResponse.data);
+                setLoading(false);
+            } catch (err) {
+                setError('Error al cargar los datos de condominios.');
+                setLoading(false);
+            }
+        };
+
+        fetchData();
     }, []);
 
-    const handleCondoChange = (e) => {
-        const selectedCondoValue = e.target.value;
-        setSelectedCondo(selectedCondoValue);
-        console.log(`Selected Condominio: ${selectedCondoValue}`);
+    // Manejo de búsqueda de gastos comunes
+    const handleSearch = async () => {
+        if (!selectedCondominio) {
+            alert('Por favor seleccione un condominio.');
+            return;
+        }
+    
+        try {
+            const condominium = condominios.find(condo => condo._id === selectedCondominio);
+            if (!condominium) {
+                alert('No se ha encontrado el condominio seleccionado.');
+                return;
+            }
+
+            const response = await axios.get('http://localhost:5000/api/common-expenses', {
+                params: {
+                    condominio: selectedCondominio,
+                    rut: rut,
+                    month: selectedMonth,
+                    year: new Date().getFullYear()
+                }
+            });
+            
+            if (response.data.length === 0) {
+                alert('No se encontraron resultados para los filtros seleccionados.');
+            }
+
+            setGastosComunes(response.data);
+        } catch (err) {
+            console.error(err);
+            setError('Error al realizar la búsqueda.');
+        }
     };
 
-    // Función para manejar el clic en "Volver"
-    const handleGoBack = () => {
-        navigate('/admin-condominio');
+    // Manejo de cancelación de gasto común (si aplica)
+    const handleCancelGasto = async (gastoId) => {
+        if (!gastoId) {
+            alert('ID de gasto común no válido');
+            return;
+        }
+
+        try {
+            await axios.delete(`http://localhost:5000/api/common-expenses/${gastoId}`);
+            setGastosComunes(gastosComunes.filter(gasto => gasto._id !== gastoId));
+            alert('Gasto común cancelado exitosamente.');
+        } catch (err) {
+            alert('Error al cancelar el gasto común.');
+            console.error(err);
+        }
     };
 
-    // Función para manejar el cierre de sesión
-    const handleLogout = () => {
-        navigate('/auth');
-    };
+    if (loading) return <div className="text-center">Cargando...</div>;
+    if (error) return <div className="text-center text-danger">{error}</div>;
 
     return (
         <div className="bg-dark">
-            {/* Header */}
-            <div className="header-container d-flex align-items-center justify-content-between">
-                <img src={logo} alt="Logo" className="header-logo" />
-                <div>
-                    <button
-                        type="button"
-                        className="btn btn-secondary me-2"
-                        onClick={handleGoBack} // Llama a la función para ir a "admin-condominio"
-                    >
-                        Volver
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={handleLogout} // Llama a la función para cerrar sesión
-                    >
-                        Cerrar Sesión
-                    </button>
-                </div>
+            <div className="header-container d-flex align-items-center">
+                <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button"
+                    onClick={handleBack}
+                >
+                    Volver
+                </button>
             </div>
 
-            {/* Body */}
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-10">
@@ -64,57 +121,117 @@ const GestionGastosComunes = () => {
                     </div>
                 </div>
 
-                {/* Formulario */}
                 <div className="card">
                     <div className="card-header">Filtros de búsqueda</div>
                     <div className="card-body">
                         <div className="row">
+                            <div className="col-md-6">
+                                <label htmlFor="condominioDropdown" className="form-label text-white">Seleccione el condominio:</label>
+                                <select
+                                    className="form-select"
+                                    id="condominioDropdown"
+                                    value={selectedCondominio}
+                                    onChange={e => setSelectedCondominio(e.target.value)}
+                                >
+                                    <option value="">Seleccione un condominio...</option>
+                                    {condominios.map(condo => (
+                                        <option key={condo._id} value={condo._id}>{condo.name}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-                            {/* Condominio Dropdown */}
-                            <div className="mb-3">
-                                <label htmlFor="condominiumDropdown" className="form-label text-white">Seleccione el condominio:</label>
-                                <select className="form-select" id="condominiumDropdown" aria-label="Condominio Selection" onChange={handleCondoChange} required>
-                                    <option selected disabled>Seleccione un condominio...</option>
-                                    <option value="condominio1">Condominio 1</option>
-                                    <option value="condominio2">Condominio 2</option>
-                                    <option value="condominio3">Condominio 3</option>
+                            <div className="col-md-6">
+                                <label htmlFor="monthDropdown" className="form-label text-white">Seleccione el mes:</label>
+                                <select
+                                    className="form-select"
+                                    id="monthDropdown"
+                                    value={selectedMonth}
+                                    onChange={e => setSelectedMonth(e.target.value)}
+                                >
+                                    <option value="">Seleccione un mes...</option>
+                                    <option value="enero">Enero</option>
+                                    <option value="febrero">Febrero</option>
+                                    <option value="marzo">Marzo</option>
+                                    <option value="abril">Abril</option>
+                                    <option value="mayo">Mayo</option>
+                                    <option value="junio">Junio</option>
+                                    <option value="julio">Julio</option>
+                                    <option value="agosto">Agosto</option>
+                                    <option value="septiembre">Septiembre</option>
+                                    <option value="octubre">Octubre</option>
+                                    <option value="noviembre">Noviembre</option>
+                                    <option value="diciembre">Diciembre</option>
                                 </select>
                             </div>
                         </div>
-                        <div className="row justify-content-center text-center mt-4">
-
-                            {/* Contenido Tabla */}
-                            <div className="col-md-12">
-                                <table className="table table-dark table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Apartamento</th>
-                                            <th>Residente</th>
-                                            <th>Estado</th>
-                                            <th>Próximo pago</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="gastosTableBody">
-                                        {pagos.map(pago => (
-                                            <tr key={pago.id}>
-                                                <td>{pago.id}</td>
-                                                <td>{pago.residente}</td>
-                                                <td>{pago.estado}</td>
-                                                <td>{pago.fecha}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                        <div className="row">
+                            <div className="mt-3">
+                                <label htmlFor="rutInput" className="form-label text-white">Buscar por RUT (opcional):</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="rutInput"
+                                    placeholder="Ingrese el RUT (12345678-K)"
+                                    value={rut}
+                                    onChange={e => setRut(e.target.value)}
+                                />
                             </div>
                         </div>
+                        <button
+                            type="button"
+                            className="btn btn-warning w-100 mt-3"
+                            onClick={handleSearch}
+                        >
+                            Buscar
+                        </button>
                     </div>
+                </div>
+
+                <div className="mt-4 text-center" style={{color: 'white'}}>
+                    <h3>Resultados de Gastos Comunes</h3>
+                    {gastosComunes.length > 0 ? (
+                        <div className="table-responsive d-flex justify-content-center">
+                            <table 
+                                className="table table-dark" 
+                                style={{maxWidth: '1000px', color: 'white', borderColor: 'white'}}
+                            >
+                                <thead>
+                                    <tr>
+                                        {['Condominio', 'RUT del Usuario', 'Mes', 'Monto', 'Descripción', 'Acciones'].map(header => (
+                                            <th key={header} style={{color: 'white', borderColor: 'white'}}>{header}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {gastosComunes.map(gasto => (
+                                        <tr key={gasto._id} style={{color: 'white', borderColor: 'white'}}>
+                                            <td>{gasto.condoName}</td>
+                                            <td>{gasto.userId.email}</td>
+                                            <td>{gasto.month}</td>
+                                            <td>{gasto.amount}</td>
+                                            <td>{gasto.description}</td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => handleCancelGasto(gasto._id)}
+                                                >
+                                                    Cancelar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <p>No se encontraron resultados para los filtros seleccionados.</p>
+                    )}
                 </div>
             </div>
 
-            {/* Footer */}
             <footer className="bg-dark py-3 mt-5">
                 <div className="container">
-                    <p className="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+                    <p className="text-center">&copy; {new Date().getFullYear()} Todos los derechos reservados</p>
                 </div>
             </footer>
         </div>

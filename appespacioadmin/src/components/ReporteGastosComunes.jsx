@@ -36,6 +36,9 @@ const ReporteGastosComunes = () => {
             case 'directive':
                 navigate('/directiva');
                 break;
+            case 'conserje':
+                navigate('/conserje-main');
+                break;
             default:
                 alert('Rol no válido o no definido.');
                 navigate('/auth');

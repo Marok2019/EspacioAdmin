@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const reservationController = require('../controllers/reservationController');
+const reservationController = require('../controllers/reservationController'); // Importa los controladores
 
 // Ruta para crear una reserva
 router.post('/', reservationController.createReservation);
@@ -21,3 +21,4 @@ router.delete('/:id', reservationController.deleteReservation);
 router.delete('/', reservationController.deleteAllReservations);
 
 module.exports = router;
+

@@ -48,17 +48,6 @@ const ConserjeMain = () => {
                         </div>
                     </div>
 
-                    {/* Gestionar Estacionamiento Visitas Card */}
-                    <div className="col">
-                        <div className="card transparent-card" onClick={() => navigate('/gestion-parking-visitas')}>
-                            <img src={imgEstacionamiento} alt="Gestionar Uso - Estacionamiento Visitas" />
-                            <div className="card-body">
-                                <h5 className="card-title">Gestionar Uso - Estacionamiento Visitas</h5>
-                                <p className="card-text">Administración rápida del estacionamiento visitas.</p>
-                            </div>
-                        </div>
-                    </div>
-
                     {/* Reserva Espacios Comunes Card */}
                     <div className="col">
                         <div className="card transparent-card" onClick={() => navigate('/reservar-espacio-comun')}>

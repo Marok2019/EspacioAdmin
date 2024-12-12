@@ -17,6 +17,10 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.text-center {
+    text-align: center;
+}
+
 .header-logo {
     width: 75px;
     height: auto;

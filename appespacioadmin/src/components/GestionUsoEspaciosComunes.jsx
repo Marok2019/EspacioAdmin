@@ -1,56 +1,119 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const GestionUsoEspaciosComunes = () => {
-    const [reservas, setReservas] = useState([]);
-    const [condominio, setCondominio] = useState('');
-    const [espacio, setEspacio] = useState('');
     const navigate = useNavigate();
+    const [condominios, setCondominios] = useState([]);
+    const [reservations, setReservations] = useState([]); // Inicializamos vacío
+    const [selectedCondominio, setSelectedCondominio] = useState('');
+    const [selectedSpace, setSelectedSpace] = useState('');
+    const [rut, setRut] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    useEffect(() => {
-        // Datos de reserva inicial
-        const reservaEspacioComun = [
-            { id: 1, residente: 'Juan Pérez', fecha_inicio: '2023-05-15T08:00', fecha_termino: '2023-05-16T18:00' },
-            { id: 2, residente: 'María García', fecha_inicio: '2023-05-16T09:30', fecha_termino: '2023-05-17T19:30' },
-            { id: 3, residente: 'Carlos López', fecha_inicio: '2023-05-17T11:00', fecha_termino: '2023-05-18T21:00' }
-        ];
-        setReservas(reservaEspacioComun);
-    }, []);
-
-    const llenarTabla = () => {
-        return reservas.map((reserva) => (
-            <tr key={reserva.id}>
-                <td>{reserva.id}</td>
-                <td>{reserva.residente}</td>
-                <td>{new Date(reserva.fecha_inicio).toLocaleString()}</td>
-                <td>{new Date(reserva.fecha_termino).toLocaleString()}</td>
-                <td>
-                    <button className="btn btn-warning btn-sm" onClick={() => cancelBooking(reserva.id)}>Cancelar Reserva</button>
-                </td>
-            </tr>
-        ));
-    };
-
-    const cancelBooking = (bookingId) => {
-        if (window.confirm(`¿Estás seguro de que quieres cancelar esta reserva? ID: ${bookingId}`)) {
-            // Simular una solicitud de fetch
-            setReservas(reservas.filter(reserva => reserva.id !== bookingId));
-            alert('Reserva cancelada exitosamente.');
+    // Manejo de navegación basado en el rol
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'superadmin':
+                navigate('/superadmin-main');
+                break;
+            case 'directive':
+                navigate('/directiva');
+                break;
+            case 'conserje':
+                navigate('/conserje-main');
+                break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
         }
     };
 
+    // Cargar condominios
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const condominiosResponse = await axios.get('http://localhost:5000/api/condominiums');
+                setCondominios(condominiosResponse.data);
+                setLoading(false);
+            } catch (err) {
+                setError('Error al cargar los datos de condominios.');
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Manejo de búsqueda
+    const handleSearch = async () => {
+        if (!selectedCondominio || !selectedSpace) {
+            alert('Por favor seleccione un condominio y un espacio común.');
+            return;
+        }
+
+        try {
+            // Encuentra el condominio por su _id
+            const condominium = condominios.find(condo => condo._id === selectedCondominio);
+
+            // Realiza la búsqueda de reservas
+            const response = await axios.get('http://localhost:5000/api/reservations', {
+                params: {
+                    condominio: condominium.name,
+                    espacio: selectedSpace,
+                    rut: rut
+                }
+            });
+
+            // Asignamos el nombre del condominio y RUT del usuario a los resultados
+            const resultsWithCondoName = response.data.map(result => ({
+                ...result,
+                condoName: condominium.name,
+                userRut: result.user.rut
+            }));
+
+            setReservations(resultsWithCondoName);
+        } catch (err) {
+            setError('Error al realizar la búsqueda.');
+        }
+    };
+
+    const handleCancelReservation = async (reservationId) => {
+        if (!reservationId) {
+            alert('ID de reserva no válido');
+            return;
+        }
+        console.log("ID de reserva a cancelar:", reservationId); // Verifica el ID en la consola
+        try {
+            await axios.delete(`http://localhost:5000/api/reservations/${reservationId}`);
+            setReservations(reservations.filter(reservation => reservation._id !== reservationId));
+            alert('Reserva cancelada exitosamente.');
+        } catch (err) {
+            alert('Error al cancelar la reserva.');
+            console.error(err);  // Muestra el error para obtener más detalles
+        }
+    };
+    
+    
+
+    if (loading) return <div className="text-center">Cargando...</div>;
+    if (error) return <div className="text-center text-danger">{error}</div>;
+
     return (
         <div className="bg-dark">
-            {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <div className="ml-auto">
-                    <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/conserje-main')}>Volver</button>
-                    <button type="button" className="btn btn-warning ml-2" onClick={() => navigate('/auth')}>Cerrar Sesión</button>
-                </div>
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button"
+                    onClick={handleBack}
+                >
+                    Volver
+                </button>
             </div>
 
-            {/* Body */}
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-10">
@@ -58,56 +121,114 @@ const GestionUsoEspaciosComunes = () => {
                     </div>
                 </div>
 
-                {/* Formulario */}
                 <div className="card">
                     <div className="card-header">Filtros de búsqueda</div>
                     <div className="card-body">
-                        <div className="mb-3">
-                            <label htmlFor="condominioDropdown" className="form-label text-white">Seleccione el condominio:</label>
-                            <select className="form-select" id="condominioDropdown" aria-label="Condominio Selection" onChange={(e) => setCondominio(e.target.value)} required>
-                                <option selected disabled>Seleccione un condominio...</option>
-                                <option value="condominio1">Condominio 1</option>
-                                <option value="condominio2">Condominio 2</option>
-                                <option value="condominio3">Condominio 3</option>
-                            </select>
-                        </div>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <label htmlFor="condominioDropdown" className="form-label text-white">Seleccione el condominio:</label>
+                                <select
+                                    className="form-select"
+                                    id="condominioDropdown"
+                                    value={selectedCondominio}
+                                    onChange={e => setSelectedCondominio(e.target.value)}
+                                >
+                                    <option value="">Seleccione un condominio...</option>
+                                    {condominios.map(condo => (
+                                        <option key={condo._id} value={condo._id}>{condo.name}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="espacioDropdown" className="form-label text-white">Seleccione el espacio común:</label>
-                            <select className="form-select" id="espacioDropdown" onChange={(e) => setEspacio(e.target.value)} required>
-                                <option selected>Seleccione un espacio común</option>
-                                <option value="space1">Espacio 1</option>
-                                <option value="space2">Espacio 2</option>
-                                <option value="space3">Espacio 3</option>
-                                <option value="space4">Espacio 4</option>
-                            </select>
+                            <div className="col-md-6">
+                                <label htmlFor="espacioDropdown" className="form-label text-white">Seleccione el espacio común:</label>
+                                <select
+                                    className="form-select"
+                                    id="espacioDropdown"
+                                    value={selectedSpace}
+                                    onChange={e => setSelectedSpace(e.target.value)}
+                                >
+                                    <option value="">Seleccione un espacio común...</option>
+                                    <option value="gym">Gimnasio</option>
+                                    <option value="cowork">Cowork</option>
+                                    <option value="quincho">Quincho</option>
+                                    <option value="estacionamientoVisitas">Estacionamiento de visitas</option>
+                                    <option value="salonEventos">Salón de eventos</option>
+                                    <option value="canchaDeportes">Cancha de deportes</option>
+                                </select>
+                            </div>
                         </div>
+                        <div className="row">
+                            <div className="mt-3">
+                                <label htmlFor="rutInput" className="form-label text-white">Buscar por RUT (opcional):</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="rutInput"
+                                    placeholder="Ingrese el RUT (12345678-K)"
+                                    value={rut}
+                                    onChange={e => setRut(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            className="btn btn-warning w-100 mt-3"
+                            onClick={handleSearch}
+                        >
+                            Buscar
+                        </button>
+                    </div>
+                </div>
 
-                        {/* Contenido Tabla */}
-                        <div className="col-md-12">
-                            <table className="table table-dark table-striped table-bordered">
+                <div className="mt-4 text-center" style={{color: 'white'}}>
+                    <h3 style={{color: 'white'}}>Resultados de Búsqueda</h3>
+                    {reservations.length > 0 ? (
+                        <div className="table-responsive d-flex justify-content-center">
+                            <table 
+                                className="table table-dark" 
+                                style={{maxWidth: '1000px', color: 'white', borderColor: 'white'}}
+                            >
                                 <thead>
                                     <tr>
-                                        <th>ID Reserva</th>
-                                        <th>Residente</th>
-                                        <th>Fecha y Hora Inicio</th>
-                                        <th>Fecha y Hora Término</th>
-                                        <th>Opciones</th>
+                                        {['Condominio', 'Espacio Común', 'RUT del Usuario', 'Fecha de Reserva', 'Fecha de Inicio', 'Fecha de Fin', 'Acciones'].map(header => (
+                                            <th key={header} style={{color: 'white', borderColor: 'white'}}>
+                                                {header}
+                                            </th>
+                                        ))}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {llenarTabla()}
+                                    {reservations.map(result => (
+                                        <tr key={result._id} style={{color: 'white', borderColor: 'white'}}>
+                                            <td>{result.condoName}</td>
+                                            <td className="text-center">{result.commonSpace}</td>
+                                            <td>{result.userRut}</td>
+                                            <td>{new Date(result.reservedAt).toLocaleString()}</td>
+                                            <td>{new Date(result.startDate).toLocaleString()}</td>
+                                            <td>{new Date(result.endDate).toLocaleString()}</td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => handleCancelReservation(result._id)}
+                                                >
+                                                    Cancelar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    ) : (
+                        <p style={{color: 'white'}}>No se encontraron resultados para los filtros seleccionados.</p>
+                    )}
                 </div>
             </div>
 
-            {/* Footer */}
             <footer className="bg-dark py-3 mt-5">
                 <div className="container">
-                    <p className="text-center">&copy; <span id="current-year">{new Date().getFullYear()}</span> Todos los derechos reservados</p>
+                    <p className="text-center">&copy; {new Date().getFullYear()} Todos los derechos reservados</p>
                 </div>
             </footer>
         </div>
