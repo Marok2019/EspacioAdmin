@@ -14,10 +14,10 @@ exports.createExpense = async (req, res) => {
       status,
     });
 
-    const savedExpense = await commonExpense.save();
+    const savedExpense = await newExpense.save(); // Corrected save method
     res.status(201).json(savedExpense);
   } catch (error) {
-    res.status(500).json({ message: 'Error al crear el gasto común', error });
+    res.status(500).json({ message: 'Error al crear el gasto común', error: error.message });
   }
 };
 
