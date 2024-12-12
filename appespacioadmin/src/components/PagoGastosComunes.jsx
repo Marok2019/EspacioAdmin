@@ -1,36 +1,91 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PagoGastosComunes = () => {
-    const [condominio, setCondominio] = useState('');
-    const [numeroDepartamento, setNumeroDepartamento] = useState('');
-    const [nombreResidente, setNombreResidente] = useState('');
-    const [montoPago, setMontoPago] = useState('');
-    const [metodoPago, setMetodoPago] = useState('');
-    const [mostrarCardInfo, setMostrarCardInfo] = useState(false);
     const navigate = useNavigate();
+    const [condominios, setCondominios] = useState([]);
+    const [selectedCondominio, setSelectedCondominio] = useState('');
+    const [amount, setAmount] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [cvv, setCvv] = useState(''); // CVV se maneja como contraseña
+    const [expirationDate, setExpirationDate] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null); // Estado para mostrar errores
 
+    // Fetch condominiums from API
     useEffect(() => {
-        // Set the current year for the footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        const fetchCondominiums = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/condominiums');
+                setCondominios(response.data);
+            } catch (error) {
+                console.error('Error fetching condominiums:', error);
+            }
+        };
+
+        fetchCondominiums();
     }, []);
 
-    const handlePaymentMethodChange = (e) => {
-        const value = e.target.value;
-        setMetodoPago(value);
-        setMostrarCardInfo(value === 'tarjetaCredito' || value === 'tarjetaDebito');
+    const handleBack = () => {
+        const userRole = localStorage.getItem('role');
+        switch (userRole) {
+            case 'resident':
+                navigate('/residente-main');
+                break;
+            case 'conserje':
+                navigate('/conserje-main');
+                break;
+            default:
+                alert('Rol no válido o no definido.');
+                navigate('/auth');
+        }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Pago realizado con éxito.');
-        // Reset form fields
-        setCondominio('');
-        setNumeroDepartamento('');
-        setNombreResidente('');
-        setMontoPago('');
-        setMetodoPago('');
-        setMostrarCardInfo(false);
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/auth');
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!selectedCondominio || !amount || !cardNumber || !cvv || !expirationDate) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            // Enviar pago
+            const response = await axios.post('http://localhost:5000/api/payments', {
+                userId: localStorage.getItem('userId'),
+                condominium: selectedCondominio,
+                amount: amount,
+                cardNumber: cardNumber,
+                cvv: cvv,
+                expirationDate: expirationDate,
+            });
+
+            if (response.status === 201) {
+                alert('Pago realizado con éxito');
+                setError(null); // Limpiar cualquier error anterior
+            } else {
+                alert('No se pudo realizar el pago');
+                setError('No se pudo realizar el pago');
+            }
+        } catch (error) {
+            console.error('Error al realizar el pago:', error);
+            // Mostrar el error detallado recibido desde la API
+            if (error.response && error.response.data) {
+                setError(error.response.data.message); // Establecer el mensaje de error
+            } else {
+                setError('Hubo un error al procesar el pago.');
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -38,134 +93,118 @@ const PagoGastosComunes = () => {
             {/* Header */}
             <div className="header-container d-flex align-items-center">
                 <img src="https://i.ibb.co/FW5SBG3/logo-no-background.png" alt="Logo" className="header-logo" />
-                <button type="button" className="btn btn-danger logout-button" onClick={() => navigate('/residente-main')}>
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button"
+                    onClick={handleBack}
+                >
                     Volver
                 </button>
-                <button type="button" className="btn btn-danger logout-button ms-2" onClick={() => navigate('/auth')}>
+                <button
+                    type="button"
+                    className="btn btn-danger logout-button ms-2"
+                    onClick={handleLogout}
+                >
                     Cerrar Sesión
                 </button>
             </div>
 
-            {/* Body */}
+            {/* Main Body */}
             <div className="container mt-5">
-                {/* Formulario */}
-                <div className="card">
-                    <div className="card-header"><h3>Realizar Pago</h3></div>
-                    <div className="card-body">
-                        <form onSubmit={handleSubmit}>
-                            <div className="row">
-                                {/* Condominio Dropdown */}
-                                <div className="col-md-6">
-                                    <label htmlFor="condominioDropdown" className="form-label text-white">Seleccione el condominio:</label>
-                                    <select 
-                                        className="form-select" 
-                                        id="condominioDropdown" 
-                                        required 
-                                        value={condominio} 
-                                        onChange={(e) => setCondominio(e.target.value)}
-                                    >
-                                        <option selected disabled>Seleccione un condominio...</option>
-                                        <option value="condominio1">Condominio 1</option>
-                                        <option value="condominio2">Condominio 2</option>
-                                        <option value="condominio3">Condominio 3</option>
-                                    </select>
-                                </div>
-
-                                {/* Número de departamento */}
-                                <div className="col-md-6">
-                                    <label htmlFor="apartmentNumber" className="form-label text-white">Número de Departamento</label>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        id="apartmentNumber" 
-                                        placeholder="Ej: 101" 
-                                        required 
-                                        value={numeroDepartamento}
-                                        onChange={(e) => setNumeroDepartamento(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="row mt-2">
-                                {/* Nombre del residente */}
-                                <div className="col-md-6">
-                                    <label htmlFor="residentName" className="form-label text-white">Nombre del Residente</label>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        id="residentName" 
-                                        placeholder="Ej: Juan Pérez" 
-                                        required 
-                                        value={nombreResidente}
-                                        onChange={(e) => setNombreResidente(e.target.value)}
-                                    />
-                                </div>
-
-                                {/* Monto a pagar */}
-                                <div className="col-md-6">
-                                    <label htmlFor="paymentAmount" className="form-label text-white">Monto a Pagar (CLP)</label>
-                                    <input 
-                                        type="number" 
-                                        className="form-control" 
-                                        id="paymentAmount" 
-                                        placeholder="Ej: 50000" 
-                                        required 
-                                        value={montoPago}
-                                        onChange={(e) => setMontoPago(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="row mt-2">
-                                {/* Selección de método de pago */}
-                                <div className="col-md-6">
-                                    <label htmlFor="paymentMethod" className="form-label text-white">Método de Pago</label>
-                                    <select 
-                                        className="form-select" 
-                                        id="paymentMethod" 
-                                        required 
-                                        value={metodoPago} 
-                                        onChange={handlePaymentMethodChange}
-                                    >
-                                        <option selected disabled>Seleccione el método de pago</option>
-                                        <option value="tarjetaCredito">Tarjeta de Crédito</option>
-                                        <option value="tarjetaDebito">Tarjeta de Débito</option>
-                                        <option value="transferenciaBancaria">Transferencia Bancaria</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Campos para tarjeta de crédito/débito */}
-                            {mostrarCardInfo && (
-                                <div id="cardInfo" className="row mt-2">
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="cardNumber" className="form-label text-white">Número de Tarjeta</label>
-                                        <input type="text" className="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" />
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="expiryDate" className="form-label text-white">Fecha de Expiración (MM/AA)</label>
-                                        <input type="text" className="form-control" id="expiryDate" placeholder="MM/AA" />
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="cvv" className="form-label text-white">CVV</label>
-                                        <input type="text" className="form-control" id="cvv" placeholder="123" />
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Botón para realizar el pago */}
-                            <div className="mt-3">
-                                <button type="submit" className="btn btn-warning w-100">Pagar</button>
-                            </div>
-                        </form>
+                <div className="row justify-content-center">
+                    <div className="col-md-10">
+                        <h1 className="text-center text-white">Pagar Gastos Comunes</h1>
                     </div>
+                </div>
+
+                <div className="card">
+                    <div className="card-header">Formulario de Pago</div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="card-body">
+                            {/* Condominium Selection */}
+                            <div className="mb-3">
+                                <label htmlFor="condominioDropdown" className="form-label text-white">Seleccione el condominio:</label>
+                                <select
+                                    className="form-select"
+                                    id="condominioDropdown"
+                                    value={selectedCondominio}
+                                    onChange={(e) => setSelectedCondominio(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Seleccione un condominio...</option>
+                                    {condominios.map((condominio) => (
+                                        <option key={condominio._id} value={condominio._id}>{condominio.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* Amount */}
+                            <div className="mb-3">
+                                <label htmlFor="amount" className="form-label text-white">Monto a Pagar:</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    id="amount"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Card Number */}
+                            <div className="mb-3">
+                                <label htmlFor="cardNumber" className="form-label text-white">Número de Tarjeta:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="cardNumber"
+                                    value={cardNumber}
+                                    onChange={(e) => setCardNumber(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* CVV */}
+                            <div className="mb-3">
+                                <label htmlFor="cvv" className="form-label text-white">CVV:</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    id="cvv"
+                                    value={cvv}
+                                    onChange={(e) => setCvv(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Expiration Date */}
+                            <div className="mb-3">
+                                <label htmlFor="expirationDate" className="form-label text-white">Fecha de Expiración:</label>
+                                <input
+                                    type="month"
+                                    className="form-control"
+                                    id="expirationDate"
+                                    value={expirationDate}
+                                    onChange={(e) => setExpirationDate(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Submit Button */}
+                            <button type="submit" className="btn btn-warning w-100 mt-3" disabled={loading}>
+                                {loading ? 'Procesando...' : 'Confirmar Pago'}
+                            </button>
+                        </div>
+                    </form>
+                    {/* Error Message */}
+                    {error && <div className="alert alert-danger mt-3">{error}</div>}
                 </div>
             </div>
 
             {/* Footer */}
             <footer className="bg-dark py-3 mt-5">
                 <div className="container">
-                    <p className="text-center">&copy; <span id="current-year"></span> Todos los derechos reservados</p>
+                    <p className="text-center text-white">&copy; {new Date().getFullYear()} Todos los derechos reservados</p>
                 </div>
             </footer>
         </div>
